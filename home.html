@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>Powers Artist Portal - Your Music Business Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #1DB954;
+            --bg-color: #121212;
+            --card-bg: #181818;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --transition: all 0.3s ease;
+            --success-color: #1DB954;
+            --warning-color: #FFB946;
+            --danger-color: #FF4646;
+            --border-radius: 8px;
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--card-bg);
+            z-index: 1000;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: calc(0.5rem + var(--safe-area-inset-top));
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: calc(60px + var(--safe-area-inset-top) + 2rem) 1.5rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(0, 0, 0, 0));
+            margin-top: 1rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 2rem 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(29, 185, 84, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-icon i {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 2rem 1.5rem;
+            background: var(--card-bg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 3rem 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(0, 0, 0, 0));
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem 1.5rem;
+            background: var(--card-bg);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary-color);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--text-primary);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* iOS Safe Area Support */
+        @supports (padding: max(0px)) {
+            .header {
+                padding-top: max(0.5rem, var(--safe-area-inset-top));
+            }
+
+            .hero {
+                padding-top: max(calc(60px + var(--safe-area-inset-top) + 2rem), calc(60px + 2rem));
+            }
+        }
+
+        /* Globe Tour Intelligence Section */
+        .globe-section {
+            padding: 2rem 1.5rem;
+            background: var(--card-bg);
+            margin-top: 1rem;
+        }
+
+        .globe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .globe-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .globe-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .globe-carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            background: var(--bg-color);
+            padding: 1rem;
+        }
+
+        .globe-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .globe-card.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .globe-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .globe-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .globe-card-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .globe-card-content {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .globe-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .globe-card-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .trend-up {
+            color: var(--success-color);
+        }
+
+        .trend-down {
+            color: var(--danger-color);
+        }
+
+        .globe-card-date {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            opacity: 0.5;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            background: var(--primary-color);
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="#" class="logo">Powers<span>Artist</span></a>
+    </header>
+
+    <!-- Globe Tour Intelligence Section -->
+    <section class="globe-section">
+        <div class="globe-header">
+            <div>
+                <h2 class="globe-title">Tour Intelligence</h2>
+                <p class="globe-subtitle">Real-time insights for your global tour</p>
+            </div>
+        </div>
+        <div class="globe-carousel">
+            <div class="globe-card active">
+                <div class="globe-card-header">
+                    <h3 class="globe-card-title">Revenue Potential</h3>
+                    <div class="globe-card-value">$1.2M</div>
+                </div>
+                <div class="globe-card-content">
+                    Based on current market trends and venue capacities, your upcoming tour has a projected revenue potential of $1.2M across 12 shows.
+                </div>
+                <div class="globe-card-footer">
+                    <div class="globe-card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>15% above average</span>
+                    </div>
+                    <div class="globe-card-date">Updated 2h ago</div>
+                </div>
+            </div>
+            <div class="globe-card">
+                <div class="globe-card-header">
+                    <h3 class="globe-card-title">Market Saturation</h3>
+                    <div class="globe-card-value">65%</div>
+                </div>
+                <div class="globe-card-content">
+                    Current market saturation analysis shows optimal booking opportunities in the Midwest and Southeast regions.
+                </div>
+                <div class="globe-card-footer">
+                    <div class="globe-card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>5% increase</span>
+                    </div>
+                    <div class="globe-card-date">Updated 4h ago</div>
+                </div>
+            </div>
+            <div class="globe-card">
+                <div class="globe-card-header">
+                    <h3 class="globe-card-title">Tour Efficiency</h3>
+                    <div class="globe-card-value">92%</div>
+                </div>
+                <div class="globe-card-content">
+                    Your current tour routing is optimized for maximum efficiency, minimizing travel time between venues.
+                </div>
+                <div class="globe-card-footer">
+                    <div class="globe-card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>8% improvement</span>
+                    </div>
+                    <div class="globe-card-date">Updated 6h ago</div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-dots">
+            <div class="carousel-dot active"></div>
+            <div class="carousel-dot"></div>
+            <div class="carousel-dot"></div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Your Music Business Hub</h1>
+        <p class="hero-subtitle">Manage shows, track revenue, and grow your career all in one place</p>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <h3 class="feature-title">Show Management</h3>
+                <p class="feature-description">Track all your shows, from negotiations to performance, in one place</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3 class="feature-title">Revenue Tracking</h3>
+                <p class="feature-description">Monitor your earnings and track financial growth across all shows</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="feature-title">Global Reach</h3>
+                <p class="feature-description">Visualize your tour routes and track performance across regions</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3 class="feature-title">Direct Communication</h3>
+                <p class="feature-description">Stay connected with venues and manage all communications in one place</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">$2.5M+</div>
+                <div class="stat-label">Revenue Managed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">Shows Tracked</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">50+</div>
+                <div class="stat-label">Countries</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1000+</div>
+                <div class="stat-label">Artists</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2 class="cta-title">Ready to Take Control?</h2>
+        <p class="cta-description">Join thousands of artists who trust Powers Artist Portal to manage their careers</p>
+        <a href="index.html" class="cta-button">View Demo</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">Powers<span>Artist</span></div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">About</a>
+            <a href="#" class="footer-link">Features</a>
+            <a href="#" class="footer-link">Support</a>
+        </div>
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Add carousel functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.globe-card');
+            const dots = document.querySelectorAll('.carousel-dot');
+            let currentIndex = 0;
+
+            function showCard(index) {
+                cards.forEach(card => card.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                cards[index].classList.add('active');
+                dots[index].classList.add('active');
+            }
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    showCard(currentIndex);
+                });
+            });
+
+            // Auto-advance carousel
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % cards.length;
+                showCard(currentIndex);
+            }, 5000);
+        });
+    </script>
+</body>
+</html> 
