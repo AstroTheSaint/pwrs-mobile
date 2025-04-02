@@ -14,6 +14,8 @@
             --spotify-light: #B3B3B3;
             --spotify-green: #1DB954;
             --spotify-white: #FFFFFF;
+            --card-bg: #121212;
+            --border-radius: 8px;
         }
 
         body {
@@ -62,14 +64,34 @@
 
         .globe-container {
             position: relative;
-            height: 500px;
             width: 100%;
-            margin: 40px 0;
+            height: 500px;
+            margin: 2rem 0;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         #globe {
             width: 100%;
             height: 100%;
+            position: relative;
+        }
+
+        #globe canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .globe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(18, 18, 18, 0.8) 100%);
+            pointer-events: none;
         }
 
         .feature-card {
@@ -266,36 +288,21 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Globe Visualization
-        let scene, camera, renderer, globe;
-        const tourData = [
-            { lat: 40.7128, lng: -74.0060, name: "New York", revenue: 150000 },
-            { lat: 34.0522, lng: -118.2437, name: "Los Angeles", revenue: 180000 },
-            { lat: 51.5074, lng: -0.1278, name: "London", revenue: 200000 },
-            { lat: 48.8566, lng: 2.3522, name: "Paris", revenue: 160000 },
-            { lat: 35.6762, lng: 139.6503, name: "Tokyo", revenue: 220000 },
-            { lat: -33.8688, lng: 151.2093, name: "Sydney", revenue: 140000 },
-            { lat: 55.7558, lng: 37.6173, name: "Moscow", revenue: 130000 },
-            { lat: 22.3964, lng: 114.1095, name: "Hong Kong", revenue: 170000 },
-            { lat: 19.4326, lng: -99.1332, name: "Mexico City", revenue: 120000 },
-            { lat: -23.5505, lng: -46.6333, name: "São Paulo", revenue: 110000 }
-        ];
-
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        function initGlobe() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(document.getElementById('globe').clientWidth, document.getElementById('globe').clientHeight);
             document.getElementById('globe').appendChild(renderer.domElement);
 
-            // Create Earth texture
+            // Create Earth texture with higher resolution
             const textureLoader = new THREE.TextureLoader();
             const earthTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
             const earthBumpMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg');
             const earthSpecularMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg');
 
             // Create globe with Earth texture
-            const geometry = new THREE.SphereGeometry(5, 64, 64);
+            const geometry = new THREE.SphereGeometry(5, 128, 128);
             const material = new THREE.MeshPhongMaterial({
                 map: earthTexture,
                 bumpMap: earthBumpMap,
@@ -304,13 +311,21 @@
                 specular: new THREE.Color(0x333333),
                 shininess: 5
             });
-            globe = new THREE.Mesh(geometry, material);
+            const globe = new THREE.Mesh(geometry, material);
             scene.add(globe);
 
-            // Add tour points with size based on revenue
+            // Add tour points with enhanced visuals
+            const tourData = [
+                { lat: 40.7128, lng: -74.0060, name: "New York", revenue: 1200000 },
+                { lat: 34.0522, lng: -118.2437, name: "Los Angeles", revenue: 1450000 },
+                { lat: 51.5074, lng: -0.1278, name: "London", revenue: 1350000 },
+                { lat: 48.8566, lng: 2.3522, name: "Paris", revenue: 1100000 },
+                { lat: 35.6762, lng: 139.6503, name: "Tokyo", revenue: 1300000 }
+            ];
+
             tourData.forEach(point => {
-                const size = Math.min(0.3, Math.max(0.1, point.revenue / 1000000));
-                const pointGeometry = new THREE.SphereGeometry(size, 16, 16);
+                const size = Math.min(0.4, Math.max(0.15, point.revenue / 1000000));
+                const pointGeometry = new THREE.SphereGeometry(size, 32, 32);
                 const pointMaterial = new THREE.MeshBasicMaterial({ 
                     color: 0x1DB954,
                     transparent: true,
@@ -326,17 +341,23 @@
                 pointMesh.position.y = radius * Math.cos(phi);
                 pointMesh.position.z = radius * Math.sin(phi) * Math.sin(theta);
 
-                // Add glow effect
-                const glowGeometry = new THREE.SphereGeometry(size * 1.5, 16, 16);
+                // Enhanced glow effect
+                const glowGeometry = new THREE.SphereGeometry(size * 2, 32, 32);
                 const glowMaterial = new THREE.MeshBasicMaterial({
                     color: 0x1DB954,
                     transparent: true,
-                    opacity: 0.2
+                    opacity: 0.15
                 });
                 const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
                 glowMesh.position.copy(pointMesh.position);
                 scene.add(glowMesh);
 
+                // Add pulsing animation
+                pointMesh.userData = {
+                    ...point,
+                    originalSize: size,
+                    pulseSpeed: 0.5 + Math.random() * 0.5
+                };
                 scene.add(pointMesh);
             });
 
@@ -348,36 +369,57 @@
             directionalLight.position.set(5, 3, 5);
             scene.add(directionalLight);
 
-            // Add atmosphere glow
-            const atmosphereGeometry = new THREE.SphereGeometry(5.1, 64, 64);
+            // Enhanced atmosphere glow
+            const atmosphereGeometry = new THREE.SphereGeometry(5.1, 128, 128);
             const atmosphereMaterial = new THREE.MeshBasicMaterial({
                 color: 0x1DB954,
                 transparent: true,
-                opacity: 0.1
+                opacity: 0.15
             });
             const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
             scene.add(atmosphere);
 
+            // Add grid lines
+            const gridGeometry = new THREE.SphereGeometry(5.05, 64, 64);
+            const gridMaterial = new THREE.MeshBasicMaterial({
+                color: 0x1DB954,
+                transparent: true,
+                opacity: 0.1,
+                wireframe: true
+            });
+            const grid = new THREE.Mesh(gridGeometry, gridMaterial);
+            scene.add(grid);
+
             camera.position.z = 15;
 
+            function animate() {
+                requestAnimationFrame(animate);
+                globe.rotation.y += 0.002;
+
+                // Animate tour points
+                scene.children.forEach(child => {
+                    if (child.userData && child.userData.originalSize) {
+                        const time = Date.now() * 0.001;
+                        const pulse = Math.sin(time * child.userData.pulseSpeed) * 0.1 + 1;
+                        child.scale.set(pulse, pulse, pulse);
+                    }
+                });
+
+                renderer.render(scene, camera);
+            }
+
             animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = document.getElementById('globe').clientWidth / document.getElementById('globe').clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(document.getElementById('globe').clientWidth, document.getElementById('globe').clientHeight);
+            });
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            globe.rotation.y += 0.002;
-            renderer.render(scene, camera);
-        }
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = document.getElementById('globe').clientWidth / document.getElementById('globe').clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(document.getElementById('globe').clientWidth, document.getElementById('globe').clientHeight);
-        });
-
-        // Initialize globe when page loads
-        window.addEventListener('load', init);
+        // Initialize globe when the page loads
+        document.addEventListener('DOMContentLoaded', initGlobe);
     </script>
 </body>
 </html> 

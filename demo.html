@@ -1021,11 +1021,20 @@
             background: var(--card-bg);
             border-radius: var(--border-radius);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         #tourGlobe {
             width: 100%;
             height: 100%;
+            position: relative;
+            background: var(--bg-color);
+        }
+
+        #tourGlobe canvas {
+            width: 100% !important;
+            height: 100% !important;
         }
 
         .globe-info {
@@ -1037,6 +1046,7 @@
             backdrop-filter: blur(10px);
             padding: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
         }
 
         .globe-stats {
@@ -2265,20 +2275,26 @@
             ];
 
             function initGlobe() {
-                globeScene = new THREE.Scene();
-                globeCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-                globeRenderer.setSize(document.getElementById('tourGlobe').clientWidth, document.getElementById('tourGlobe').clientHeight);
-                document.getElementById('tourGlobe').appendChild(globeRenderer.domElement);
+                // Clear existing globe if it exists
+                const existingGlobe = document.getElementById('tourGlobe');
+                if (existingGlobe) {
+                    existingGlobe.innerHTML = '';
+                }
 
-                // Create Earth texture
+                globeScene = new THREE.Scene();
+                globeCamera = new THREE.PerspectiveCamera(75, existingGlobe.clientWidth / existingGlobe.clientHeight, 0.1, 1000);
+                globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                globeRenderer.setSize(existingGlobe.clientWidth, existingGlobe.clientHeight);
+                existingGlobe.appendChild(globeRenderer.domElement);
+
+                // Create Earth texture with higher resolution
                 const textureLoader = new THREE.TextureLoader();
                 const earthTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
                 const earthBumpMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg');
                 const earthSpecularMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg');
 
                 // Create globe with Earth texture
-                const geometry = new THREE.SphereGeometry(5, 64, 64);
+                const geometry = new THREE.SphereGeometry(5, 128, 128); // Increased resolution
                 const material = new THREE.MeshPhongMaterial({
                     map: earthTexture,
                     bumpMap: earthBumpMap,
@@ -2290,10 +2306,10 @@
                 globeMesh = new THREE.Mesh(geometry, material);
                 globeScene.add(globeMesh);
 
-                // Add tour points
+                // Add tour points with enhanced visuals
                 tourData.forEach(point => {
-                    const size = Math.min(0.3, Math.max(0.1, point.revenue / 1000000));
-                    const pointGeometry = new THREE.SphereGeometry(size, 16, 16);
+                    const size = Math.min(0.4, Math.max(0.15, point.revenue / 1000000));
+                    const pointGeometry = new THREE.SphereGeometry(size, 32, 32);
                     const pointMaterial = new THREE.MeshBasicMaterial({ 
                         color: point.status === 'completed' ? 0x1DB954 : 0xFFB946,
                         transparent: true,
@@ -2309,19 +2325,23 @@
                     pointMesh.position.y = radius * Math.cos(phi);
                     pointMesh.position.z = radius * Math.sin(phi) * Math.sin(theta);
 
-                    // Add glow effect
-                    const glowGeometry = new THREE.SphereGeometry(size * 1.5, 16, 16);
+                    // Enhanced glow effect
+                    const glowGeometry = new THREE.SphereGeometry(size * 2, 32, 32);
                     const glowMaterial = new THREE.MeshBasicMaterial({
                         color: point.status === 'completed' ? 0x1DB954 : 0xFFB946,
                         transparent: true,
-                        opacity: 0.2
+                        opacity: 0.15
                     });
                     const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
                     glowMesh.position.copy(pointMesh.position);
                     globeScene.add(glowMesh);
 
-                    // Add click interaction
-                    pointMesh.userData = point;
+                    // Add pulsing animation
+                    pointMesh.userData = {
+                        ...point,
+                        originalSize: size,
+                        pulseSpeed: 0.5 + Math.random() * 0.5
+                    };
                     globeScene.add(pointMesh);
                 });
 
@@ -2333,12 +2353,12 @@
                 directionalLight.position.set(5, 3, 5);
                 globeScene.add(directionalLight);
 
-                // Add atmosphere glow
-                const atmosphereGeometry = new THREE.SphereGeometry(5.1, 64, 64);
+                // Enhanced atmosphere glow
+                const atmosphereGeometry = new THREE.SphereGeometry(5.1, 128, 128);
                 const atmosphereMaterial = new THREE.MeshBasicMaterial({
                     color: 0x1DB954,
                     transparent: true,
-                    opacity: 0.1
+                    opacity: 0.15
                 });
                 const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
                 globeScene.add(atmosphere);
@@ -2349,7 +2369,7 @@
                 const raycaster = new THREE.Raycaster();
                 const mouse = new THREE.Vector2();
 
-                document.getElementById('tourGlobe').addEventListener('click', (event) => {
+                existingGlobe.addEventListener('click', (event) => {
                     const rect = event.target.getBoundingClientRect();
                     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
                     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -2369,6 +2389,16 @@
             function animateGlobe() {
                 requestAnimationFrame(animateGlobe);
                 globeMesh.rotation.y += 0.002;
+
+                // Animate tour points
+                globeScene.children.forEach(child => {
+                    if (child.userData && child.userData.originalSize) {
+                        const time = Date.now() * 0.001;
+                        const pulse = Math.sin(time * child.userData.pulseSpeed) * 0.1 + 1;
+                        child.scale.set(pulse, pulse, pulse);
+                    }
+                });
+
                 globeRenderer.render(globeScene, globeCamera);
             }
 
