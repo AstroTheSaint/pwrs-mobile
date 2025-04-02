@@ -3,423 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PWRS Artist Portal - Tour Management Platform</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>PWRS Mobile - Tour Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/globe.gl@2.32.1/dist/globe.gl.min.js"></script>
     <style>
         :root {
-            --spotify-black: #121212;
-            --spotify-dark: #282828;
-            --spotify-light: #B3B3B3;
-            --spotify-green: #1DB954;
-            --spotify-white: #FFFFFF;
-            --card-bg: #121212;
-            --border-radius: 8px;
+            --bg-color: #121212;
+            --card-bg: #282828;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --accent-color: #1DB954;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--spotify-black);
-            color: var(--spotify-white);
-            font-family: 'Circular Std', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
-        .navbar {
-            background-color: var(--spotify-black);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
-        .navbar-brand {
-            color: var(--spotify-white) !important;
-            font-weight: 700;
-        }
-
-        .nav-link {
-            color: var(--spotify-light) !important;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--spotify-white) !important;
-        }
-
-        .btn-primary {
-            background-color: var(--spotify-green);
-            border: none;
-            color: var(--spotify-black);
-            font-weight: 600;
-            padding: 8px 24px;
-            border-radius: 24px;
-        }
-
-        .btn-primary:hover {
-            background-color: #1ed760;
-            transform: scale(1.04);
-        }
-
-        .hero-section {
-            padding: 80px 0;
-            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.95));
-        }
-
-        .globe-container {
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
             position: relative;
-            width: 100%;
-            height: 500px;
-            margin: 2rem 0;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
             overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #1DB954, #1ed760);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .primary-button {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .secondary-button {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .primary-button:hover {
+            background: #1ed760;
+            transform: translateY(-2px);
+        }
+
+        .secondary-button:hover {
+            background: rgba(29, 185, 84, 0.1);
+            transform: translateY(-2px);
+        }
+
+        #heroGlobe {
+            width: 100% !important;
+            height: 600px !important;
+            margin: 2rem auto;
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+
+        #heroGlobe canvas {
+            border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
-        #globe {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        #globe canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        .globe-overlay {
+        #heroGlobe::after {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(18, 18, 18, 0.8) 100%);
             pointer-events: none;
+            border-radius: 12px;
+            box-shadow: inset 0 0 100px rgba(29, 185, 84, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            #heroGlobe {
+                height: 400px !important;
+            }
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
         }
 
         .feature-card {
-            background-color: var(--spotify-dark);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-            transition: transform 0.3s ease;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
-        .feature-icon {
-            font-size: 2rem;
-            color: var(--spotify-green);
-            margin-bottom: 16px;
+        .feature-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
         }
 
-        .stats-card {
-            background-color: var(--spotify-dark);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+            text-align: center;
         }
 
-        .stats-number {
+        .stat-item {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--spotify-white);
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
         }
 
-        .stats-label {
-            color: var(--spotify-light);
-            font-size: 0.9rem;
+        .contact {
+            text-align: center;
+            padding: 4rem 0;
         }
 
-        .footer {
-            background-color: var(--spotify-black);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px 0;
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">PWRS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#stats">Stats</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                    <li class="nav-item ms-3">
-                        <a href="index.html" class="btn btn-primary">Launch App</a>
-                    </li>
-                </ul>
+    <div class="container">
+        <section class="hero">
+            <h1>PWRS Mobile</h1>
+            <p>Transform your tour analytics with real-time insights and data visualization</p>
+            <div class="cta-buttons">
+                <a href="demo.html" class="cta-button primary-button">View Demo</a>
+                <a href="#contact" class="cta-button secondary-button">Get Started</a>
             </div>
-        </div>
-    </nav>
+            <div id="heroGlobe" style="width: 100%; height: 600px; position: relative; z-index: 1;"></div>
+        </section>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Tour Management Made Simple</h1>
-                    <p class="lead mb-4">Streamline your tour operations, manage venues, and track performance all in one place.</p>
-                    <div class="d-flex gap-3">
-                        <a href="index.html" class="btn btn-primary">Get Started</a>
-                        <a href="demo.html" class="btn btn-outline-light">View Demo</a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="globe-container">
-                        <div id="globe"></div>
-                    </div>
-                </div>
+        <section class="features">
+            <div class="feature-card">
+                <h3>Real-time Analytics</h3>
+                <p>Track your tour performance with live data and insights</p>
             </div>
-        </div>
-    </section>
+            <div class="feature-card">
+                <h3>Interactive Maps</h3>
+                <p>Visualize your tour routes and revenue across the globe</p>
+            </div>
+            <div class="feature-card">
+                <h3>Smart Insights</h3>
+                <p>Get AI-powered recommendations for tour optimization</p>
+            </div>
+        </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-5">Powerful Features</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="bi bi-globe"></i>
-                        </div>
-                        <h3>Global Tour Management</h3>
-                        <p>Track and manage your tours across the globe with our interactive map interface.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="bi bi-graph-up"></i>
-                        </div>
-                        <h3>Performance Analytics</h3>
-                        <p>Get detailed insights into your tour performance and revenue metrics.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="bi bi-calendar-check"></i>
-                        </div>
-                        <h3>Smart Scheduling</h3>
-                        <p>Optimize your tour schedule with AI-powered recommendations.</p>
-                    </div>
-                </div>
+        <section class="stats">
+            <div class="stat-item">
+                <div class="stat-value">$50M+</div>
+                <div class="stat-label">Tour Revenue Tracked</div>
             </div>
-        </div>
-    </section>
+            <div class="stat-item">
+                <div class="stat-value">100+</div>
+                <div class="stat-label">Artists Using PWRS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">Shows Analyzed</div>
+            </div>
+        </section>
 
-    <!-- Stats Section -->
-    <section id="stats" class="py-5 bg-dark">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <div class="stats-card">
-                        <div class="stats-number">500+</div>
-                        <div class="stats-label">Active Tours</div>
-                    </div>
+        <section id="contact" class="contact">
+            <h2>Get Started Today</h2>
+            <p>Contact us to learn more about PWRS Mobile</p>
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
                 </div>
-                <div class="col-md-4">
-                    <div class="stats-card">
-                        <div class="stats-number">1M+</div>
-                        <div class="stats-label">Tickets Sold</div>
-                    </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" required>
                 </div>
-                <div class="col-md-4">
-                    <div class="stats-card">
-                        <div class="stats-number">98%</div>
-                        <div class="stats-label">Client Satisfaction</div>
-                    </div>
+                <div class="form-group">
+                    <textarea placeholder="Your Message" required></textarea>
                 </div>
-            </div>
-        </div>
-    </section>
+                <button type="submit" class="cta-button primary-button">Send Message</button>
+            </form>
+        </section>
+    </div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-5">Get in Touch</h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <form class="p-4 bg-dark rounded">
-                        <div class="mb-3">
-                            <input type="text" class="form-control bg-dark text-light" placeholder="Name">
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control bg-dark text-light" placeholder="Email">
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control bg-dark text-light" rows="4" placeholder="Message"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>PWRS Artist Portal</h5>
-                    <p class="text-muted">© 2024 PWRS. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="#" class="text-muted me-3">Privacy Policy</a>
-                    <a href="#" class="text-muted">Terms of Service</a>
-                </div>
-            </div>
-        </div>
+    <footer>
+        <p>&copy; 2024 PWRS Mobile. All rights reserved.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function initGlobe() {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(document.getElementById('globe').clientWidth, document.getElementById('globe').clientHeight);
-            document.getElementById('globe').appendChild(renderer.domElement);
+        // Globe Visualization
+        function initGlobe(containerId = 'heroGlobe') {
+            const globeContainer = document.getElementById(containerId);
+            if (!globeContainer) return;
 
-            // Create Earth texture with higher resolution
-            const textureLoader = new THREE.TextureLoader();
-            const earthTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
-            const earthBumpMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg');
-            const earthSpecularMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg');
+            // Clear existing globe
+            globeContainer.innerHTML = '';
 
-            // Create globe with Earth texture
-            const geometry = new THREE.SphereGeometry(5, 128, 128);
-            const material = new THREE.MeshPhongMaterial({
-                map: earthTexture,
-                bumpMap: earthBumpMap,
-                bumpScale: 0.05,
-                specularMap: earthSpecularMap,
-                specular: new THREE.Color(0x333333),
-                shininess: 5
-            });
-            const globe = new THREE.Mesh(geometry, material);
-            scene.add(globe);
+            const globe = Globe()
+                .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+                .backgroundColor('rgba(0,0,0,0)')
+                .width(globeContainer.clientWidth)
+                .height(globeContainer.clientHeight || 500)
+                .atmosphereColor('rgb(29, 185, 84)')
+                .atmosphereAltitude(0.25);
 
-            // Add tour points with enhanced visuals
+            globe(globeContainer);
+
+            // Sample tour data
             const tourData = [
-                { lat: 40.7128, lng: -74.0060, name: "New York", revenue: 1200000 },
-                { lat: 34.0522, lng: -118.2437, name: "Los Angeles", revenue: 1450000 },
-                { lat: 51.5074, lng: -0.1278, name: "London", revenue: 1350000 },
-                { lat: 48.8566, lng: 2.3522, name: "Paris", revenue: 1100000 },
-                { lat: 35.6762, lng: 139.6503, name: "Tokyo", revenue: 1300000 }
+                { lat: 40.7128, lng: -74.0060, city: 'New York', date: '2024-01-15', revenue: '$2.1M', status: 'completed' },
+                { lat: 34.0522, lng: -118.2437, city: 'Los Angeles', date: '2024-02-20', revenue: '$1.8M', status: 'completed' },
+                { lat: 51.5074, lng: -0.1278, city: 'London', date: '2024-03-10', revenue: '$2.5M', status: 'completed' },
+                { lat: 48.8566, lng: 2.3522, city: 'Paris', date: '2024-05-15', revenue: '$2.3M', status: 'upcoming' },
+                { lat: 35.6762, lng: 139.6503, city: 'Tokyo', date: '2024-06-20', revenue: '$2.8M', status: 'upcoming' },
+                { lat: -33.8688, lng: 151.2093, city: 'Sydney', date: '2024-07-10', revenue: '$1.9M', status: 'upcoming' }
             ];
 
-            tourData.forEach(point => {
-                const size = Math.min(0.4, Math.max(0.15, point.revenue / 1000000));
-                const pointGeometry = new THREE.SphereGeometry(size, 32, 32);
-                const pointMaterial = new THREE.MeshBasicMaterial({ 
-                    color: 0x1DB954,
-                    transparent: true,
-                    opacity: 0.8
-                });
-                const pointMesh = new THREE.Mesh(pointGeometry, pointMaterial);
-                
-                const phi = (90 - point.lat) * (Math.PI / 180);
-                const theta = (point.lng + 180) * (Math.PI / 180);
-                const radius = 5.2;
+            globe.pointsData(tourData)
+                .pointColor(d => d.status === 'completed' ? '#1DB954' : '#FFB900')
+                .pointAltitude(0.1)
+                .pointRadius(0.5)
+                .pointLabel(d => `
+                    <div style="color: white; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px;">
+                        <div style="font-weight: bold;">${d.city}</div>
+                        <div>${d.date}</div>
+                        <div>Revenue: ${d.revenue}</div>
+                        <div style="color: ${d.status === 'completed' ? '#1DB954' : '#FFB900'}">${d.status}</div>
+                    </div>
+                `);
 
-                pointMesh.position.x = -(radius * Math.sin(phi) * Math.cos(theta));
-                pointMesh.position.y = radius * Math.cos(phi);
-                pointMesh.position.z = radius * Math.sin(phi) * Math.sin(theta);
+            // Add arcs for tour routes
+            globe.arcsData(tourData.slice(0, -1).map((d, i) => ({
+                startLat: d.lat,
+                startLng: d.lng,
+                endLat: tourData[i + 1].lat,
+                endLng: tourData[i + 1].lng,
+                color: d.status === 'completed' ? '#1DB954' : '#FFB900'
+            })))
+            .arcColor('color')
+            .arcDashLength(0.5)
+            .arcDashGap(0.1)
+            .arcDashAnimateTime(2000);
 
-                // Enhanced glow effect
-                const glowGeometry = new THREE.SphereGeometry(size * 2, 32, 32);
-                const glowMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x1DB954,
-                    transparent: true,
-                    opacity: 0.15
-                });
-                const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-                glowMesh.position.copy(pointMesh.position);
-                scene.add(glowMesh);
+            // Auto-rotate
+            globe.controls().autoRotate = true;
+            globe.controls().autoRotateSpeed = 0.5;
 
-                // Add pulsing animation
-                pointMesh.userData = {
-                    ...point,
-                    originalSize: size,
-                    pulseSpeed: 0.5 + Math.random() * 0.5
-                };
-                scene.add(pointMesh);
-            });
-
-            // Add lights
-            const ambientLight = new THREE.AmbientLight(0x404040);
-            scene.add(ambientLight);
-
-            const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
-            directionalLight.position.set(5, 3, 5);
-            scene.add(directionalLight);
-
-            // Enhanced atmosphere glow
-            const atmosphereGeometry = new THREE.SphereGeometry(5.1, 128, 128);
-            const atmosphereMaterial = new THREE.MeshBasicMaterial({
-                color: 0x1DB954,
-                transparent: true,
-                opacity: 0.15
-            });
-            const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-            scene.add(atmosphere);
-
-            // Add grid lines
-            const gridGeometry = new THREE.SphereGeometry(5.05, 64, 64);
-            const gridMaterial = new THREE.MeshBasicMaterial({
-                color: 0x1DB954,
-                transparent: true,
-                opacity: 0.1,
-                wireframe: true
-            });
-            const grid = new THREE.Mesh(gridGeometry, gridMaterial);
-            scene.add(grid);
-
-            camera.position.z = 15;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                globe.rotation.y += 0.002;
-
-                // Animate tour points
-                scene.children.forEach(child => {
-                    if (child.userData && child.userData.originalSize) {
-                        const time = Date.now() * 0.001;
-                        const pulse = Math.sin(time * child.userData.pulseSpeed) * 0.1 + 1;
-                        child.scale.set(pulse, pulse, pulse);
-                    }
-                });
-
-                renderer.render(scene, camera);
-            }
-
-            animate();
-
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                camera.aspect = document.getElementById('globe').clientWidth / document.getElementById('globe').clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(document.getElementById('globe').clientWidth, document.getElementById('globe').clientHeight);
-            });
+            return globe;
         }
 
         // Initialize globe when the page loads
-        document.addEventListener('DOMContentLoaded', initGlobe);
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                initGlobe('heroGlobe');
+            }, 100);
+        });
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                initGlobe('heroGlobe');
+            }, 250);
+        });
     </script>
 </body>
 </html> 
