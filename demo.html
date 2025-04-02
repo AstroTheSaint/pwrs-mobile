@@ -1025,6 +1025,22 @@
             flex-direction: column;
         }
 
+        .globe-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .year-selector select {
+            background: var(--bg-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-size: 0.875rem;
+        }
+
         #tourGlobe {
             width: 100%;
             height: 100%;
@@ -1035,6 +1051,7 @@
         #tourGlobe canvas {
             width: 100% !important;
             height: 100% !important;
+            border-radius: var(--border-radius);
         }
 
         .globe-info {
@@ -1079,18 +1096,25 @@
             gap: 0.5rem;
         }
 
-        .globe-filters .filter-button {
+        .filter-button {
             background: var(--bg-color);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
             font-size: 0.875rem;
+            cursor: pointer;
             transition: var(--transition);
         }
 
-        .globe-filters .filter-button.active {
-            background: var(--primary-color);
+        .filter-button:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .filter-button.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
             color: var(--text-primary);
         }
     </style>
@@ -1545,10 +1569,19 @@
         <div id="globe" class="tab-content">
             <div class="page-header">
                 <h1>Tour Globe</h1>
-                <div class="globe-filters">
-                    <button class="filter-button active" data-filter="all">All Shows</button>
-                    <button class="filter-button" data-filter="past">Past Shows</button>
-                    <button class="filter-button" data-filter="upcoming">Upcoming</button>
+                <div class="globe-controls">
+                    <div class="year-selector">
+                        <select id="yearSelect">
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024" selected>2024</option>
+                        </select>
+                    </div>
+                    <div class="globe-filters">
+                        <button class="filter-button active" data-filter="all">All Shows</button>
+                        <button class="filter-button" data-filter="past">Past Shows</button>
+                        <button class="filter-button" data-filter="upcoming">Upcoming</button>
+                    </div>
                 </div>
             </div>
             <div class="globe-container">
@@ -1557,15 +1590,15 @@
                     <div class="globe-stats">
                         <div class="stat-item">
                             <span class="stat-label">Total Revenue</span>
-                            <span class="stat-value">$8.45M</span>
+                            <span class="stat-value" id="totalRevenue">$0</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-label">Shows Completed</span>
-                            <span class="stat-value">15</span>
+                            <span class="stat-label">Shows</span>
+                            <span class="stat-value" id="totalShows">0</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-label">Upcoming Shows</span>
-                            <span class="stat-value">8</span>
+                            <span class="stat-label">Average Revenue</span>
+                            <span class="stat-value" id="avgRevenue">$0</span>
                         </div>
                     </div>
                 </div>
@@ -2260,219 +2293,118 @@
             });
 
             // Globe Visualization
-            let globeScene, globeCamera, globeRenderer, globeMesh;
-            const tourData = [
-                { lat: 40.7128, lng: -74.0060, name: "New York", date: "2024-05-14", revenue: 1200000, status: "completed" },
-                { lat: 34.0522, lng: -118.2437, name: "Los Angeles", date: "2024-06-10", revenue: 1450000, status: "completed" },
-                { lat: 51.5074, lng: -0.1278, name: "London", date: "2024-07-15", revenue: 1350000, status: "completed" },
-                { lat: 48.8566, lng: 2.3522, name: "Paris", date: "2024-09-20", revenue: 1100000, status: "upcoming" },
-                { lat: 35.6762, lng: 139.6503, name: "Tokyo", date: "2025-01-05", revenue: 1300000, status: "upcoming" },
-                { lat: -33.8688, lng: 151.2093, name: "Sydney", date: "2025-05-04", revenue: 900000, status: "upcoming" },
-                { lat: 55.7558, lng: 37.6173, name: "Moscow", date: "2025-09-16", revenue: 1150000, status: "upcoming" },
-                { lat: 22.3964, lng: 114.1095, name: "Hong Kong", date: "2024-08-25", revenue: 950000, status: "completed" },
-                { lat: 19.4326, lng: -99.1332, name: "Mexico City", date: "2024-10-12", revenue: 850000, status: "upcoming" },
-                { lat: -23.5505, lng: -46.6333, name: "São Paulo", date: "2024-11-30", revenue: 1000000, status: "upcoming" }
-            ];
+            function initGlobe(containerId = 'tourGlobe') {
+                const globeContainer = document.getElementById(containerId);
+                if (!globeContainer) return;
 
-            function initGlobe() {
-                // Clear existing globe if it exists
-                const existingGlobe = document.getElementById('tourGlobe');
-                if (existingGlobe) {
-                    existingGlobe.innerHTML = '';
+                // Clear existing globe
+                globeContainer.innerHTML = '';
+
+                const globe = Globe()
+                    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+                    .backgroundColor('rgba(0,0,0,0)')
+                    .width(globeContainer.clientWidth)
+                    .height(globeContainer.clientHeight || 500)
+                    .atmosphereColor('rgb(29, 185, 84)')
+                    .atmosphereAltitude(0.25);
+
+                globe(globeContainer);
+
+                // Get selected year and filter
+                const selectedYear = document.getElementById('yearSelect').value;
+                const activeFilter = document.querySelector('.filter-button.active').dataset.filter;
+                
+                // Filter tour data based on year and status
+                let filteredData = tourData[selectedYear];
+                if (activeFilter !== 'all') {
+                    filteredData = filteredData.filter(point => point.status === activeFilter);
                 }
 
-                globeScene = new THREE.Scene();
-                globeCamera = new THREE.PerspectiveCamera(75, existingGlobe.clientWidth / existingGlobe.clientHeight, 0.1, 1000);
-                globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-                globeRenderer.setSize(existingGlobe.clientWidth, existingGlobe.clientHeight);
-                existingGlobe.appendChild(globeRenderer.domElement);
+                // Update statistics
+                const totalRevenue = filteredData.reduce((sum, point) => {
+                    const revenue = parseFloat(point.revenue.replace('$', '').replace('M', ''));
+                    return sum + revenue;
+                }, 0);
+                const avgRevenue = totalRevenue / filteredData.length;
 
-                // Create Earth texture with higher resolution
-                const textureLoader = new THREE.TextureLoader();
-                const earthTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
-                const earthBumpMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg');
-                const earthSpecularMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg');
+                document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(1)}M`;
+                document.getElementById('totalShows').textContent = filteredData.length;
+                document.getElementById('avgRevenue').textContent = `$${avgRevenue.toFixed(1)}M`;
 
-                // Create globe with Earth texture
-                const geometry = new THREE.SphereGeometry(5, 128, 128); // Increased resolution
-                const material = new THREE.MeshPhongMaterial({
-                    map: earthTexture,
-                    bumpMap: earthBumpMap,
-                    bumpScale: 0.05,
-                    specularMap: earthSpecularMap,
-                    specular: new THREE.Color(0x333333),
-                    shininess: 5
-                });
-                globeMesh = new THREE.Mesh(geometry, material);
-                globeScene.add(globeMesh);
-
-                // Add tour points with enhanced visuals
-                tourData.forEach(point => {
-                    const size = Math.min(0.4, Math.max(0.15, point.revenue / 1000000));
-                    const pointGeometry = new THREE.SphereGeometry(size, 32, 32);
-                    const pointMaterial = new THREE.MeshBasicMaterial({ 
-                        color: point.status === 'completed' ? 0x1DB954 : 0xFFB946,
-                        transparent: true,
-                        opacity: 0.8
-                    });
-                    const pointMesh = new THREE.Mesh(pointGeometry, pointMaterial);
-                    
-                    const phi = (90 - point.lat) * (Math.PI / 180);
-                    const theta = (point.lng + 180) * (Math.PI / 180);
-                    const radius = 5.2;
-
-                    pointMesh.position.x = -(radius * Math.sin(phi) * Math.cos(theta));
-                    pointMesh.position.y = radius * Math.cos(phi);
-                    pointMesh.position.z = radius * Math.sin(phi) * Math.sin(theta);
-
-                    // Enhanced glow effect
-                    const glowGeometry = new THREE.SphereGeometry(size * 2, 32, 32);
-                    const glowMaterial = new THREE.MeshBasicMaterial({
-                        color: point.status === 'completed' ? 0x1DB954 : 0xFFB946,
-                        transparent: true,
-                        opacity: 0.15
-                    });
-                    const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-                    glowMesh.position.copy(pointMesh.position);
-                    globeScene.add(glowMesh);
-
-                    // Add pulsing animation
-                    pointMesh.userData = {
-                        ...point,
-                        originalSize: size,
-                        pulseSpeed: 0.5 + Math.random() * 0.5
-                    };
-                    globeScene.add(pointMesh);
-                });
-
-                // Add lights
-                const ambientLight = new THREE.AmbientLight(0x404040);
-                globeScene.add(ambientLight);
-
-                const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
-                directionalLight.position.set(5, 3, 5);
-                globeScene.add(directionalLight);
-
-                // Enhanced atmosphere glow
-                const atmosphereGeometry = new THREE.SphereGeometry(5.1, 128, 128);
-                const atmosphereMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x1DB954,
-                    transparent: true,
-                    opacity: 0.15
-                });
-                const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-                globeScene.add(atmosphere);
-
-                globeCamera.position.z = 15;
-
-                // Add raycaster for click detection
-                const raycaster = new THREE.Raycaster();
-                const mouse = new THREE.Vector2();
-
-                existingGlobe.addEventListener('click', (event) => {
-                    const rect = event.target.getBoundingClientRect();
-                    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-                    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-                    raycaster.setFromCamera(mouse, globeCamera);
-                    const intersects = raycaster.intersectObjects(globeScene.children);
-
-                    if (intersects.length > 0 && intersects[0].object.userData) {
-                        const point = intersects[0].object.userData;
-                        showPointDetails(point);
-                    }
-                });
-
-                animateGlobe();
-            }
-
-            function animateGlobe() {
-                requestAnimationFrame(animateGlobe);
-                globeMesh.rotation.y += 0.002;
-
-                // Animate tour points
-                globeScene.children.forEach(child => {
-                    if (child.userData && child.userData.originalSize) {
-                        const time = Date.now() * 0.001;
-                        const pulse = Math.sin(time * child.userData.pulseSpeed) * 0.1 + 1;
-                        child.scale.set(pulse, pulse, pulse);
-                    }
-                });
-
-                globeRenderer.render(globeScene, globeCamera);
-            }
-
-            function showPointDetails(point) {
-                const modal = document.createElement('div');
-                modal.className = 'modal active';
-                modal.innerHTML = `
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title">${point.name}</h2>
-                            <button class="modal-close">
-                                <i class="fas fa-times"></i>
-                            </button>
+                // Add tour points
+                globe.pointsData(filteredData)
+                    .pointColor(d => d.status === 'completed' ? '#1DB954' : '#FFB900')
+                    .pointAltitude(0.1)
+                    .pointRadius(0.5)
+                    .pointLabel(d => `
+                        <div style="color: white; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px;">
+                            <div style="font-weight: bold;">${d.city}</div>
+                            <div>${d.date}</div>
+                            <div>Revenue: ${d.revenue}</div>
+                            <div style="color: ${d.status === 'completed' ? '#1DB954' : '#FFB900'}">${d.status}</div>
                         </div>
-                        <div class="modal-body">
-                            <div class="modal-section">
-                                <div class="show-detail-item">
-                                    <span class="show-detail-label">Date</span>
-                                    <span class="show-detail-value">${new Date(point.date).toLocaleDateString()}</span>
-                                </div>
-                                <div class="show-detail-item">
-                                    <span class="show-detail-label">Revenue</span>
-                                    <span class="show-detail-value">$${(point.revenue / 1000000).toFixed(1)}M</span>
-                                </div>
-                                <div class="show-detail-item">
-                                    <span class="show-detail-label">Status</span>
-                                    <span class="show-detail-value">${point.status === 'completed' ? 'Completed' : 'Upcoming'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                    `);
 
-                document.body.appendChild(modal);
+                // Add arcs for tour routes
+                globe.arcsData(filteredData.slice(0, -1).map((d, i) => ({
+                    startLat: d.lat,
+                    startLng: d.lng,
+                    endLat: filteredData[i + 1].lat,
+                    endLng: filteredData[i + 1].lng,
+                    color: d.status === 'completed' ? '#1DB954' : '#FFB900'
+                })))
+                .arcColor('color')
+                .arcDashLength(0.5)
+                .arcDashGap(0.1)
+                .arcDashAnimateTime(2000);
 
-                modal.querySelector('.modal-close').addEventListener('click', () => {
-                    modal.remove();
-                });
+                // Auto-rotate
+                globe.controls().autoRotate = true;
+                globe.controls().autoRotateSpeed = 0.5;
 
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.remove();
-                    }
-                });
+                return globe;
             }
 
-            // Handle window resize for globe
-            window.addEventListener('resize', () => {
-                if (globeCamera && globeRenderer) {
-                    globeCamera.aspect = document.getElementById('tourGlobe').clientWidth / document.getElementById('tourGlobe').clientHeight;
-                    globeCamera.updateProjectionMatrix();
-                    globeRenderer.setSize(document.getElementById('tourGlobe').clientWidth, document.getElementById('tourGlobe').clientHeight);
-                }
+            // Handle year selection
+            document.getElementById('yearSelect').addEventListener('change', () => {
+                initGlobe('tourGlobe');
+            });
+
+            // Handle filter buttons
+            document.querySelectorAll('.globe-filters .filter-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.globe-filters .filter-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    initGlobe('tourGlobe');
+                });
             });
 
             // Initialize globe when tab is shown
             document.querySelectorAll('.bottom-nav-item').forEach(item => {
                 item.addEventListener('click', () => {
                     if (item.getAttribute('data-tab') === 'globe') {
-                        // Clear existing globe if it exists
-                        const existingGlobe = document.getElementById('tourGlobe');
-                        if (existingGlobe) {
-                            existingGlobe.innerHTML = '';
-                        }
-                        // Initialize new globe
-                        setTimeout(initGlobe, 100);
+                        setTimeout(() => {
+                            initGlobe('tourGlobe');
+                        }, 100);
                     }
                 });
             });
 
             // Also initialize globe when the page loads if we're on the globe tab
             if (window.location.hash === '#globe') {
-                setTimeout(initGlobe, 100);
+                setTimeout(() => {
+                    initGlobe('tourGlobe');
+                }, 100);
             }
+
+            // Handle window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    initGlobe('tourGlobe');
+                }, 250);
+            });
         });
     </script>
 </body>
