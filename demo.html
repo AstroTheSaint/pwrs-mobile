@@ -1,0 +1,2161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>PWRS Artist Portal - Metro Boomin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #1DB954;
+            --bg-color: #121212;
+            --card-bg: #181818;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --transition: all 0.3s ease;
+            --success-color: #1DB954;
+            --warning-color: #FFB946;
+            --danger-color: #FF4646;
+            --border-radius: 8px;
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --bottom-nav-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            padding-top: var(--safe-area-inset-top);
+            padding-bottom: var(--safe-area-inset-bottom);
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--card-bg);
+            z-index: 1000;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: calc(0.5rem + var(--safe-area-inset-top));
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .mobile-menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--card-bg);
+            z-index: 999;
+            padding: 1rem;
+            overflow-y: auto;
+            padding-top: calc(1rem + var(--safe-area-inset-top));
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .nav-link i {
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            background: rgba(29, 185, 84, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: calc(60px + var(--safe-area-inset-top));
+            padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-inset-bottom));
+        }
+
+        .page-header {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .metric-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .metric-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 2rem;
+            opacity: 0.1;
+            transform: translate(10px, -10px);
+        }
+
+        .metric-title {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-trend {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .trend-up {
+            color: var(--success-color);
+        }
+
+        .trend-down {
+            color: var(--danger-color);
+        }
+
+        /* Shows Section */
+        .shows-list {
+            padding: 1rem;
+        }
+
+        .show-filters {
+            position: sticky;
+            top: 60px;
+            background: var(--card-bg);
+            padding: 1rem;
+            z-index: 100;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .show-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-button {
+            background: var(--bg-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .filter-button.active {
+            background: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        .show-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .show-card:active {
+            transform: scale(0.98);
+        }
+
+        .show-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .show-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .show-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-completed { background: var(--success-color); }
+        .status-upcoming { background: var(--warning-color); }
+        .status-negotiating { background: var(--danger-color); }
+
+        .show-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .show-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .show-detail-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .show-detail-value {
+            font-weight: 500;
+        }
+
+        .show-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .show-action-button {
+            flex: 1;
+            background: var(--bg-color);
+            border: none;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .show-action-button:active {
+            background: var(--primary-color);
+        }
+
+        .show-action-button i {
+            font-size: 1rem;
+        }
+
+        /* Show Details Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            margin: auto;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Messages Section */
+        .messages-container {
+            height: calc(100vh - 60px - var(--safe-area-inset-top));
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .chat-item {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .chat-preview {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .chat-window {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+        }
+
+        .message.sent {
+            margin-left: auto;
+        }
+
+        .message-content {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .message-input {
+            padding: 1rem;
+            background: var(--card-bg);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .message-input input {
+            flex: 1;
+            background: var(--bg-color);
+            border: none;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+        }
+
+        .message-input button {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* iOS Safe Area Support */
+        @supports (padding: max(0px)) {
+            .mobile-header {
+                padding-top: max(0.5rem, var(--safe-area-inset-top));
+            }
+
+            .mobile-nav {
+                padding-top: max(1rem, var(--safe-area-inset-top));
+            }
+
+            .main-content {
+                padding-top: max(calc(60px + var(--safe-area-inset-top)), 60px);
+            }
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--bottom-nav-height);
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: var(--safe-area-inset-bottom);
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .bottom-nav-item span {
+            font-size: 0.75rem;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* Pull to Refresh */
+        .pull-to-refresh {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .pull-to-refresh i {
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .pull-to-refresh.active i {
+            transform: rotate(180deg);
+        }
+
+        /* Loading States */
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--text-secondary);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error States */
+        .error-message {
+            background: var(--danger-color);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .error-message i {
+            font-size: 1.25rem;
+        }
+
+        /* Offline State */
+        .offline-banner {
+            background: var(--warning-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .offline-banner.active {
+            transform: translateY(0);
+        }
+
+        /* Dashboard Charts */
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            margin: 1rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-action-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chart-action-button:hover {
+            color: var(--text-primary);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 200px;
+        }
+
+        /* Swipeable Cards */
+        .swipeable-container {
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 1rem;
+            margin: 0 -1rem;
+        }
+
+        .swipeable-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .swipeable-card {
+            scroll-snap-align: start;
+            min-width: 80%;
+            margin-right: 1rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+        }
+
+        .swipeable-card:last-child {
+            margin-right: 0;
+        }
+
+        /* Revenue Section */
+        .revenue-header {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            margin-bottom: 1rem;
+        }
+
+        .revenue-period-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .period-button {
+            background: var(--bg-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .period-button.active {
+            background: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        .export-button {
+            background: var(--bg-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .export-button:active {
+            background: var(--primary-color);
+        }
+
+        .revenue-charts {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .revenue-chart-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+        }
+
+        .revenue-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .revenue-chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .revenue-chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .revenue-chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        .revenue-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .revenue-metric-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .revenue-metric-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .revenue-metric-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .revenue-metric-trend {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Additional Revenue Styles */
+        .revenue-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-view-toggle {
+            background: var(--bg-color);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 20px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .revenue-details {
+            padding: 1rem;
+        }
+
+        .revenue-section {
+            margin-bottom: 2rem;
+        }
+
+        .revenue-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .revenue-table {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+        }
+
+        .revenue-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .revenue-table th,
+        .revenue-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .revenue-table th {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .revenue-table td {
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-badge.completed {
+            background: var(--success-color);
+            color: var(--text-primary);
+        }
+
+        .status-badge.upcoming {
+            background: var(--warning-color);
+            color: var(--text-primary);
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-button:hover {
+            color: var(--text-primary);
+        }
+
+        .action-button + .action-button {
+            margin-left: 0.5rem;
+        }
+
+        /* Additional Show Card Styles */
+        .status-completed {
+            background: var(--success-color);
+            color: var(--text-primary);
+        }
+
+        .status-upcoming {
+            background: var(--warning-color);
+            color: var(--text-primary);
+        }
+
+        /* Additional Chat Styles */
+        .chat-item {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .chat-item:active {
+            transform: scale(0.98);
+        }
+
+        .chat-avatar {
+            background: var(--primary-color);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            max-width: 80%;
+        }
+
+        .message.sent {
+            margin-left: auto;
+        }
+
+        .message.sent .message-content {
+            background: var(--primary-color);
+        }
+
+        .message-content {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-size: 0.875rem;
+        }
+
+        .message-input input {
+            background: var(--bg-color);
+            border: none;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .message-input button {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Offline Banner -->
+    <div class="offline-banner">
+        <i class="fas fa-wifi-slash"></i>
+        You're offline. Some features may be limited.
+    </div>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="mobile-header-title">Powers Artist Portal</span>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#dashboard" class="nav-link active" data-tab="dashboard">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#shows" class="nav-link" data-tab="shows">
+                    <i class="fas fa-calendar"></i>
+                    Shows
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#revenue" class="nav-link" data-tab="revenue">
+                    <i class="fas fa-dollar-sign"></i>
+                    Revenue
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#globe" class="nav-link" data-tab="globe">
+                    <i class="fas fa-globe"></i>
+                    Globe
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#messages" class="nav-link" data-tab="messages">
+                    <i class="fas fa-comments"></i>
+                    Messages
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Pull to Refresh Indicator -->
+        <div class="pull-to-refresh">
+            <i class="fas fa-arrow-down"></i>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+            </div>
+            
+            <!-- Swipeable Metrics -->
+            <div class="swipeable-container">
+                <div class="swipeable-card">
+                    <div class="metric-card">
+                        <div class="metric-title">Total Revenue</div>
+                        <div class="metric-value">$2.5M</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12% from last month</span>
+                        </div>
+                        <i class="fas fa-dollar-sign metric-icon"></i>
+                    </div>
+                </div>
+                <div class="swipeable-card">
+                    <div class="metric-card">
+                        <div class="metric-title">Upcoming Shows</div>
+                        <div class="metric-value">24</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>3 new this week</span>
+                        </div>
+                        <i class="fas fa-calendar metric-icon"></i>
+                    </div>
+                </div>
+                <div class="swipeable-card">
+                    <div class="metric-card">
+                        <div class="metric-title">Show Opportunities</div>
+                        <div class="metric-value">12</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>5 new this week</span>
+                        </div>
+                        <i class="fas fa-star metric-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">Revenue Overview</h2>
+                    <div class="chart-actions">
+                        <button class="chart-action-button">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Shows Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">Shows by Status</h2>
+                    <div class="chart-actions">
+                        <button class="chart-action-button">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="showsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shows Tab -->
+        <div id="shows" class="tab-content">
+            <div class="page-header">
+                <h1>Shows</h1>
+            </div>
+            
+            <!-- Show Filters -->
+            <div class="show-filters">
+                <button class="filter-button active">All Shows</button>
+                <button class="filter-button">Completed</button>
+                <button class="filter-button">Upcoming</button>
+                <button class="filter-button">This Month</button>
+                <button class="filter-button">Next Month</button>
+            </div>
+
+            <div class="shows-list">
+                <!-- Past Shows -->
+                <div class="show-card">
+                    <div class="show-header">
+                        <h2 class="show-title">Los Angeles</h2>
+                        <span class="show-status status-completed">Completed</span>
+                    </div>
+                    <div class="show-details">
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Date</span>
+                            <span class="show-detail-value">May 14, 2024</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Revenue</span>
+                            <span class="show-detail-value">$1,200,000</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Status</span>
+                            <span class="show-detail-value">Completed</span>
+                        </div>
+                    </div>
+                    <div class="show-actions">
+                        <button class="show-action-button">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-download"></i>
+                            Report
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-comments"></i>
+                            Messages
+                        </button>
+                    </div>
+                </div>
+
+                <div class="show-card">
+                    <div class="show-header">
+                        <h2 class="show-title">New York</h2>
+                        <span class="show-status status-completed">Completed</span>
+                    </div>
+                    <div class="show-details">
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Date</span>
+                            <span class="show-detail-value">June 10, 2024</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Revenue</span>
+                            <span class="show-detail-value">$1,450,000</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Status</span>
+                            <span class="show-detail-value">Completed</span>
+                        </div>
+                    </div>
+                    <div class="show-actions">
+                        <button class="show-action-button">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-download"></i>
+                            Report
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-comments"></i>
+                            Messages
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upcoming Shows -->
+                <div class="show-card">
+                    <div class="show-header">
+                        <h2 class="show-title">Cape Town</h2>
+                        <span class="show-status status-upcoming">Upcoming</span>
+                    </div>
+                    <div class="show-details">
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Date</span>
+                            <span class="show-detail-value">May 4, 2025</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Projected</span>
+                            <span class="show-detail-value">$900,000</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Status</span>
+                            <span class="show-detail-value">Contracts Pending</span>
+                        </div>
+                    </div>
+                    <div class="show-actions">
+                        <button class="show-action-button">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-comments"></i>
+                            Messages
+                        </button>
+                    </div>
+                </div>
+
+                <div class="show-card">
+                    <div class="show-header">
+                        <h2 class="show-title">São Paulo</h2>
+                        <span class="show-status status-upcoming">Upcoming</span>
+                    </div>
+                    <div class="show-details">
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Date</span>
+                            <span class="show-detail-value">September 16, 2025</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Projected</span>
+                            <span class="show-detail-value">$1,150,000</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Status</span>
+                            <span class="show-detail-value">Marketing Prep</span>
+                        </div>
+                    </div>
+                    <div class="show-actions">
+                        <button class="show-action-button">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="show-action-button">
+                            <i class="fas fa-comments"></i>
+                            Messages
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue Tab -->
+        <div id="revenue" class="tab-content">
+            <div class="revenue-header">
+                <div class="revenue-period-selector">
+                    <button class="period-button active">2024-2025</button>
+                    <button class="period-button">2024</button>
+                    <button class="period-button">2025</button>
+                    <button class="period-button">2026</button>
+                </div>
+                <div class="revenue-actions">
+                    <button class="export-button">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                    <button class="chart-view-toggle">
+                        <i class="fas fa-chart-line"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="revenue-metrics">
+                <div class="revenue-metric-card">
+                    <div class="revenue-metric-value">$8.45M</div>
+                    <div class="revenue-metric-label">Total Revenue (2024-2025)</div>
+                    <div class="revenue-metric-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+$3.35M in 2025</span>
+                    </div>
+                </div>
+                <div class="revenue-metric-card">
+                    <div class="revenue-metric-value">3</div>
+                    <div class="revenue-metric-label">Upcoming Shows</div>
+                    <div class="revenue-metric-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>2 new opportunities</span>
+                    </div>
+                </div>
+                <div class="revenue-metric-card">
+                    <div class="revenue-metric-value">$1.25M</div>
+                    <div class="revenue-metric-label">2026 Q1 Projection</div>
+                    <div class="revenue-metric-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Sydney confirmed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="revenue-charts">
+                <div class="revenue-chart-container">
+                    <div class="revenue-chart-header">
+                        <h2 class="revenue-chart-title">Revenue by Region</h2>
+                        <div class="revenue-chart-actions">
+                            <button class="chart-action-button" data-action="toggle-view">
+                                <i class="fas fa-chart-pie"></i>
+                            </button>
+                            <button class="chart-action-button" data-action="download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="revenue-chart-wrapper">
+                        <canvas id="revenueByRegionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="revenue-chart-container">
+                    <div class="revenue-chart-header">
+                        <h2 class="revenue-chart-title">Tour Timeline</h2>
+                        <div class="revenue-chart-actions">
+                            <button class="chart-action-button" data-action="toggle-view">
+                                <i class="fas fa-chart-line"></i>
+                            </button>
+                            <button class="chart-action-button" data-action="download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="revenue-chart-wrapper">
+                        <canvas id="tourTimelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="revenue-details">
+                <div class="revenue-section">
+                    <h3>Past Shows</h3>
+                    <div class="revenue-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Venue</th>
+                                    <th>Status</th>
+                                    <th>Revenue</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>May 14, 2024</td>
+                                    <td>Los Angeles</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>$1,200,000</td>
+                                    <td>
+                                        <button class="action-button" data-action="view-details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-button" data-action="download-report">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Add more past shows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="revenue-section">
+                    <h3>Upcoming Shows</h3>
+                    <div class="revenue-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Venue</th>
+                                    <th>Status</th>
+                                    <th>Projected</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>May 4, 2025</td>
+                                    <td>Cape Town</td>
+                                    <td><span class="status-badge upcoming">Upcoming</span></td>
+                                    <td>$900,000</td>
+                                    <td>
+                                        <button class="action-button" data-action="view-details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-button" data-action="edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Add more upcoming shows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Globe Tab -->
+        <div id="globe" class="tab-content">
+            <div class="page-header">
+                <h1>Globe</h1>
+            </div>
+            <div class="globe-container">
+                <!-- Globe visualization will be added here -->
+            </div>
+        </div>
+
+        <!-- Messages Tab -->
+        <div id="messages" class="tab-content">
+            <div class="messages-container">
+                <div class="chat-list">
+                    <!-- Recent Chat Messages -->
+                    <div class="chat-item">
+                        <div class="chat-avatar">CT</div>
+                        <div class="chat-info">
+                            <div class="chat-name">Cape Town Venue</div>
+                            <div class="chat-preview">Final contracts due April 7, 2025</div>
+                        </div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-avatar">SP</div>
+                        <div class="chat-info">
+                            <div class="chat-name">São Paulo Promoter</div>
+                            <div class="chat-preview">Marketing campaign launches June 1</div>
+                        </div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-avatar">SY</div>
+                        <div class="chat-info">
+                            <div class="chat-name">Sydney Venue</div>
+                            <div class="chat-preview">Pre-sale phase starts August 15</div>
+                        </div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-avatar">PA</div>
+                        <div class="chat-info">
+                            <div class="chat-name">Paris Venue</div>
+                            <div class="chat-preview">Fanbase growth +15% after show</div>
+                        </div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-avatar">TK</div>
+                        <div class="chat-info">
+                            <div class="chat-name">Tokyo Venue</div>
+                            <div class="chat-preview">Stage layout needs adjustment</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-window">
+                    <div class="chat-header">
+                        <button class="back-button">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="chat-avatar">CT</div>
+                        <div class="chat-info">
+                            <div class="chat-name">Cape Town Venue</div>
+                        </div>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message">
+                            <div class="message-content">
+                                <p>Hi, we need to finalize the contracts for the May 4th show. Please review and sign by April 7th.</p>
+                            </div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-content">
+                                <p>I'll review the contracts today. Also, we need to coordinate the visa paperwork with the South African liaison.</p>
+                            </div>
+                        </div>
+                        <div class="message">
+                            <div class="message-content">
+                                <p>Yes, I can help with that. We also need to confirm the equipment arrival window with the freight team.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-input">
+                        <input type="text" placeholder="Type a message...">
+                        <button>Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#dashboard" class="bottom-nav-item active" data-tab="dashboard">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="#shows" class="bottom-nav-item" data-tab="shows">
+            <i class="fas fa-calendar"></i>
+            <span>Shows</span>
+        </a>
+        <a href="#revenue" class="bottom-nav-item" data-tab="revenue">
+            <i class="fas fa-dollar-sign"></i>
+            <span>Revenue</span>
+        </a>
+        <a href="#globe" class="bottom-nav-item" data-tab="globe">
+            <i class="fas fa-globe"></i>
+            <span>Globe</span>
+        </a>
+        <a href="#messages" class="bottom-nav-item" data-tab="messages">
+            <i class="fas fa-comments"></i>
+            <span>Messages</span>
+        </a>
+    </nav>
+
+    <!-- Show Details Modal -->
+    <div class="modal" id="showDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Show Details</h2>
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Basic Information</h3>
+                    <div class="modal-grid">
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Venue</span>
+                            <span class="show-detail-value">Madison Square Garden</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Date</span>
+                            <span class="show-detail-value">March 15, 2024</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Time</span>
+                            <span class="show-detail-value">8:00 PM</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Status</span>
+                            <span class="show-detail-value">Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Financial Details</h3>
+                    <div class="modal-grid">
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Revenue</span>
+                            <span class="show-detail-value">$500,000</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Expenses</span>
+                            <span class="show-detail-value">$150,000</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Net Profit</span>
+                            <span class="show-detail-value">$350,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Venue Contact</h3>
+                    <div class="modal-grid">
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Name</span>
+                            <span class="show-detail-value">John Smith</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Phone</span>
+                            <span class="show-detail-value">+1 (555) 123-4567</span>
+                        </div>
+                        <div class="show-detail-item">
+                            <span class="show-detail-label">Email</span>
+                            <span class="show-detail-value">john.smith@msg.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Navigation
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Toggle mobile menu
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                }
+            });
+
+            // Handle navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabId = link.getAttribute('data-tab');
+                    
+                    // Update active states
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // Show selected tab
+                    tabContents.forEach(tab => {
+                        tab.style.display = 'none';
+                    });
+                    document.getElementById(tabId).style.display = 'block';
+
+                    // Close mobile menu after selection
+                    mobileNav.classList.remove('active');
+                });
+            });
+
+            // Handle back button in messages
+            const backButton = document.querySelector('.back-button');
+            if (backButton) {
+                backButton.addEventListener('click', () => {
+                    document.querySelector('.chat-list').style.display = 'block';
+                    document.querySelector('.chat-window').classList.remove('active');
+                });
+            }
+
+            // Handle chat item clicks
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelector('.chat-list').style.display = 'none';
+                    document.querySelector('.chat-window').classList.add('active');
+                });
+            });
+
+            // Bottom Navigation
+            const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+            bottomNavItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabId = item.getAttribute('data-tab');
+                    
+                    // Update active states
+                    bottomNavItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+
+                    // Show selected tab
+                    tabContents.forEach(tab => {
+                        tab.style.display = 'none';
+                    });
+                    document.getElementById(tabId).style.display = 'block';
+                });
+            });
+
+            // Pull to Refresh
+            let startY = 0;
+            let currentY = 0;
+            const pullToRefresh = document.querySelector('.pull-to-refresh');
+            const mainContent = document.querySelector('.main-content');
+
+            mainContent.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+            });
+
+            mainContent.addEventListener('touchmove', (e) => {
+                currentY = e.touches[0].clientY;
+                const pull = currentY - startY;
+
+                if (pull > 0 && window.scrollY === 0) {
+                    e.preventDefault();
+                    pullToRefresh.style.transform = `translateY(${Math.min(pull, 50)}px)`;
+                    if (pull > 50) {
+                        pullToRefresh.classList.add('active');
+                    } else {
+                        pullToRefresh.classList.remove('active');
+                    }
+                }
+            });
+
+            mainContent.addEventListener('touchend', () => {
+                if (pullToRefresh.classList.contains('active')) {
+                    // Trigger refresh
+                    refreshData();
+                }
+                pullToRefresh.style.transform = 'translateY(0)';
+                pullToRefresh.classList.remove('active');
+            });
+
+            // Offline Detection
+            window.addEventListener('online', () => {
+                document.querySelector('.offline-banner').classList.remove('active');
+            });
+
+            window.addEventListener('offline', () => {
+                document.querySelector('.offline-banner').classList.add('active');
+            });
+
+            // Refresh Data Function
+            function refreshData() {
+                // Show loading spinner
+                const spinner = document.createElement('div');
+                spinner.className = 'loading-spinner';
+                pullToRefresh.appendChild(spinner);
+
+                // Simulate data refresh
+                setTimeout(() => {
+                    spinner.remove();
+                    // Update metrics and other data here
+                }, 1500);
+            }
+
+            // Handle back button
+            window.addEventListener('popstate', (e) => {
+                if (e.state && e.state.tab) {
+                    const tab = document.querySelector(`[data-tab="${e.state.tab}"]`);
+                    if (tab) {
+                        tab.click();
+                    }
+                }
+            });
+
+            // Update URL when changing tabs
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const tabId = link.getAttribute('data-tab');
+                    history.pushState({ tab: tabId }, '', `#${tabId}`);
+                });
+            });
+
+            // Initialize Charts
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [1.2, 1.8, 2.1, 2.3, 2.5, 2.5],
+                        borderColor: '#1DB954',
+                        backgroundColor: 'rgba(29, 185, 84, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const showsCtx = document.getElementById('showsChart').getContext('2d');
+            new Chart(showsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Confirmed', 'Pending', 'Negotiating'],
+                    datasets: [{
+                        data: [15, 5, 4],
+                        backgroundColor: [
+                            '#1DB954',
+                            '#FFB946',
+                            '#FF4646'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#B3B3B3'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Show Filter Functionality
+            document.querySelectorAll('.filter-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.textContent.toLowerCase();
+                    const showCards = document.querySelectorAll('.show-card');
+                    
+                    showCards.forEach(card => {
+                        const status = card.querySelector('.show-status').textContent.toLowerCase();
+                        if (filter === 'all shows' || status.includes(filter)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Update active state
+                    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+
+            // Show Details Modal
+            const modal = document.getElementById('showDetailsModal');
+            const modalClose = modal.querySelector('.modal-close');
+            const showCards = document.querySelectorAll('.show-card');
+
+            showCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    modal.classList.add('active');
+                });
+            });
+
+            modalClose.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+
+            // Handle show action buttons
+            const showActionButtons = document.querySelectorAll('.show-action-button');
+            showActionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // Add action logic here
+                });
+            });
+
+            // Revenue Period Selector
+            const periodButtons = document.querySelectorAll('.period-button');
+            periodButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    periodButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    updateRevenueCharts(button.textContent.toLowerCase());
+                });
+            });
+
+            // Export Button
+            const exportButton = document.querySelector('.export-button');
+            exportButton.addEventListener('click', () => {
+                // Add export logic here
+                alert('Exporting revenue data...');
+            });
+
+            // Revenue Trend Chart
+            const revenueTrendCtx = document.getElementById('revenueTrendChart').getContext('2d');
+            new Chart(revenueTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [150000, 200000, 180000, 250000, 300000, 280000, 320000],
+                        borderColor: '#1DB954',
+                        backgroundColor: 'rgba(29, 185, 84, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue by Show Chart
+            const revenueByShowCtx = document.getElementById('revenueByShowChart').getContext('2d');
+            new Chart(revenueByShowCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['MSG', 'O2 Arena', 'Staples Center', 'TD Garden', 'United Center'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [500000, 450000, 400000, 350000, 300000],
+                        backgroundColor: '#1DB954'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Update Revenue Charts
+            function updateRevenueCharts(period) {
+                // Add logic to update charts based on selected period
+                console.log(`Updating charts for ${period} period`);
+            }
+
+            // Revenue by Region Chart
+            const revenueByRegionCtx = document.getElementById('revenueByRegionChart').getContext('2d');
+            new Chart(revenueByRegionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['North America', 'Europe', 'Asia', 'South America', 'Africa', 'Oceania'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [2650000, 2650000, 1100000, 1150000, 900000, 1250000],
+                        backgroundColor: '#1DB954'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#B3B3B3',
+                                callback: function(value) {
+                                    return '$' + (value / 1000000).toFixed(1) + 'M';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Tour Timeline Chart
+            const tourTimelineCtx = document.getElementById('tourTimelineChart').getContext('2d');
+            new Chart(tourTimelineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['May 2024', 'Jun 2024', 'Jul 2024', 'Sep 2024', 'Jan 2025', 'May 2025', 'Sep 2025', 'Jan 2026'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [1200000, 1450000, 1350000, 1100000, 1300000, 900000, 1150000, 1250000],
+                        borderColor: '#1DB954',
+                        backgroundColor: 'rgba(29, 185, 84, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#B3B3B3',
+                                callback: function(value) {
+                                    return '$' + (value / 1000000).toFixed(1) + 'M';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#B3B3B3'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart View Toggle
+            document.querySelectorAll('.chart-action-button[data-action="toggle-view"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const chartContainer = this.closest('.revenue-chart-container');
+                    const chart = chartContainer.querySelector('canvas');
+                    const chartInstance = Chart.getChart(chart);
+                    
+                    if (chartInstance) {
+                        const currentType = chartInstance.config.type;
+                        const newType = currentType === 'bar' ? 'line' : 'bar';
+                        chartInstance.config.type = newType;
+                        chartInstance.update();
+                        
+                        // Update icon
+                        this.querySelector('i').className = newType === 'bar' ? 'fas fa-chart-line' : 'fas fa-chart-bar';
+                    }
+                });
+            });
+
+            // Export Functionality
+            document.querySelectorAll('.chart-action-button[data-action="download"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const chartContainer = this.closest('.revenue-chart-container');
+                    const chart = chartContainer.querySelector('canvas');
+                    const chartInstance = Chart.getChart(chart);
+                    
+                    if (chartInstance) {
+                        const link = document.createElement('a');
+                        link.download = `${chartContainer.querySelector('.revenue-chart-title').textContent.toLowerCase().replace(/\s+/g, '-')}.png`;
+                        link.href = chart.toDataURL('image/png');
+                        link.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
