@@ -1901,6 +1901,16 @@
                 { city: "Cape Town", lat: -33.9249, lng: 18.4241, date: "May 4, 2025", revenue: "$900K", status: "upcoming" },
                 { city: "São Paulo", lat: -23.5505, lng: -46.6333, date: "September 16, 2025", revenue: "$1.15M", status: "upcoming" },
                 { city: "Sydney", lat: -33.8688, lng: 151.2093, date: "January 15, 2026", revenue: "$1.25M", status: "upcoming" }
+            ],
+            "2023": [
+                { city: "London", lat: 51.5074, lng: -0.1278, date: "March 15, 2023", revenue: "$1.1M", status: "completed" },
+                { city: "Paris", lat: 48.8566, lng: 2.3522, date: "April 20, 2023", revenue: "$950K", status: "completed" },
+                { city: "Tokyo", lat: 35.6762, lng: 139.6503, date: "June 5, 2023", revenue: "$1.3M", status: "completed" }
+            ],
+            "2022": [
+                { city: "Berlin", lat: 52.5200, lng: 13.4050, date: "August 10, 2022", revenue: "$850K", status: "completed" },
+                { city: "Moscow", lat: 55.7558, lng: 37.6173, date: "September 25, 2022", revenue: "$1.1M", status: "completed" },
+                { city: "Dubai", lat: 25.2048, lng: 55.2708, date: "November 15, 2022", revenue: "$1.2M", status: "completed" }
             ]
         };
 
@@ -2343,14 +2353,14 @@
 
                 // Update statistics
                 const totalRevenue = filteredData.reduce((sum, point) => {
-                    const revenue = parseFloat(point.revenue.replace('$', '').replace('M', ''));
+                    const revenue = parseFloat(point.revenue.replace('$', '').replace('M', '000000').replace('K', '000'));
                     return sum + revenue;
                 }, 0);
                 const avgRevenue = totalRevenue / filteredData.length;
 
-                document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(1)}M`;
+                document.getElementById('totalRevenue').textContent = `$${(totalRevenue / 1000000).toFixed(1)}M`;
                 document.getElementById('totalShows').textContent = filteredData.length;
-                document.getElementById('avgRevenue').textContent = `$${avgRevenue.toFixed(1)}M`;
+                document.getElementById('avgRevenue').textContent = `$${(avgRevenue / 1000000).toFixed(1)}M`;
 
                 // Add tour points
                 globe.pointsData(filteredData)
