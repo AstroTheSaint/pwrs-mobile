@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="//unpkg.com/globe.gl"></script>
     <style>
         /* Base Styles */
         :root {
@@ -1778,6 +1779,40 @@
     </div>
 
     <script>
+        // Tour Data
+        const tourData = {
+            "2024": [
+                { city: "Los Angeles", lat: 34.0522, lng: -118.2437, date: "May 14, 2024", revenue: "$1.2M", status: "completed" },
+                { city: "New York", lat: 40.7128, lng: -74.0060, date: "June 10, 2024", revenue: "$1.45M", status: "completed" },
+                { city: "Cape Town", lat: -33.9249, lng: 18.4241, date: "May 4, 2025", revenue: "$900K", status: "upcoming" },
+                { city: "São Paulo", lat: -23.5505, lng: -46.6333, date: "September 16, 2025", revenue: "$1.15M", status: "upcoming" },
+                { city: "Sydney", lat: -33.8688, lng: 151.2093, date: "January 15, 2026", revenue: "$1.25M", status: "upcoming" }
+            ]
+        };
+
+        // Revenue by Region Data
+        const revenueByRegionData = {
+            labels: ['North America', 'Europe', 'Asia', 'South America', 'Africa', 'Oceania'],
+            datasets: [{
+                label: 'Revenue',
+                data: [2650000, 2650000, 1100000, 1150000, 900000, 1250000],
+                backgroundColor: '#1DB954'
+            }]
+        };
+
+        // Tour Timeline Data
+        const tourTimelineData = {
+            labels: ['May 2024', 'Jun 2024', 'Jul 2024', 'Sep 2024', 'Jan 2025', 'May 2025', 'Sep 2025', 'Jan 2026'],
+            datasets: [{
+                label: 'Revenue',
+                data: [1200000, 1450000, 1350000, 1100000, 1300000, 900000, 1150000, 1250000],
+                borderColor: '#1DB954',
+                backgroundColor: 'rgba(29, 185, 84, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             // Mobile Navigation
             const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
@@ -2164,137 +2199,9 @@
                 console.log(`Updating charts for ${period} period`);
             }
 
-            // Revenue by Region Chart
-            const revenueByRegionCtx = document.getElementById('revenueByRegionChart').getContext('2d');
-            new Chart(revenueByRegionCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['North America', 'Europe', 'Asia', 'South America', 'Africa', 'Oceania'],
-                    datasets: [{
-                        label: 'Revenue',
-                        data: [2650000, 2650000, 1100000, 1150000, 900000, 1250000],
-                        backgroundColor: '#1DB954'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#B3B3B3',
-                                callback: function(value) {
-                                    return '$' + (value / 1000000).toFixed(1) + 'M';
-                                }
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#B3B3B3'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Tour Timeline Chart
-            const tourTimelineCtx = document.getElementById('tourTimelineChart').getContext('2d');
-            new Chart(tourTimelineCtx, {
-                type: 'line',
-                data: {
-                    labels: ['May 2024', 'Jun 2024', 'Jul 2024', 'Sep 2024', 'Jan 2025', 'May 2025', 'Sep 2025', 'Jan 2026'],
-                    datasets: [{
-                        label: 'Revenue',
-                        data: [1200000, 1450000, 1350000, 1100000, 1300000, 900000, 1150000, 1250000],
-                        borderColor: '#1DB954',
-                        backgroundColor: 'rgba(29, 185, 84, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#B3B3B3',
-                                callback: function(value) {
-                                    return '$' + (value / 1000000).toFixed(1) + 'M';
-                                }
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#B3B3B3'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Chart View Toggle
-            document.querySelectorAll('.chart-action-button[data-action="toggle-view"]').forEach(button => {
-                button.addEventListener('click', function() {
-                    const chartContainer = this.closest('.revenue-chart-container');
-                    const chart = chartContainer.querySelector('canvas');
-                    const chartInstance = Chart.getChart(chart);
-                    
-                    if (chartInstance) {
-                        const currentType = chartInstance.config.type;
-                        const newType = currentType === 'bar' ? 'line' : 'bar';
-                        chartInstance.config.type = newType;
-                        chartInstance.update();
-                        
-                        // Update icon
-                        this.querySelector('i').className = newType === 'bar' ? 'fas fa-chart-line' : 'fas fa-chart-bar';
-                    }
-                });
-            });
-
-            // Export Functionality
-            document.querySelectorAll('.chart-action-button[data-action="download"]').forEach(button => {
-                button.addEventListener('click', function() {
-                    const chartContainer = this.closest('.revenue-chart-container');
-                    const chart = chartContainer.querySelector('canvas');
-                    const chartInstance = Chart.getChart(chart);
-                    
-                    if (chartInstance) {
-                        const link = document.createElement('a');
-                        link.download = `${chartContainer.querySelector('.revenue-chart-title').textContent.toLowerCase().replace(/\s+/g, '-')}.png`;
-                        link.href = chart.toDataURL('image/png');
-                        link.click();
-                    }
-                });
-            });
-
-            // Globe Visualization
-            function initGlobe(containerId = 'tourGlobe') {
-                const globeContainer = document.getElementById(containerId);
+            // Initialize Globe
+            function initGlobe() {
+                const globeContainer = document.getElementById('tourGlobe');
                 if (!globeContainer) return;
 
                 // Clear existing globe
@@ -2365,35 +2272,108 @@
                 return globe;
             }
 
-            // Handle year selection
-            document.getElementById('yearSelect').addEventListener('change', () => {
-                initGlobe('tourGlobe');
-            });
-
-            // Handle filter buttons
-            document.querySelectorAll('.globe-filters .filter-button').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.globe-filters .filter-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    initGlobe('tourGlobe');
+            // Initialize Revenue Charts
+            function initRevenueCharts() {
+                // Revenue by Region Chart
+                const revenueByRegionCtx = document.getElementById('revenueByRegionChart').getContext('2d');
+                new Chart(revenueByRegionCtx, {
+                    type: 'bar',
+                    data: revenueByRegionData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#B3B3B3',
+                                    callback: function(value) {
+                                        return '$' + (value / 1000000).toFixed(1) + 'M';
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#B3B3B3'
+                                }
+                            }
+                        }
+                    }
                 });
-            });
+
+                // Tour Timeline Chart
+                const tourTimelineCtx = document.getElementById('tourTimelineChart').getContext('2d');
+                new Chart(tourTimelineCtx, {
+                    type: 'line',
+                    data: tourTimelineData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#B3B3B3',
+                                    callback: function(value) {
+                                        return '$' + (value / 1000000).toFixed(1) + 'M';
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#B3B3B3'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
 
             // Initialize globe when tab is shown
             document.querySelectorAll('.bottom-nav-item').forEach(item => {
                 item.addEventListener('click', () => {
                     if (item.getAttribute('data-tab') === 'globe') {
                         setTimeout(() => {
-                            initGlobe('tourGlobe');
+                            initGlobe();
+                        }, 100);
+                    } else if (item.getAttribute('data-tab') === 'revenue') {
+                        setTimeout(() => {
+                            initRevenueCharts();
                         }, 100);
                     }
                 });
             });
 
-            // Also initialize globe when the page loads if we're on the globe tab
+            // Also initialize when the page loads if we're on the globe or revenue tab
             if (window.location.hash === '#globe') {
                 setTimeout(() => {
-                    initGlobe('tourGlobe');
+                    initGlobe();
+                }, 100);
+            } else if (window.location.hash === '#revenue') {
+                setTimeout(() => {
+                    initRevenueCharts();
                 }, 100);
             }
 
@@ -2402,7 +2382,11 @@
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(() => {
-                    initGlobe('tourGlobe');
+                    if (window.location.hash === '#globe') {
+                        initGlobe();
+                    } else if (window.location.hash === '#revenue') {
+                        initRevenueCharts();
+                    }
                 }, 250);
             });
         });
