@@ -56,18 +56,22 @@
         }
 
         .header h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin: 0 0 20px;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         .header-subtitle {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             margin: 0 0 40px;
             color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .header-buttons {
@@ -139,12 +143,15 @@
 
         /* Button styles */
         .button {
-            display: inline-block;
-            padding: 15px 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
 
         .button.primary {
@@ -163,10 +170,18 @@
             box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
         }
 
+        .button-icon {
+            font-size: 1.2rem;
+        }
+
         /* Responsive styles */
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.5rem;
+            }
+
+            .header-subtitle {
+                font-size: 1.2rem;
             }
 
             .hero-content {
@@ -187,7 +202,7 @@
 
             .button {
                 width: 100%;
-                text-align: center;
+                justify-content: center;
             }
         }
 
@@ -231,20 +246,29 @@
         }
 
         .feature-card {
-            background: var(--card-bg);
+            background: var(--card-background);
             padding: 2rem;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .feature-card .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
 
         .feature-card h3 {
-            color: var(--accent-color);
+            color: var(--primary-color);
             margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
 
         .stats {
@@ -304,17 +328,37 @@
             background: var(--card-bg);
             margin-top: 4rem;
         }
+
+        .contact-form button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 16px 32px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .contact-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <h1>Your Tour Command Center</h1>
-                <p class="header-subtitle">Real-time tour analytics, revenue tracking, and global insights for artists and their teams</p>
+                <h1>Tour Command Center</h1>
+                <p class="header-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
                 <div class="header-buttons">
-                    <a href="demo.html" class="button primary">See It In Action</a>
-                    <a href="#contact" class="button secondary">Get Early Access</a>
+                    <a href="demo.html" class="button primary">
+                        <span class="button-icon">🚀</span>
+                        <span>See It In Action</span>
+                    </a>
+                    <a href="#contact" class="button secondary">
+                        <span class="button-icon">✨</span>
+                        <span>Get Early Access</span>
+                    </a>
                 </div>
             </div>
         </header>
@@ -323,19 +367,19 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h2>Transform Your Tour Data Into Tour Success</h2>
-                    <p class="hero-description">PWRS Mobile is the all-in-one platform that gives artists and their teams unprecedented control over tour performance. Track revenue in real-time, analyze market trends, and make data-driven decisions that maximize your tour's potential.</p>
+                    <p class="hero-description">Track revenue in real-time, analyze market trends, and make data-driven decisions that maximize your tour's potential.</p>
                     <div class="hero-features">
                         <div class="feature">
-                            <span class="feature-icon">💰</span>
-                            <span class="feature-text">Real-time revenue tracking across all shows</span>
+                            <span class="feature-icon">📊</span>
+                            <span class="feature-text">Real-time analytics and insights</span>
                         </div>
                         <div class="feature">
                             <span class="feature-icon">🌍</span>
-                            <span class="feature-text">Global tour visualization and analytics</span>
+                            <span class="feature-text">Interactive global tour visualization</span>
                         </div>
                         <div class="feature">
-                            <span class="feature-icon">📊</span>
-                            <span class="feature-text">AI-powered insights and predictions</span>
+                            <span class="feature-icon">💡</span>
+                            <span class="feature-text">AI-powered recommendations</span>
                         </div>
                     </div>
                 </div>
@@ -347,14 +391,17 @@
 
         <section class="features">
             <div class="feature-card">
+                <div class="feature-icon">📊</div>
                 <h3>Real-time Analytics</h3>
                 <p>Track your tour performance with live data and insights</p>
             </div>
             <div class="feature-card">
+                <div class="feature-icon">🌍</div>
                 <h3>Interactive Maps</h3>
                 <p>Visualize your tour routes and revenue across the globe</p>
             </div>
             <div class="feature-card">
+                <div class="feature-icon">💡</div>
                 <h3>Smart Insights</h3>
                 <p>Get AI-powered recommendations for tour optimization</p>
             </div>
@@ -377,7 +424,7 @@
 
         <section id="contact" class="contact">
             <h2>Get Started Today</h2>
-            <p>Contact us to learn more about PWRS Mobile</p>
+            <p>Contact us to learn more about Tour Command Center</p>
             <form class="contact-form">
                 <div class="form-group">
                     <input type="text" placeholder="Your Name" required>
@@ -388,7 +435,10 @@
                 <div class="form-group">
                     <textarea placeholder="Your Message" required></textarea>
                 </div>
-                <button type="submit" class="cta-button primary-button">Send Message</button>
+                <button type="submit" class="button primary">
+                    <span class="button-icon">📨</span>
+                    <span>Send Message</span>
+                </button>
             </form>
         </section>
     </div>
