@@ -31,5 +31,7 @@
       ]
     }
   ],
-  "cleanUrls": true
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "regions": ["sfo1"]
 } 
