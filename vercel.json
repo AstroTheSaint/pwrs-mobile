@@ -13,5 +13,6 @@
     }
   ],
   "trailingSlash": false,
-  "regions": ["sfo1"]
+  "regions": ["sfo1"],
+  "cleanUrls": true
 } 
