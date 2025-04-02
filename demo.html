@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         /* Base Styles */
         :root {
@@ -1011,6 +1012,77 @@
             font-weight: 500;
             font-size: 0.875rem;
         }
+
+        /* Globe Styles */
+        .globe-container {
+            position: relative;
+            height: calc(100vh - 120px);
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        #tourGlobe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .globe-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(24, 24, 24, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .globe-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .globe-filters {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .globe-filters .filter-button {
+            background: var(--bg-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .globe-filters .filter-button.active {
+            background: var(--primary-color);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
@@ -1462,10 +1534,31 @@
         <!-- Globe Tab -->
         <div id="globe" class="tab-content">
             <div class="page-header">
-                <h1>Globe</h1>
+                <h1>Tour Globe</h1>
+                <div class="globe-filters">
+                    <button class="filter-button active" data-filter="all">All Shows</button>
+                    <button class="filter-button" data-filter="past">Past Shows</button>
+                    <button class="filter-button" data-filter="upcoming">Upcoming</button>
+                </div>
             </div>
             <div class="globe-container">
-                <!-- Globe visualization will be added here -->
+                <div id="tourGlobe"></div>
+                <div class="globe-info">
+                    <div class="globe-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value">$8.45M</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Shows Completed</span>
+                            <span class="stat-value">15</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Upcoming Shows</span>
+                            <span class="stat-value">8</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2155,6 +2248,201 @@
                     }
                 });
             });
+
+            // Globe Visualization
+            let globeScene, globeCamera, globeRenderer, globeMesh;
+            const tourData = [
+                { lat: 40.7128, lng: -74.0060, name: "New York", date: "2024-05-14", revenue: 1200000, status: "completed" },
+                { lat: 34.0522, lng: -118.2437, name: "Los Angeles", date: "2024-06-10", revenue: 1450000, status: "completed" },
+                { lat: 51.5074, lng: -0.1278, name: "London", date: "2024-07-15", revenue: 1350000, status: "completed" },
+                { lat: 48.8566, lng: 2.3522, name: "Paris", date: "2024-09-20", revenue: 1100000, status: "upcoming" },
+                { lat: 35.6762, lng: 139.6503, name: "Tokyo", date: "2025-01-05", revenue: 1300000, status: "upcoming" },
+                { lat: -33.8688, lng: 151.2093, name: "Sydney", date: "2025-05-04", revenue: 900000, status: "upcoming" },
+                { lat: 55.7558, lng: 37.6173, name: "Moscow", date: "2025-09-16", revenue: 1150000, status: "upcoming" },
+                { lat: 22.3964, lng: 114.1095, name: "Hong Kong", date: "2024-08-25", revenue: 950000, status: "completed" },
+                { lat: 19.4326, lng: -99.1332, name: "Mexico City", date: "2024-10-12", revenue: 850000, status: "upcoming" },
+                { lat: -23.5505, lng: -46.6333, name: "São Paulo", date: "2024-11-30", revenue: 1000000, status: "upcoming" }
+            ];
+
+            function initGlobe() {
+                globeScene = new THREE.Scene();
+                globeCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                globeRenderer.setSize(document.getElementById('tourGlobe').clientWidth, document.getElementById('tourGlobe').clientHeight);
+                document.getElementById('tourGlobe').appendChild(globeRenderer.domElement);
+
+                // Create Earth texture
+                const textureLoader = new THREE.TextureLoader();
+                const earthTexture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
+                const earthBumpMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg');
+                const earthSpecularMap = textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg');
+
+                // Create globe with Earth texture
+                const geometry = new THREE.SphereGeometry(5, 64, 64);
+                const material = new THREE.MeshPhongMaterial({
+                    map: earthTexture,
+                    bumpMap: earthBumpMap,
+                    bumpScale: 0.05,
+                    specularMap: earthSpecularMap,
+                    specular: new THREE.Color(0x333333),
+                    shininess: 5
+                });
+                globeMesh = new THREE.Mesh(geometry, material);
+                globeScene.add(globeMesh);
+
+                // Add tour points
+                tourData.forEach(point => {
+                    const size = Math.min(0.3, Math.max(0.1, point.revenue / 1000000));
+                    const pointGeometry = new THREE.SphereGeometry(size, 16, 16);
+                    const pointMaterial = new THREE.MeshBasicMaterial({ 
+                        color: point.status === 'completed' ? 0x1DB954 : 0xFFB946,
+                        transparent: true,
+                        opacity: 0.8
+                    });
+                    const pointMesh = new THREE.Mesh(pointGeometry, pointMaterial);
+                    
+                    const phi = (90 - point.lat) * (Math.PI / 180);
+                    const theta = (point.lng + 180) * (Math.PI / 180);
+                    const radius = 5.2;
+
+                    pointMesh.position.x = -(radius * Math.sin(phi) * Math.cos(theta));
+                    pointMesh.position.y = radius * Math.cos(phi);
+                    pointMesh.position.z = radius * Math.sin(phi) * Math.sin(theta);
+
+                    // Add glow effect
+                    const glowGeometry = new THREE.SphereGeometry(size * 1.5, 16, 16);
+                    const glowMaterial = new THREE.MeshBasicMaterial({
+                        color: point.status === 'completed' ? 0x1DB954 : 0xFFB946,
+                        transparent: true,
+                        opacity: 0.2
+                    });
+                    const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+                    glowMesh.position.copy(pointMesh.position);
+                    globeScene.add(glowMesh);
+
+                    // Add click interaction
+                    pointMesh.userData = point;
+                    globeScene.add(pointMesh);
+                });
+
+                // Add lights
+                const ambientLight = new THREE.AmbientLight(0x404040);
+                globeScene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
+                directionalLight.position.set(5, 3, 5);
+                globeScene.add(directionalLight);
+
+                // Add atmosphere glow
+                const atmosphereGeometry = new THREE.SphereGeometry(5.1, 64, 64);
+                const atmosphereMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x1DB954,
+                    transparent: true,
+                    opacity: 0.1
+                });
+                const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+                globeScene.add(atmosphere);
+
+                globeCamera.position.z = 15;
+
+                // Add raycaster for click detection
+                const raycaster = new THREE.Raycaster();
+                const mouse = new THREE.Vector2();
+
+                document.getElementById('tourGlobe').addEventListener('click', (event) => {
+                    const rect = event.target.getBoundingClientRect();
+                    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+                    raycaster.setFromCamera(mouse, globeCamera);
+                    const intersects = raycaster.intersectObjects(globeScene.children);
+
+                    if (intersects.length > 0 && intersects[0].object.userData) {
+                        const point = intersects[0].object.userData;
+                        showPointDetails(point);
+                    }
+                });
+
+                animateGlobe();
+            }
+
+            function animateGlobe() {
+                requestAnimationFrame(animateGlobe);
+                globeMesh.rotation.y += 0.002;
+                globeRenderer.render(globeScene, globeCamera);
+            }
+
+            function showPointDetails(point) {
+                const modal = document.createElement('div');
+                modal.className = 'modal active';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">${point.name}</h2>
+                            <button class="modal-close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <div class="show-detail-item">
+                                    <span class="show-detail-label">Date</span>
+                                    <span class="show-detail-value">${new Date(point.date).toLocaleDateString()}</span>
+                                </div>
+                                <div class="show-detail-item">
+                                    <span class="show-detail-label">Revenue</span>
+                                    <span class="show-detail-value">$${(point.revenue / 1000000).toFixed(1)}M</span>
+                                </div>
+                                <div class="show-detail-item">
+                                    <span class="show-detail-label">Status</span>
+                                    <span class="show-detail-value">${point.status === 'completed' ? 'Completed' : 'Upcoming'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(modal);
+
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    modal.remove();
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            }
+
+            // Handle window resize for globe
+            window.addEventListener('resize', () => {
+                if (globeCamera && globeRenderer) {
+                    globeCamera.aspect = document.getElementById('tourGlobe').clientWidth / document.getElementById('tourGlobe').clientHeight;
+                    globeCamera.updateProjectionMatrix();
+                    globeRenderer.setSize(document.getElementById('tourGlobe').clientWidth, document.getElementById('tourGlobe').clientHeight);
+                }
+            });
+
+            // Initialize globe when tab is shown
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    if (item.getAttribute('data-tab') === 'globe') {
+                        // Clear existing globe if it exists
+                        const existingGlobe = document.getElementById('tourGlobe');
+                        if (existingGlobe) {
+                            existingGlobe.innerHTML = '';
+                        }
+                        // Initialize new globe
+                        setTimeout(initGlobe, 100);
+                    }
+                });
+            });
+
+            // Also initialize globe when the page loads if we're on the globe tab
+            if (window.location.hash === '#globe') {
+                setTimeout(initGlobe, 100);
+            }
         });
     </script>
 </body>
