@@ -6,13 +6,28 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/demo",
+      "destination": "/demo.html"
     }
   ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "cleanUrls": true,
   "trailingSlash": false,
-  "regions": ["sfo1"],
-  "cleanUrls": true
+  "regions": ["sfo1"]
 } 
