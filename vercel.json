@@ -33,5 +33,10 @@
   "github": {
     "enabled": true,
     "silent": false
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
   }
 } 
