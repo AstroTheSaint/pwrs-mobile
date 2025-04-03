@@ -22,6 +22,25 @@
             --accent-color: #1DB954;
             --border-radius: 12px;
             --transition: all 0.3s ease;
+            --base-font-size: 16px;
+            --heading-font-size: 2.5rem;
+            --subheading-font-size: 1.25rem;
+            --button-font-size: 1rem;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            :root {
+                --base-font-size: 16px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            :root {
+                --base-font-size: 14px;
+                --heading-font-size: 2rem;
+                --subheading-font-size: 1.1rem;
+                --button-font-size: 0.9rem;
+            }
         }
 
         body {
@@ -30,7 +49,8 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.5;
+            font-size: var(--base-font-size);
         }
 
         .container {
@@ -56,17 +76,18 @@
         }
 
         .header h1 {
-            font-size: 4rem;
+            font-size: var(--heading-font-size);
             margin: 0 0 20px;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
             letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .header-subtitle {
-            font-size: 1.5rem;
+            font-size: var(--subheading-font-size);
             margin: 0 0 40px;
             color: rgba(255, 255, 255, 0.9);
             max-width: 600px;
@@ -98,13 +119,13 @@
         }
 
         .hero-text h2 {
-            font-size: 2.5rem;
+            font-size: var(--heading-font-size);
             margin: 0 0 20px;
             line-height: 1.2;
         }
 
         .hero-description {
-            font-size: 1.1rem;
+            font-size: var(--base-font-size);
             color: rgba(255, 255, 255, 0.9);
             margin: 0 0 40px;
         }
@@ -129,7 +150,7 @@
         }
 
         .feature-text {
-            font-size: 1rem;
+            font-size: var(--base-font-size);
             color: rgba(255, 255, 255, 0.9);
         }
 
@@ -151,7 +172,7 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
-            font-size: 1.1rem;
+            font-size: var(--button-font-size);
         }
 
         .button.primary {
@@ -268,7 +289,13 @@
         .feature-card h3 {
             color: var(--primary-color);
             margin-bottom: 1rem;
-            font-size: 1.5rem;
+            font-size: calc(var(--base-font-size) * 1.25);
+            line-height: 1.3;
+        }
+
+        .feature-card p {
+            font-size: var(--base-font-size);
+            line-height: 1.5;
         }
 
         .stats {
@@ -315,6 +342,7 @@
             border-radius: var(--border-radius);
             color: var(--text-primary);
             font-family: inherit;
+            font-size: var(--base-font-size);
         }
 
         .form-group textarea {
@@ -336,11 +364,21 @@
             border: none;
             cursor: pointer;
             font-family: inherit;
+            font-size: var(--button-font-size);
         }
 
         .contact-form button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
