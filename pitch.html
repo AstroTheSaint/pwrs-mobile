@@ -369,6 +369,108 @@
                 scroll-behavior: auto !important;
             }
         }
+
+        .investment-opportunity {
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .funding-details {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .funding-details h3 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .funding-allocation {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .funding-allocation ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .funding-allocation li {
+            padding: 0.5rem 0;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .funding-allocation li:before {
+            content: "→";
+            color: var(--primary-color);
+            margin-right: 1rem;
+        }
+
+        .founders-section {
+            max-width: 1200px;
+            margin: 4rem auto 0;
+        }
+
+        .founder-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            transition: transform 0.3s ease;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .founder-card h4 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .founder-details p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .founder-details ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .founder-details li {
+            padding: 0.5rem 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .founder-details li:before {
+            content: "•";
+            color: var(--primary-color);
+            margin-right: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .investment-opportunity {
+                padding: 2rem 1rem;
+            }
+
+            .funding-details h3 {
+                font-size: 1.75rem;
+            }
+
+            .founder-card {
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -635,6 +737,57 @@
                     <span class="button-icon">📧</span>
                     <span>Contact Us</span>
                 </a>
+            </div>
+        </section>
+
+        <!-- Investment Opportunity Section -->
+        <section class="investment-opportunity">
+            <h2>Investment Opportunity</h2>
+            <div class="funding-details">
+                <h3>Seed Round: $150,000</h3>
+                <p>We're raising $150,000 to match our existing investment in the platform, accelerating our mission to revolutionize tour management and artist relations.</p>
+                
+                <div class="funding-allocation">
+                    <h4>Fund Allocation</h4>
+                    <ul>
+                        <li>Product Development & Engineering</li>
+                        <li>Marketing & User Acquisition</li>
+                        <li>Operations & Administrative Costs</li>
+                        <li>Artist Onboarding & Relations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="founders-section">
+                <h3>Meet Our Founders</h3>
+                
+                <div class="founder-card">
+                    <h4>Mario "Rio" - Founder & CEO</h4>
+                    <div class="founder-details">
+                        <p>With over 15 years in the music industry and software development, Rio brings a unique blend of technical expertise and industry experience.</p>
+                        <ul>
+                            <li>Graduate of Boston University's School of Hospitality (Finance)</li>
+                            <li>15+ years of music industry experience</li>
+                            <li>Tour and road management for Metro Boomin, Future, and prominent Afrobeats artists</li>
+                            <li>Self-taught developer with 15+ years of coding experience</li>
+                            <li>Extensive background in label services and music management</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="founder-card">
+                    <h4>Johnny Rapp - Co-Founder & CTO</h4>
+                    <div class="founder-details">
+                        <p>A pioneer in AI and innovative marketing strategies since 2016, Johnny brings cutting-edge technical expertise and proven marketing success.</p>
+                        <ul>
+                            <li>AI industry veteran since 2016</li>
+                            <li>Managed marketing campaigns for 1,000+ artists</li>
+                            <li>Expertise spans from A-list to independent artists</li>
+                            <li>Innovative viral meme marketing strategies</li>
+                            <li>Unconventional approach to artist promotion</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
