@@ -8,12 +8,12 @@
   ],
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/index.html"
+      "source": "/pitch",
+      "destination": "/pitch.html"
     },
     {
-      "source": "/demo",
-      "destination": "/demo.html"
+      "source": "/(.*)",
+      "destination": "/$1.html"
     }
   ],
   "headers": [
@@ -32,7 +32,7 @@
   "regions": ["sfo1"],
   "github": {
     "enabled": true,
-    "silent": false
+    "silent": true
   },
   "build": {
     "env": {
