@@ -41,6 +41,102 @@
             padding: 0 20px;
         }
 
+        /* Password Protection Styles */
+        .password-protection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .password-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .password-logo {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .password-title {
+            font-size: var(--heading-font-size);
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .password-subtitle {
+            font-size: var(--subheading-font-size);
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .password-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        .password-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .password-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .password-button:hover {
+            background: #00b894;
+            transform: translateY(-2px);
+        }
+
+        .password-error {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .content-container {
+            display: none;
+        }
+
         /* Header styles */
         .header {
             padding: 60px 0;
@@ -540,324 +636,376 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <h1>Tour Command Center</h1>
-                <p class="header-subtitle">Investment Pitch Deck - Raising $500,000</p>
-            </div>
-        </header>
-
-        <section class="pitch-deck">
-            <!-- Problem Slide -->
-            <div class="slide" id="problem">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>The Problem</h2>
-                        <p>Touring artists and their teams lack real-time visibility into tour performance, making it difficult to optimize revenue and make data-driven decisions.</p>
-                        <ul class="slide-list">
-                            <li>No centralized platform for tour analytics and revenue tracking</li>
-                            <li>Manual data collection is time-consuming and error-prone</li>
-                            <li>Lack of real-time insights leads to missed opportunities</li>
-                            <li>Difficulty in forecasting and planning future tours</li>
-                        </ul>
-                    </div>
-                    <div class="slide-image placeholder">
-                        <i>📊</i>
-                        <span>Problem Visualization</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Solution Slide -->
-            <div class="slide" id="solution">
-                <div class="slide-content">
-                    <div class="slide-image placeholder">
-                        <i>💡</i>
-                        <span>Solution Visualization</span>
-                    </div>
-                    <div class="slide-text">
-                        <h2>The Solution</h2>
-                        <p>Tour Command Center is an all-in-one platform that provides real-time analytics, revenue tracking, and global insights for touring artists.</p>
-                        <ul class="slide-list">
-                            <li>Interactive 3D globe visualization of tour routes and performance</li>
-                            <li>Real-time revenue tracking and analytics dashboard</li>
-                            <li>AI-powered recommendations for tour optimization</li>
-                            <li>Mobile-first design for on-the-go access</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Market Slide -->
-            <div class="slide" id="market">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Market Opportunity</h2>
-                        <p>The global music touring market is valued at $25.5 billion and growing at a CAGR of 3.5%.</p>
-                        <ul class="slide-list">
-                            <li>Over 100,000 touring artists in the US alone</li>
-                            <li>Average tour revenue of $500,000 per artist annually</li>
-                            <li>Growing demand for data-driven decision making</li>
-                            <li>Limited competition in the tour analytics space</li>
-                        </ul>
-                        <div class="metrics">
-                            <div class="metric">
-                                <div class="metric-value">$25.5B</div>
-                                <div class="metric-label">Global Tour Market</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">100K+</div>
-                                <div class="metric-label">Touring Artists</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">3.5%</div>
-                                <div class="metric-label">Market Growth</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide-image placeholder">
-                        <i>📈</i>
-                        <span>Market Data</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Business Model Slide -->
-            <div class="slide" id="business-model">
-                <div class="slide-content">
-                    <div class="slide-image placeholder">
-                        <i>💰</i>
-                        <span>Business Model</span>
-                    </div>
-                    <div class="slide-text">
-                        <h2>Business Model</h2>
-                        <p>Tour Command Center operates on a subscription-based model with tiered pricing based on tour size and features needed.</p>
-                        <ul class="slide-list">
-                            <li>Basic: $99/month - Essential analytics for small tours</li>
-                            <li>Professional: $299/month - Advanced features for mid-sized tours</li>
-                            <li>Enterprise: Custom pricing - Full suite for large tours and agencies</li>
-                            <li>Additional revenue from data insights and premium features</li>
-                        </ul>
-                        <div class="metrics">
-                            <div class="metric">
-                                <div class="metric-value">$99</div>
-                                <div class="metric-label">Basic Plan</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">$299</div>
-                                <div class="metric-label">Pro Plan</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">Custom</div>
-                                <div class="metric-label">Enterprise</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Traction Slide -->
-            <div class="slide" id="traction">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Traction</h2>
-                        <p>Tour Command Center has already demonstrated strong market validation and early traction.</p>
-                        <ul class="slide-list">
-                            <li>10 beta users tracking over $50M in tour revenue</li>
-                            <li>Average user engagement of 45 minutes per session</li>
-                            <li>90% user retention rate after 3 months</li>
-                            <li>Partnerships with 3 major booking agencies</li>
-                        </ul>
-                        <div class="metrics">
-                            <div class="metric">
-                                <div class="metric-value">10</div>
-                                <div class="metric-label">Beta Users</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">$50M+</div>
-                                <div class="metric-label">Revenue Tracked</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">90%</div>
-                                <div class="metric-label">Retention Rate</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide-image placeholder">
-                        <i>🚀</i>
-                        <span>Traction Metrics</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team Slide -->
-            <div class="slide" id="team">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Our Team</h2>
-                        <p>We're a diverse team of music industry veterans and technology experts passionate about transforming the touring experience.</p>
-                        <div class="team">
-                            <div class="team-member">
-                                <div class="team-member-image">MR</div>
-                                <div class="team-member-name">Mario "Rio"</div>
-                                <div class="team-member-title">Founder & CEO</div>
-                                <div class="team-member-bio">With over 15 years in the music industry and software development, Rio brings a unique blend of technical expertise and industry experience.</div>
-                            </div>
-                            <div class="team-member">
-                                <div class="team-member-image">JR</div>
-                                <div class="team-member-name">Johnny Rapp</div>
-                                <div class="team-member-title">Co-Founder & CTO</div>
-                                <div class="team-member-bio">A pioneer in AI and innovative marketing strategies since 2016, Johnny brings cutting-edge technical expertise and proven marketing success.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide-image placeholder">
-                        <i>👥</i>
-                        <span>Team Photo</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Roadmap Slide -->
-            <div class="slide" id="roadmap">
-                <div class="slide-content">
-                    <div class="slide-image placeholder">
-                        <i>🗺️</i>
-                        <span>Roadmap</span>
-                    </div>
-                    <div class="slide-text">
-                        <h2>Roadmap</h2>
-                        <p>Our development roadmap outlines the key milestones and features we plan to implement with the investment.</p>
-                        <div class="roadmap">
-                            <div class="roadmap-item">
-                                <div class="roadmap-date">Q2 2025</div>
-                                <div class="roadmap-title">Public Launch</div>
-                                <div class="roadmap-description">Launch Tour Command Center to the public with core features.</div>
-                            </div>
-                            <div class="roadmap-item">
-                                <div class="roadmap-date">Q3 2025</div>
-                                <div class="roadmap-title">Mobile App Release</div>
-                                <div class="roadmap-description">Launch native iOS and Android apps for on-the-go access.</div>
-                            </div>
-                            <div class="roadmap-item">
-                                <div class="roadmap-date">Q4 2025</div>
-                                <div class="roadmap-title">AI Recommendations</div>
-                                <div class="roadmap-description">Implement AI-powered tour optimization recommendations.</div>
-                            </div>
-                            <div class="roadmap-item">
-                                <div class="roadmap-date">Q1 2026</div>
-                                <div class="roadmap-title">Enterprise Features</div>
-                                <div class="roadmap-description">Launch enterprise features for large tours and agencies.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Investment Slide -->
-            <div class="slide" id="investment">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <h2>Investment Opportunity</h2>
-                        <p>We're raising $500,000 to accelerate our growth and expand our team.</p>
-                        <ul class="slide-list">
-                            <li>$300,000 for product development and engineering</li>
-                            <li>$100,000 for marketing and user acquisition</li>
-                            <li>$50,000 for operations and administrative costs</li>
-                            <li>$50,000 for legal and compliance</li>
-                        </ul>
-                        <div class="metrics">
-                            <div class="metric">
-                                <div class="metric-value">$500K</div>
-                                <div class="metric-label">Raising</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">18mo</div>
-                                <div class="metric-label">Runway</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-value">20%</div>
-                                <div class="metric-label">Equity</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide-image placeholder">
-                        <i>💎</i>
-                        <span>Investment Details</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CTA Slide -->
-            <div class="cta">
-                <h2>Join Us in Transforming the Touring Experience</h2>
-                <p>We're looking for investors who share our vision of empowering artists with data-driven insights.</p>
-                <a href="mailto:invest@tourcommandcenter.com" class="button">
-                    <span class="button-icon">📧</span>
-                    <span>Contact Us</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- Investment Opportunity Section -->
-        <section class="investment-opportunity">
-            <h2>Investment Opportunity</h2>
-            <div class="funding-details">
-                <h3>Seed Round: $500K</h3>
-                <p>We're raising $500K for an 18-month runway at 5% equity. The seed round is already complete, and this is what we've built.</p>
-                
-                <div class="funding-allocation">
-                    <h4>Fund Allocation</h4>
-                    <ul>
-                        <li>Product Development & Engineering</li>
-                        <li>Marketing & User Acquisition</li>
-                        <li>Operations & Administrative Costs</li>
-                        <li>Artist Onboarding & Relations</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="advisors-section">
-                <h3>Our Advisors</h3>
-                <div class="advisor-card">
-                    <h4>Gary Sheng</h4>
-                    <div class="advisor-details">
-                        <p>Gary brings extensive experience in technology and business strategy, helping startups scale and innovate.</p>
-                        <ul>
-                            <li>Technology and business strategy expert</li>
-                            <li>Helps startups scale and innovate</li>
-                            <li>Valuable insights for growth</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="advisor-join">
-                    <button class="join-button">+ Join as Advisor</button>
-                    <p>Interested in joining our advisory board? Reach out to us!</p>
-                </div>
-            </div>
-        </section>
+    <!-- Password Protection -->
+    <div class="password-protection" id="password-protection">
+        <div class="password-container">
+            <div class="password-logo">🔒</div>
+            <h1 class="password-title">Tour Command Center</h1>
+            <p class="password-subtitle">Enter the password to access the investment pitch</p>
+            <form class="password-form" id="password-form">
+                <input type="password" class="password-input" id="password-input" placeholder="Enter password" autocomplete="off">
+                <button type="submit" class="password-button">Access Pitch</button>
+                <p class="password-error" id="password-error">Incorrect password. Please try again.</p>
+            </form>
+        </div>
     </div>
 
-    <footer>
-        <p>© 2025 Tour Command Center. All rights reserved.</p>
-    </footer>
+    <!-- Main Content (Hidden until password is entered) -->
+    <div class="content-container" id="content-container">
+        <div class="container">
+            <header class="header">
+                <div class="header-content">
+                    <h1>Tour Command Center</h1>
+                    <p class="header-subtitle">Investment Pitch Deck - Raising $500,000</p>
+                </div>
+            </header>
+
+            <section class="pitch-deck">
+                <!-- Problem Slide -->
+                <div class="slide" id="problem">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <h2>The Problem</h2>
+                            <p>Touring artists and their teams lack real-time visibility into tour performance, making it difficult to optimize revenue and make data-driven decisions.</p>
+                            <ul class="slide-list">
+                                <li>No centralized platform for tour analytics and revenue tracking</li>
+                                <li>Manual data collection is time-consuming and error-prone</li>
+                                <li>Lack of real-time insights leads to missed opportunities</li>
+                                <li>Difficulty in forecasting and planning future tours</li>
+                            </ul>
+                        </div>
+                        <div class="slide-image placeholder">
+                            <i>📊</i>
+                            <span>Problem Visualization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution Slide -->
+                <div class="slide" id="solution">
+                    <div class="slide-content">
+                        <div class="slide-image placeholder">
+                            <i>💡</i>
+                            <span>Solution Visualization</span>
+                        </div>
+                        <div class="slide-text">
+                            <h2>The Solution</h2>
+                            <p>Tour Command Center is an all-in-one platform that provides real-time analytics, revenue tracking, and global insights for touring artists.</p>
+                            <ul class="slide-list">
+                                <li>Interactive 3D globe visualization of tour routes and performance</li>
+                                <li>Real-time revenue tracking and analytics dashboard</li>
+                                <li>AI-powered recommendations for tour optimization</li>
+                                <li>Mobile-first design for on-the-go access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Slide -->
+                <div class="slide" id="market">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <h2>Market Opportunity</h2>
+                            <p>The global music touring market is valued at $25.5 billion and growing at a CAGR of 3.5%.</p>
+                            <ul class="slide-list">
+                                <li>Over 100,000 touring artists in the US alone</li>
+                                <li>Average tour revenue of $500,000 per artist annually</li>
+                                <li>Growing demand for data-driven decision making</li>
+                                <li>Limited competition in the tour analytics space</li>
+                            </ul>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="metric-value">$25.5B</div>
+                                    <div class="metric-label">Global Tour Market</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">100K+</div>
+                                    <div class="metric-label">Touring Artists</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">3.5%</div>
+                                    <div class="metric-label">Market Growth</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-image placeholder">
+                            <i>📈</i>
+                            <span>Market Data</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Model Slide -->
+                <div class="slide" id="business-model">
+                    <div class="slide-content">
+                        <div class="slide-image placeholder">
+                            <i>💰</i>
+                            <span>Business Model</span>
+                        </div>
+                        <div class="slide-text">
+                            <h2>Business Model</h2>
+                            <p>Tour Command Center operates on a subscription-based model with tiered pricing based on tour size and features needed.</p>
+                            <ul class="slide-list">
+                                <li>Basic: $99/month - Essential analytics for small tours</li>
+                                <li>Professional: $299/month - Advanced features for mid-sized tours</li>
+                                <li>Enterprise: Custom pricing - Full suite for large tours and agencies</li>
+                                <li>Additional revenue from data insights and premium features</li>
+                            </ul>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="metric-value">$99</div>
+                                    <div class="metric-label">Basic Plan</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">$299</div>
+                                    <div class="metric-label">Pro Plan</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">Custom</div>
+                                    <div class="metric-label">Enterprise</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traction Slide -->
+                <div class="slide" id="traction">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <h2>Traction</h2>
+                            <p>Tour Command Center has already demonstrated strong market validation and early traction.</p>
+                            <ul class="slide-list">
+                                <li>10 beta users tracking over $50M in tour revenue</li>
+                                <li>Average user engagement of 45 minutes per session</li>
+                                <li>90% user retention rate after 3 months</li>
+                                <li>Partnerships with 3 major booking agencies</li>
+                            </ul>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="metric-value">10</div>
+                                    <div class="metric-label">Beta Users</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">$50M+</div>
+                                    <div class="metric-label">Revenue Tracked</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">90%</div>
+                                    <div class="metric-label">Retention Rate</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-image placeholder">
+                            <i>🚀</i>
+                            <span>Traction Metrics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Slide -->
+                <div class="slide" id="team">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <h2>Our Team</h2>
+                            <p>We're a diverse team of music industry veterans and technology experts passionate about transforming the touring experience.</p>
+                            <div class="team">
+                                <div class="team-member">
+                                    <div class="team-member-image">MR</div>
+                                    <div class="team-member-name">Mario "Rio"</div>
+                                    <div class="team-member-title">Founder & CEO</div>
+                                    <div class="team-member-bio">With over 15 years in the music industry and software development, Rio brings a unique blend of technical expertise and industry experience.</div>
+                                </div>
+                                <div class="team-member">
+                                    <div class="team-member-image">JR</div>
+                                    <div class="team-member-name">Johnny Rapp</div>
+                                    <div class="team-member-title">Co-Founder & CTO</div>
+                                    <div class="team-member-bio">A pioneer in AI and innovative marketing strategies since 2016, Johnny brings cutting-edge technical expertise and proven marketing success.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-image placeholder">
+                            <i>👥</i>
+                            <span>Team Photo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roadmap Slide -->
+                <div class="slide" id="roadmap">
+                    <div class="slide-content">
+                        <div class="slide-image placeholder">
+                            <i>🗺️</i>
+                            <span>Roadmap</span>
+                        </div>
+                        <div class="slide-text">
+                            <h2>Roadmap</h2>
+                            <p>Our development roadmap outlines the key milestones and features we plan to implement with the investment.</p>
+                            <div class="roadmap">
+                                <div class="roadmap-item">
+                                    <div class="roadmap-date">Q2 2025</div>
+                                    <div class="roadmap-title">Public Launch</div>
+                                    <div class="roadmap-description">Launch Tour Command Center to the public with core features.</div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-date">Q3 2025</div>
+                                    <div class="roadmap-title">Mobile App Release</div>
+                                    <div class="roadmap-description">Launch native iOS and Android apps for on-the-go access.</div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-date">Q4 2025</div>
+                                    <div class="roadmap-title">AI Recommendations</div>
+                                    <div class="roadmap-description">Implement AI-powered tour optimization recommendations.</div>
+                                </div>
+                                <div class="roadmap-item">
+                                    <div class="roadmap-date">Q1 2026</div>
+                                    <div class="roadmap-title">Enterprise Features</div>
+                                    <div class="roadmap-description">Launch enterprise features for large tours and agencies.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Slide -->
+                <div class="slide" id="investment">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <h2>Investment Opportunity</h2>
+                            <p>We're raising $500,000 to accelerate our growth and expand our team.</p>
+                            <ul class="slide-list">
+                                <li>$300,000 for product development and engineering</li>
+                                <li>$100,000 for marketing and user acquisition</li>
+                                <li>$50,000 for operations and administrative costs</li>
+                                <li>$50,000 for legal and compliance</li>
+                            </ul>
+                            <div class="metrics">
+                                <div class="metric">
+                                    <div class="metric-value">$500K</div>
+                                    <div class="metric-label">Raising</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">18mo</div>
+                                    <div class="metric-label">Runway</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">20%</div>
+                                    <div class="metric-label">Equity</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-image placeholder">
+                            <i>💎</i>
+                            <span>Investment Details</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Slide -->
+                <div class="cta">
+                    <h2>Join Us in Transforming the Touring Experience</h2>
+                    <p>We're looking for investors who share our vision of empowering artists with data-driven insights.</p>
+                    <a href="mailto:invest@tourcommandcenter.com" class="button">
+                        <span class="button-icon">📧</span>
+                        <span>Contact Us</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Investment Opportunity Section -->
+            <section class="investment-opportunity">
+                <h2>Investment Opportunity</h2>
+                <div class="funding-details">
+                    <h3>Seed Round: $500K</h3>
+                    <p>We're raising $500K for an 18-month runway at 5% equity. The seed round is already complete, and this is what we've built.</p>
+                    
+                    <div class="funding-allocation">
+                        <h4>Fund Allocation</h4>
+                        <ul>
+                            <li>Product Development & Engineering</li>
+                            <li>Marketing & User Acquisition</li>
+                            <li>Operations & Administrative Costs</li>
+                            <li>Artist Onboarding & Relations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="advisors-section">
+                    <h3>Our Advisors</h3>
+                    <div class="advisor-card">
+                        <h4>Gary Sheng</h4>
+                        <div class="advisor-details">
+                            <p>Gary brings extensive experience in technology and business strategy, helping startups scale and innovate.</p>
+                            <ul>
+                                <li>Technology and business strategy expert</li>
+                                <li>Helps startups scale and innovate</li>
+                                <li>Valuable insights for growth</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="advisor-join">
+                        <button class="join-button">+ Join as Advisor</button>
+                        <p>Interested in joining our advisory board? Reach out to us!</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>© 2025 Tour Command Center. All rights reserved.</p>
+        </footer>
+    </div>
 
     <script>
-        // Intersection Observer for slide animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        // Password Protection
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordProtection = document.getElementById('password-protection');
+            const contentContainer = document.getElementById('content-container');
+            const passwordForm = document.getElementById('password-form');
+            const passwordInput = document.getElementById('password-input');
+            const passwordError = document.getElementById('password-error');
+            
+            // The correct password - you can change this to whatever you want
+            const correctPassword = 'pwrs2025';
+            
+            // Check if password is already stored in session storage
+            if (sessionStorage.getItem('pitchAccessGranted') === 'true') {
+                showContent();
+            }
+            
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (passwordInput.value === correctPassword) {
+                    // Store in session storage so user doesn't need to re-enter on refresh
+                    sessionStorage.setItem('pitchAccessGranted', 'true');
+                    showContent();
+                } else {
+                    passwordError.style.display = 'block';
+                    passwordInput.value = '';
                 }
             });
-        }, {
-            threshold: 0.1
-        });
+            
+            function showContent() {
+                passwordProtection.style.display = 'none';
+                contentContainer.style.display = 'block';
+                
+                // Initialize the intersection observer for slides
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, {
+                    threshold: 0.1
+                });
 
-        // Observe all slides
-        document.querySelectorAll('.slide').forEach(slide => {
-            observer.observe(slide);
+                // Observe all slides
+                document.querySelectorAll('.slide').forEach(slide => {
+                    observer.observe(slide);
+                });
+            }
         });
     </script>
 </body>
