@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tour Command Center - Investment Pitch</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="password-protection.css">
     <style>
         :root {
             --primary-color: #1DB954;
@@ -636,22 +637,22 @@
     </style>
 </head>
 <body>
-    <!-- Password Protection -->
-    <div class="password-protection" id="password-protection">
+    <!-- Password Protection Overlay -->
+    <div class="password-protection">
         <div class="password-container">
             <div class="password-logo">🔒</div>
             <h1 class="password-title">Tour Command Center</h1>
-            <p class="password-subtitle">Enter the password to access the investment pitch</p>
-            <form class="password-form" id="password-form">
-                <input type="password" class="password-input" id="password-input" placeholder="Enter password" autocomplete="off">
+            <p class="password-subtitle">Enter password to access the investment pitch</p>
+            <form class="password-form" id="passwordForm">
+                <input type="password" class="password-input" id="passwordInput" placeholder="Enter password" required>
                 <button type="submit" class="password-button">Access Pitch</button>
-                <p class="password-error" id="password-error">Incorrect password. Please try again.</p>
+                <p class="password-error" id="passwordError">Incorrect password. Please try again.</p>
             </form>
         </div>
     </div>
 
-    <!-- Main Content (Hidden until password is entered) -->
-    <div class="content-container" id="content-container">
+    <!-- Main Content Container -->
+    <div class="content-container" id="mainContent">
         <div class="container">
             <header class="header">
                 <div class="header-content">
@@ -956,57 +957,25 @@
         </footer>
     </div>
 
+    <script src="password-protection.js"></script>
     <script>
-        // Password Protection
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordProtection = document.getElementById('password-protection');
-            const contentContainer = document.getElementById('content-container');
-            const passwordForm = document.getElementById('password-form');
-            const passwordInput = document.getElementById('password-input');
-            const passwordError = document.getElementById('password-error');
-            
-            // The correct password - you can change this to whatever you want
-            const correctPassword = 'pwrs2025';
-            
-            // Check if password is already stored in session storage
-            if (sessionStorage.getItem('pitchAccessGranted') === 'true') {
-                showContent();
-            }
-            
-            passwordForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                if (passwordInput.value === correctPassword) {
-                    // Store in session storage so user doesn't need to re-enter on refresh
-                    sessionStorage.setItem('pitchAccessGranted', 'true');
-                    showContent();
-                } else {
-                    passwordError.style.display = 'block';
-                    passwordInput.value = '';
-                }
+        // Initialize the intersection observer for slides
+        function initializePage() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
             });
-            
-            function showContent() {
-                passwordProtection.style.display = 'none';
-                contentContainer.style.display = 'block';
-                
-                // Initialize the intersection observer for slides
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                }, {
-                    threshold: 0.1
-                });
 
-                // Observe all slides
-                document.querySelectorAll('.slide').forEach(slide => {
-                    observer.observe(slide);
-                });
-            }
-        });
+            // Observe all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                observer.observe(slide);
+            });
+        }
     </script>
 </body>
 </html> 

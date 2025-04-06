@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
     <script src="https://unpkg.com/globe.gl@2.32.1/dist/globe.gl.min.js"></script>
+    <link rel="stylesheet" href="password-protection.css">
     <style>
         /* Base styles */
         :root {
@@ -392,118 +393,136 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <h1>Tour Command Center</h1>
-                <p class="header-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
-                <div class="header-buttons">
-                    <a href="demo.html" class="button primary">
-                        <span class="button-icon">🚀</span>
-                        <span>See It In Action</span>
-                    </a>
-                    <a href="#contact" class="button secondary">
-                        <span class="button-icon">✨</span>
-                        <span>Get Early Access</span>
-                    </a>
-                </div>
-            </div>
-        </header>
-
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h2>Transform Your Tour Data Into Tour Success</h2>
-                    <p class="hero-description">Track revenue in real-time, analyze market trends, and make data-driven decisions that maximize your tour's potential.</p>
-                    <div class="hero-features">
-                        <div class="feature">
-                            <span class="feature-icon">📊</span>
-                            <span class="feature-text">Real-time analytics and insights</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">🌍</span>
-                            <span class="feature-text">Interactive global tour visualization</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">💡</span>
-                            <span class="feature-text">AI-powered recommendations</span>
-                        </div>
-                    </div>
-                    <div class="hero-buttons">
-                        <a href="/demo" class="button primary">
-                            <span class="button-icon">🎵</span>
-                            <span>See It In Action</span>
-                        </a>
-                        <a href="/pitch" class="button secondary">
-                            <span class="button-icon">📊</span>
-                            <span>View Investment Pitch</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-globe">
-                    <div id="heroGlobe"></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Real-time Analytics</h3>
-                <p>Track your tour performance with live data and insights</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌍</div>
-                <h3>Interactive Maps</h3>
-                <p>Visualize your tour routes and revenue across the globe</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💡</div>
-                <h3>Smart Insights</h3>
-                <p>Get AI-powered recommendations for tour optimization</p>
-            </div>
-        </section>
-
-        <section class="stats">
-            <div class="stat-item">
-                <div class="stat-value">$50M+</div>
-                <div class="stat-label">Tour Revenue Tracked</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">100+</div>
-                <div class="stat-label">Artists Using PWRS</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">500+</div>
-                <div class="stat-label">Shows Analyzed</div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact">
-            <h2>Get Started Today</h2>
-            <p>Contact us to learn more about Tour Command Center</p>
-            <form class="contact-form">
-                <div class="form-group">
-                    <input type="text" placeholder="Your Name" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" placeholder="Your Email" required>
-                </div>
-                <div class="form-group">
-                    <textarea placeholder="Your Message" required></textarea>
-                </div>
-                <button type="submit" class="button primary">
-                    <span class="button-icon">📨</span>
-                    <span>Send Message</span>
-                </button>
+    <!-- Password Protection Overlay -->
+    <div class="password-protection">
+        <div class="password-container">
+            <div class="password-logo">🔒</div>
+            <h1 class="password-title">Tour Command Center</h1>
+            <p class="password-subtitle">Enter password to access the platform</p>
+            <form class="password-form" id="passwordForm">
+                <input type="password" class="password-input" id="passwordInput" placeholder="Enter password" required>
+                <button type="submit" class="password-button">Access Platform</button>
+                <p class="password-error" id="passwordError">Incorrect password. Please try again.</p>
             </form>
-        </section>
+        </div>
     </div>
 
-    <footer>
-        <p>© 2025 Tour Command Center. All rights reserved.</p>
-    </footer>
+    <!-- Main Content Container -->
+    <div class="content-container" id="mainContent">
+        <div class="container">
+            <header class="header">
+                <div class="header-content">
+                    <h1>Tour Command Center</h1>
+                    <p class="header-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
+                    <div class="header-buttons">
+                        <a href="demo.html" class="button primary">
+                            <span class="button-icon">🚀</span>
+                            <span>See It In Action</span>
+                        </a>
+                        <a href="#contact" class="button secondary">
+                            <span class="button-icon">✨</span>
+                            <span>Get Early Access</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
 
+            <section class="hero">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h2>Transform Your Tour Data Into Tour Success</h2>
+                        <p class="hero-description">Track revenue in real-time, analyze market trends, and make data-driven decisions that maximize your tour's potential.</p>
+                        <div class="hero-features">
+                            <div class="feature">
+                                <span class="feature-icon">📊</span>
+                                <span class="feature-text">Real-time analytics and insights</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">🌍</span>
+                                <span class="feature-text">Interactive global tour visualization</span>
+                            </div>
+                            <div class="feature">
+                                <span class="feature-icon">💡</span>
+                                <span class="feature-text">AI-powered recommendations</span>
+                            </div>
+                        </div>
+                        <div class="hero-buttons">
+                            <a href="/demo" class="button primary">
+                                <span class="button-icon">🎵</span>
+                                <span>See It In Action</span>
+                            </a>
+                            <a href="/pitch" class="button secondary">
+                                <span class="button-icon">📊</span>
+                                <span>View Investment Pitch</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-globe">
+                        <div id="heroGlobe"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Track your tour performance with live data and insights</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Interactive Maps</h3>
+                    <p>Visualize your tour routes and revenue across the globe</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Smart Insights</h3>
+                    <p>Get AI-powered recommendations for tour optimization</p>
+                </div>
+            </section>
+
+            <section class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">$50M+</div>
+                    <div class="stat-label">Tour Revenue Tracked</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100+</div>
+                    <div class="stat-label">Artists Using PWRS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Shows Analyzed</div>
+                </div>
+            </section>
+
+            <section id="contact" class="contact">
+                <h2>Get Started Today</h2>
+                <p>Contact us to learn more about Tour Command Center</p>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="button primary">
+                        <span class="button-icon">📨</span>
+                        <span>Send Message</span>
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <footer>
+            <p>© 2025 Tour Command Center. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="password-protection.js"></script>
     <script>
         // Globe Visualization
         function initGlobe(containerId = 'heroGlobe') {
