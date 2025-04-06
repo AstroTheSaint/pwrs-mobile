@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('passwordInput');
     const passwordError = document.getElementById('passwordError');
     
-    // The correct password - you can change this to whatever you want
-    const correctPassword = 'pwrs2025';
+    // The correct password - updated to 20252025
+    const correctPassword = '20252025';
     
     // Check if password is already stored in session storage
     if (sessionStorage.getItem('pwrsAccessGranted') === 'true') {
