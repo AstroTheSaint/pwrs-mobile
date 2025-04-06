@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
     <script src="https://unpkg.com/globe.gl@2.32.1/dist/globe.gl.min.js"></script>
-    <link rel="stylesheet" href="password-protection.css">
     <style>
         /* Base styles */
         :root {
@@ -40,58 +39,143 @@
             min-height: 100vh;
         }
 
-        /* Rest of your existing styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles */
+        .header {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.7));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: var(--heading-font-size);
+            margin: 0 0 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: var(--subheading-font-size);
+            margin: 0 0 40px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Button styles */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: var(--button-font-size);
+        }
+
+        .button.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .button.secondary {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 2px solid var(--primary-color);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        .button.secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .button-icon {
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
-    <!-- Password Protection Overlay -->
-    <div class="password-protection">
-        <div class="password-container">
-            <div class="password-logo">🚀</div>
-            <h1 class="password-title">Tour Command Center</h1>
-            <p class="password-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
-            <form class="password-form" id="passwordForm">
-                <input type="password" class="password-input" id="passwordInput" placeholder="Enter access code" required>
-                <button type="submit" class="password-button">
-                    Access Platform ✨
-                </button>
-                <p class="password-error" id="passwordError">Incorrect access code. Please try again.</p>
-            </form>
-        </div>
-    </div>
-
-    <!-- Main Content Container -->
-    <div class="content-container" id="mainContent">
-        <div class="container">
-            <header class="header">
-                <div class="header-content">
-                    <h1>Tour Command Center</h1>
-                    <p class="header-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
-                    <div class="header-buttons">
-                        <a href="demo.html" class="button primary">
-                            <span class="button-icon">🚀</span>
-                            <span>See It In Action</span>
-                        </a>
-                        <a href="#contact" class="button secondary">
-                            <span class="button-icon">✨</span>
-                            <span>Get Early Access</span>
-                        </a>
-                    </div>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Tour Command Center</h1>
+                <p class="header-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
+                <div class="header-buttons">
+                    <a href="demo.html" class="button primary">
+                        <span class="button-icon">🚀</span>
+                        <span>See It In Action</span>
+                    </a>
+                    <a href="#contact" class="button secondary">
+                        <span class="button-icon">✨</span>
+                        <span>Get Early Access</span>
+                    </a>
                 </div>
-            </header>
-
-            <!-- Rest of your existing content -->
-        </div>
+            </div>
+        </header>
     </div>
 
-    <script src="password-protection.js"></script>
     <script>
         // Globe Visualization
-        function initializePage() {
-            initGlobe('heroGlobe');
+        function initGlobe(containerId = 'heroGlobe') {
+            const globeContainer = document.getElementById(containerId);
+            if (!globeContainer) return;
+
+            const globe = Globe()
+                .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+                .backgroundColor('#121212')
+                .width(globeContainer.clientWidth)
+                .height(globeContainer.clientHeight);
+
+            globe(globeContainer);
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                globe
+                    .width(globeContainer.clientWidth)
+                    .height(globeContainer.clientHeight);
+            });
+
+            return globe;
         }
 
-        // Rest of your existing JavaScript
+        // Initialize globe when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                initGlobe('heroGlobe');
+            }, 100);
+        });
     </script>
 </body>
 </html> 
