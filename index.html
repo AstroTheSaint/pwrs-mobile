@@ -402,8 +402,7 @@
             <form class="password-form" id="passwordForm">
                 <input type="password" class="password-input" id="passwordInput" placeholder="Enter access code" required>
                 <button type="submit" class="password-button">
-                    <span>Access Platform</span>
-                    <span>✨</span>
+                    Access Platform ✨
                 </button>
                 <p class="password-error" id="passwordError">Incorrect access code. Please try again.</p>
             </form>
@@ -528,6 +527,10 @@
     <script src="password-protection.js"></script>
     <script>
         // Globe Visualization
+        function initializePage() {
+            initGlobe('heroGlobe');
+        }
+
         function initGlobe(containerId = 'heroGlobe') {
             const globeContainer = document.getElementById(containerId);
             if (!globeContainer) return;
@@ -587,13 +590,6 @@
 
             return globe;
         }
-
-        // Initialize globe when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                initGlobe('heroGlobe');
-            }, 100);
-        });
 
         // Handle window resize
         let resizeTimeout;
