@@ -11,6 +11,8 @@
             --secondary-color: #FFB900;
             --text-color: #FFFFFF;
             --background-color: #121212;
+            --card-background: rgba(255, 255, 255, 0.05);
+            --border-radius: 12px;
             --transition: all 0.3s ease;
         }
 
@@ -20,173 +22,408 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
+            line-height: 1.6;
+            overflow: hidden;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+        }
+
+        .portal-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(45deg, rgba(29, 185, 84, 0.1), rgba(255, 185, 0, 0.1));
-            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
         }
 
-        .title {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 40px;
-            opacity: 0.8;
-        }
-
-        .buttons-container {
-            display: flex;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .perspective-button {
-            width: 120px;
-            height: 120px;
-            border: none;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-color);
-            font-size: 3.5rem;
+        .portal-title {
+            font-size: 2.5rem;
             font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+
+        .portal-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .media-selector {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .media-item {
+            position: relative;
+            width: 200px;
+            height: 200px;
             cursor: pointer;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
-        .perspective-button::before {
-            content: '';
+        .media-item:hover {
+            transform: scale(1.05);
+        }
+
+        .cd-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: spin 10s linear infinite;
+        }
+
+        .cd-face {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            opacity: 0;
-            transition: var(--transition);
-            z-index: 1;
-        }
-
-        .perspective-button span {
-            position: relative;
-            z-index: 2;
-        }
-
-        .perspective-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(29, 185, 84, 0.2);
-        }
-
-        .perspective-button:hover::before {
-            opacity: 0.1;
-        }
-
-        .button-label {
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-color);
-            opacity: 0.6;
-            margin-top: 10px;
-            font-weight: 500;
-        }
-
-        .perspective-group {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.3);
+        }
+
+        .cd-front {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2), rgba(255, 185, 0, 0.2));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cd-back {
+            background: linear-gradient(135deg, rgba(255, 185, 0, 0.2), rgba(29, 185, 84, 0.2));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transform: rotateY(180deg);
+        }
+
+        .cd-center {
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 70%);
+            border-radius: 50%;
+            top: 35%;
+            left: 35%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .cd-label {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            top: 20%;
+            left: 20%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .vinyl-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: spin 5s linear infinite;
+        }
+
+        .vinyl-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(255, 185, 0, 0.3);
+        }
+
+        .vinyl-front {
+            background: linear-gradient(135deg, #000000, #333333);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .vinyl-back {
+            background: linear-gradient(135deg, #333333, #000000);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transform: rotateY(180deg);
+        }
+
+        .vinyl-grooves {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: repeating-radial-gradient(
+                circle at center,
+                transparent 0,
+                transparent 2px,
+                rgba(255, 255, 255, 0.05) 2px,
+                rgba(255, 255, 255, 0.05) 4px
+            );
+            top: 5%;
+            left: 5%;
+        }
+
+        .vinyl-label {
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 70%);
+            border-radius: 50%;
+            top: 35%;
+            left: 35%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: rgba(0, 0, 0, 0.9);
+        }
+
+        .media-label {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .holographic-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0) 50%, 
+                rgba(255, 255, 255, 0.1) 100%);
+            animation: holographic 3s ease-in-out infinite;
+            pointer-events: none;
         }
 
         .prism-effect {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, 
-                rgba(29, 185, 84, 0.1), 
-                rgba(255, 185, 0, 0.1),
-                rgba(29, 185, 84, 0.1)
-            );
-            background-size: 200% 200%;
-            animation: prism 10s linear infinite;
+            border-radius: 50%;
+            background: linear-gradient(135deg, 
+                rgba(29, 185, 84, 0.2) 0%, 
+                rgba(255, 185, 0, 0.2) 50%, 
+                rgba(29, 185, 84, 0.2) 100%);
+            filter: blur(10px);
+            animation: prism 5s ease-in-out infinite;
             pointer-events: none;
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(29, 185, 84, 0.3) 0%, 
+                rgba(255, 185, 0, 0.3) 50%, 
+                transparent 70%);
+            filter: blur(20px);
+            animation: glow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .vinyl-glow {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(255, 185, 0, 0.3) 0%, 
+                rgba(29, 185, 84, 0.3) 50%, 
+                transparent 70%);
+            filter: blur(20px);
+            animation: glow 4s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes holographic {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+            100% { opacity: 0.3; }
         }
 
         @keyframes prism {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
+        @keyframes glow {
+            0% { opacity: 0.3; transform: scale(0.9); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+            100% { opacity: 0.3; transform: scale(0.9); }
         }
 
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
+        .portal-button {
+            margin-top: 2rem;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        .portal-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .portal-button:active {
+            transform: translateY(1px);
+        }
+
+        .selected-media {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.5);
+        }
+
+        .media-item.selected .cd-container,
+        .media-item.selected .vinyl-container {
+            animation-play-state: paused;
+        }
+
+        @media (max-width: 768px) {
+            .media-selector {
+                flex-direction: column;
+                gap: 2rem;
             }
-        }
 
-        @media (max-width: 480px) {
-            .buttons-container {
-                gap: 20px;
+            .portal-title {
+                font-size: 2rem;
             }
 
-            .perspective-button {
-                width: 100px;
-                height: 100px;
-                font-size: 3rem;
+            .portal-subtitle {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="prism-effect"></div>
-    
-    <div class="title">Select Perspective</div>
-    
-    <div class="buttons-container">
-        <div class="perspective-group">
-            <button class="perspective-button" onclick="window.location.href='dashboard.html'">
-                <span>M</span>
-            </button>
-            <div class="button-label">METRO BOOMIN</div>
+    <div class="portal-container">
+        <h1 class="portal-title">Tour Command Center</h1>
+        <p class="portal-subtitle">Select your experience to enter the music space</p>
+        
+        <div class="media-selector">
+            <div class="media-item" id="artist-option">
+                <div class="prism-effect"></div>
+                <div class="glow-effect"></div>
+                <div class="cd-container">
+                    <div class="cd-face cd-front">
+                        <div class="holographic-effect"></div>
+                        <div class="cd-label">M</div>
+                    </div>
+                    <div class="cd-face cd-back">
+                        <div class="holographic-effect"></div>
+                        <div class="cd-label">B</div>
+                    </div>
+                    <div class="cd-center"></div>
+                </div>
+                <div class="media-label">Metro Boomin</div>
+            </div>
+            
+            <div class="media-item" id="agent-option">
+                <div class="prism-effect"></div>
+                <div class="vinyl-glow"></div>
+                <div class="vinyl-container">
+                    <div class="vinyl-face vinyl-front">
+                        <div class="vinyl-grooves"></div>
+                        <div class="vinyl-label">R</div>
+                    </div>
+                    <div class="vinyl-face vinyl-back">
+                        <div class="vinyl-grooves"></div>
+                        <div class="vinyl-label">S</div>
+                    </div>
+                </div>
+                <div class="media-label">Robert Smith</div>
+            </div>
         </div>
         
-        <div class="perspective-group">
-            <button class="perspective-button" onclick="window.location.href='agent-dashboard.html'">
-                <span>R</span>
-            </button>
-            <div class="button-label">ROBERT SMITH</div>
-        </div>
+        <button class="portal-button" id="enter-button">Enter Experience</button>
     </div>
 
     <script>
-        // Add ripple effect to buttons
-        document.querySelectorAll('.perspective-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                let ripple = document.createElement('div');
-                ripple.className = 'ripple';
-                this.appendChild(ripple);
+        document.addEventListener('DOMContentLoaded', function() {
+            const artistOption = document.getElementById('artist-option');
+            const agentOption = document.getElementById('agent-option');
+            const enterButton = document.getElementById('enter-button');
+            let selectedOption = null;
+
+            // Function to handle media selection
+            function selectMedia(option) {
+                // Remove selected class from all options
+                artistOption.classList.remove('selected');
+                agentOption.classList.remove('selected');
                 
-                let rect = this.getBoundingClientRect();
-                let x = e.clientX - rect.left;
-                let y = e.clientY - rect.top;
+                // Add selected class to clicked option
+                option.classList.add('selected');
+                selectedOption = option;
                 
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                
-                setTimeout(() => ripple.remove(), 600);
+                // Enable enter button
+                enterButton.style.opacity = '1';
+                enterButton.style.cursor = 'pointer';
+            }
+
+            // Add click event listeners
+            artistOption.addEventListener('click', function() {
+                selectMedia(artistOption);
+            });
+
+            agentOption.addEventListener('click', function() {
+                selectMedia(agentOption);
+            });
+
+            // Initially disable enter button
+            enterButton.style.opacity = '0.5';
+            enterButton.style.cursor = 'not-allowed';
+
+            // Handle enter button click
+            enterButton.addEventListener('click', function() {
+                if (selectedOption === artistOption) {
+                    window.location.href = 'dashboard.html';
+                } else if (selectedOption === agentOption) {
+                    window.location.href = 'agent-dashboard.html';
+                }
             });
         });
     </script>
