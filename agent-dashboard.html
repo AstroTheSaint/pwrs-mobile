@@ -231,6 +231,219 @@
                 gap: 10px;
             }
         }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--card-background);
+            border: none;
+            border-radius: var(--border-radius);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-button.small {
+            padding: 8px 15px;
+            font-size: 0.8rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .roster-stats, .offer-stats {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .artist-roster {
+            margin-bottom: 40px;
+        }
+
+        .roster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .artist-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .artist-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .artist-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .artist-meta {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .artist-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .stat {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .artist-availability {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .send-offer-button {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .send-offer-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        .offer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .offer-item {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .offer-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .offer-status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            height: fit-content;
+        }
+
+        .offer-status.pending {
+            background: rgba(255, 185, 0, 0.2);
+            color: var(--secondary-color);
+        }
+
+        .offer-status.accepted {
+            background: rgba(29, 185, 84, 0.2);
+            color: var(--primary-color);
+        }
+
+        .offer-content {
+            flex: 1;
+        }
+
+        .offer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .offer-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .offer-amount {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .offer-details {
+            display: flex;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+        }
+
+        .offer-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .quick-actions {
+                margin-top: 20px;
+            }
+
+            .offer-item {
+                flex-direction: column;
+            }
+
+            .offer-details {
+                flex-wrap: wrap;
+            }
+        }
     </style>
 </head>
 <body>
@@ -243,77 +456,159 @@
                     <div class="agent-status">🌟 Elite Agent • Global Network</div>
                 </div>
             </div>
-        </div>
-
-        <div class="offers-panel">
-            <div class="offers-header">
-                <div class="offers-title">Active Offers</div>
-            </div>
-            <div class="offer-card">
-                <div class="offer-header">
-                    <div class="offer-artist">Metro Boomin</div>
-                    <div class="offer-amount">$350,000</div>
-                </div>
-                <div class="offer-details">
-                    <div>Coachella 2025</div>
-                    <div>April 11-13, 2025</div>
-                    <div>Main Stage Headliner</div>
-                </div>
-            </div>
-            <div class="offer-card">
-                <div class="offer-header">
-                    <div class="offer-artist">Metro Boomin</div>
-                    <div class="offer-amount">$280,000</div>
-                </div>
-                <div class="offer-details">
-                    <div>Rolling Loud Miami</div>
-                    <div>July 25-27, 2025</div>
-                    <div>Festival Closer</div>
-                </div>
+            <div class="quick-actions">
+                <button class="action-button">
+                    <span>📝</span>
+                    Send New Offer
+                </button>
+                <button class="action-button">
+                    <span>📊</span>
+                    View Analytics
+                </button>
             </div>
         </div>
 
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="card-title">Quick Stats</div>
+        <div class="artist-roster">
+            <div class="section-header">
+                <h2>Artist Roster</h2>
+                <div class="roster-stats">Managing 8 Artists • $4.2M Total Revenue</div>
+            </div>
+            <div class="roster-grid">
+                <div class="artist-card">
+                    <img src="https://i.imgur.com/placeholder.jpg" alt="Metro Boomin" class="artist-photo">
+                    <div class="artist-info">
+                        <h3>Metro Boomin</h3>
+                        <div class="artist-meta">Producer • Festival Headliner</div>
+                    </div>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">$2.8M</div>
+                            <div class="stat-label">Revenue</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">42</div>
+                            <div class="stat-label">Shows</div>
+                        </div>
+                    </div>
+                    <div class="artist-availability">
+                        Available for Festival Season 2025
+                    </div>
+                    <button class="send-offer-button">Send Offer</button>
                 </div>
-                <div class="quick-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">$4.2M</div>
-                        <div class="stat-label">Total Revenue</div>
+
+                <div class="artist-card">
+                    <img src="https://i.imgur.com/placeholder.jpg" alt="Kaycyy" class="artist-photo">
+                    <div class="artist-info">
+                        <h3>Kaycyy</h3>
+                        <div class="artist-meta">Artist • Rising Star</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label">Active Offers</div>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">$850K</div>
+                            <div class="stat-label">Revenue</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">28</div>
+                            <div class="stat-label">Shows</div>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-value">8</div>
-                        <div class="stat-label">Artists</div>
+                    <div class="artist-availability">
+                        Open for Summer Tour 2025
                     </div>
+                    <button class="send-offer-button">Send Offer</button>
+                </div>
+
+                <div class="artist-card">
+                    <img src="https://i.imgur.com/placeholder.jpg" alt="Future" class="artist-photo">
+                    <div class="artist-info">
+                        <h3>Future</h3>
+                        <div class="artist-meta">Artist • Global Icon</div>
+                    </div>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">$1.4M</div>
+                            <div class="stat-label">Revenue</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">35</div>
+                            <div class="stat-label">Shows</div>
+                        </div>
+                    </div>
+                    <div class="artist-availability">
+                        Available for Arena Tours
+                    </div>
+                    <button class="send-offer-button">Send Offer</button>
                 </div>
             </div>
+        </div>
 
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <div class="card-title">Top Artists</div>
+        <div class="active-offers">
+            <div class="section-header">
+                <h2>Active Offers</h2>
+                <div class="offer-stats">12 Pending • $2.1M Total Value</div>
+            </div>
+            <div class="offer-list">
+                <div class="offer-item">
+                    <div class="offer-status pending">Pending</div>
+                    <div class="offer-content">
+                        <div class="offer-header">
+                            <div class="offer-title">Coachella 2025</div>
+                            <div class="offer-amount">$350,000</div>
+                        </div>
+                        <div class="offer-details">
+                            <span>For: Metro Boomin</span>
+                            <span>•</span>
+                            <span>Main Stage Headliner</span>
+                            <span>•</span>
+                            <span>April 11-13</span>
+                        </div>
+                        <div class="offer-actions">
+                            <button class="action-button small">Edit Offer</button>
+                            <button class="action-button small">Cancel</button>
+                        </div>
+                    </div>
                 </div>
-                <ul class="artist-list">
-                    <li class="artist-item">
-                        <img src="https://i.imgur.com/placeholder.jpg" alt="Metro Boomin" class="artist-avatar-small">
-                        <div class="artist-stats">
-                            <div class="artist-name">Metro Boomin</div>
-                            <div class="artist-revenue">$2.8M Revenue • 42 Shows</div>
+
+                <div class="offer-item">
+                    <div class="offer-status accepted">Accepted</div>
+                    <div class="offer-content">
+                        <div class="offer-header">
+                            <div class="offer-title">Rolling Loud Miami</div>
+                            <div class="offer-amount">$280,000</div>
                         </div>
-                    </li>
-                    <li class="artist-item">
-                        <img src="https://i.imgur.com/placeholder.jpg" alt="Artist 2" class="artist-avatar-small">
-                        <div class="artist-stats">
-                            <div class="artist-name">Future</div>
-                            <div class="artist-revenue">$1.4M Revenue • 28 Shows</div>
+                        <div class="offer-details">
+                            <span>For: Metro Boomin</span>
+                            <span>•</span>
+                            <span>Festival Closer</span>
+                            <span>•</span>
+                            <span>July 25-27</span>
                         </div>
-                    </li>
-                </ul>
+                        <div class="offer-actions">
+                            <button class="action-button small">View Contract</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-item">
+                    <div class="offer-status pending">Pending</div>
+                    <div class="offer-content">
+                        <div class="offer-header">
+                            <div class="offer-title">Summer Arena Tour</div>
+                            <div class="offer-amount">$1.2M</div>
+                        </div>
+                        <div class="offer-details">
+                            <span>For: Future</span>
+                            <span>•</span>
+                            <span>15 Shows</span>
+                            <span>•</span>
+                            <span>June-August 2025</span>
+                        </div>
+                        <div class="offer-actions">
+                            <button class="action-button small">Edit Offer</button>
+                            <button class="action-button small">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
