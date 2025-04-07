@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tour Command Center - Tour Analytics Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
-    <script src="https://unpkg.com/globe.gl@2.32.1/dist/globe.gl.min.js"></script>
+    <title>Tour Command Center - Investment Pitch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Base styles */
         :root {
             --primary-color: #1DB954;
             --secondary-color: #FFB900;
@@ -22,10 +19,6 @@
             --accent-color: #1DB954;
             --border-radius: 12px;
             --transition: all 0.3s ease;
-            --base-font-size: clamp(14px, 1vw, 16px);
-            --heading-font-size: clamp(2rem, 4vw, 2.5rem);
-            --subheading-font-size: clamp(1.1rem, 2vw, 1.25rem);
-            --button-font-size: clamp(0.9rem, 1.5vw, 1rem);
         }
 
         body {
@@ -34,148 +27,313 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
-            line-height: 1.5;
-            font-size: var(--base-font-size);
-            min-height: 100vh;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
+        .pitch-container {
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
         }
 
-        /* Header styles */
-        .header {
-            padding: 80px 0;
+        .section {
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero {
             text-align: center;
-            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.7));
-            position: relative;
-            overflow: hidden;
+            padding: 40px 0;
         }
 
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .header h1 {
-            font-size: var(--heading-font-size);
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
             margin: 0 0 20px;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            letter-spacing: -0.02em;
             line-height: 1.2;
         }
 
-        .header-subtitle {
-            font-size: var(--subheading-font-size);
-            margin: 0 0 40px;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 40px;
         }
 
-        .header-buttons {
-            display: flex;
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            justify-content: center;
+            margin-bottom: 40px;
         }
 
-        /* Button styles */
-        .button {
+        .stat-card {
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .vision-section {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(to bottom, rgba(29, 185, 84, 0.1), transparent);
+            border-radius: 20px;
+        }
+
+        .vision-section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            margin: 60px 0;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 4px solid var(--background-color);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(to bottom, transparent, rgba(29, 185, 84, 0.1));
+            border-radius: 20px;
+        }
+
+        .cta-button {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             padding: 16px 32px;
-            border-radius: 30px;
+            background: var(--primary-color);
+            color: white;
             text-decoration: none;
+            border-radius: 30px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: var(--button-font-size);
+            font-size: 1.1rem;
+            transition: var(--transition);
         }
 
-        .button.primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .button.secondary {
-            background: var(--card-bg);
-            color: var(--text-primary);
-            border: 2px solid var(--primary-color);
-        }
-
-        .button:hover {
+        .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+            box-shadow: 0 5px 20px rgba(29, 185, 84, 0.3);
         }
 
-        .button.secondary:hover {
-            background: var(--primary-color);
-            color: white;
-        }
+        @media (max-width: 768px) {
+            .pitch-container {
+                padding: 15px;
+            }
 
-        .button-icon {
-            font-size: 1.2rem;
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <h1>Tour Command Center</h1>
-                <p class="header-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
-                <div class="header-buttons">
-                    <a href="demo.html" class="button primary">
-                        <span class="button-icon">🚀</span>
-                        <span>See It In Action</span>
-                    </a>
-                    <a href="#contact" class="button secondary">
-                        <span class="button-icon">✨</span>
-                        <span>Get Early Access</span>
-                    </a>
+    <div class="pitch-container">
+        <section class="hero section">
+            <h1>Tour Command Center</h1>
+            <p>Revolutionizing the music industry through data-driven community building and transparent tour analytics</p>
+        </section>
+
+        <section class="stat-grid section">
+            <div class="stat-card">
+                <div class="stat-number">$2.8B+</div>
+                <div class="stat-label">Tour Revenue Tracked (2024-2025)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">850K+</div>
+                <div class="stat-label">Community Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">94%</div>
+                <div class="stat-label">Artist Satisfaction Rate</div>
+            </div>
+        </section>
+
+        <section class="vision-section section">
+            <h2>Redefining Tour Management in 2025</h2>
+            <p>Tour Command Center brings together artists, fans, and industry professionals in a revolutionary ecosystem that celebrates music, culture, and community.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <div class="feature-title">Real-time Analytics</div>
+                    <div class="feature-description">Advanced AI-powered insights tracking revenue, attendance, and engagement metrics across global tours.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-title">Community Hub</div>
+                    <div class="feature-description">A vibrant platform where fans connect with artists, share experiences, and celebrate local culture.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Transparent Operations</div>
+                    <div class="feature-description">Blockchain-backed transparency in ticket sales, merchandise, and revenue distribution.</div>
                 </div>
             </div>
-        </header>
+        </section>
+
+        <section class="timeline section">
+            <div class="timeline-item">
+                <div class="timeline-date">Q2 2025</div>
+                <div class="timeline-title">Global Market Expansion</div>
+                <div class="timeline-description">Launching in 25+ new markets with localized cultural integration.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Q3 2025</div>
+                <div class="timeline-title">Enhanced Analytics Suite</div>
+                <div class="timeline-description">Rolling out predictive analytics for tour planning and revenue optimization.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Q4 2025</div>
+                <div class="timeline-title">Community Marketplace</div>
+                <div class="timeline-description">Introducing a decentralized marketplace for unique fan experiences.</div>
+            </div>
+        </section>
+
+        <section class="cta-section section">
+            <h2>Join the Revolution</h2>
+            <p>Transform your tour management experience with data-driven insights and community engagement.</p>
+            <a href="#contact" class="cta-button">
+                <span>Get Early Access</span>
+                <span>✨</span>
+            </a>
+        </section>
     </div>
 
     <script>
-        // Globe Visualization
-        function initGlobe(containerId = 'heroGlobe') {
-            const globeContainer = document.getElementById(containerId);
-            if (!globeContainer) return;
-
-            const globe = Globe()
-                .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
-                .backgroundColor('#121212')
-                .width(globeContainer.clientWidth)
-                .height(globeContainer.clientHeight);
-
-            globe(globeContainer);
-
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                globe
-                    .width(globeContainer.clientWidth)
-                    .height(globeContainer.clientHeight);
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
+        }, {
+            threshold: 0.1
+        });
 
-            return globe;
-        }
-
-        // Initialize globe when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                initGlobe('heroGlobe');
-            }, 100);
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
-</html> 
+</html>
