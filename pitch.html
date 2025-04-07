@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tour Command Center - Investment Pitch</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="password-protection.css">
     <style>
         :root {
             --primary-color: #1DB954;
@@ -20,10 +19,6 @@
             --accent-color: #1DB954;
             --border-radius: 12px;
             --transition: all 0.3s ease;
-            --base-font-size: clamp(14px, 1vw, 16px);
-            --heading-font-size: clamp(2rem, 4vw, 2.5rem);
-            --subheading-font-size: clamp(1.1rem, 2vw, 1.25rem);
-            --button-font-size: clamp(0.9rem, 1.5vw, 1rem);
         }
 
         body {
@@ -32,319 +27,140 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
-            line-height: 1.5;
-            font-size: var(--base-font-size);
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
+        .pitch-container {
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Password Protection Styles */
-        .password-protection {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--background-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
             padding: 20px;
         }
 
-        .password-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .password-logo {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        .password-title {
-            font-size: var(--heading-font-size);
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-
-        .password-subtitle {
-            font-size: var(--subheading-font-size);
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
-        }
-
-        .password-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .password-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.3s ease;
-        }
-
-        .password-input:focus {
-            border-color: var(--primary-color);
-        }
-
-        .password-button {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 15px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .password-button:hover {
-            background: #00b894;
-            transform: translateY(-2px);
-        }
-
-        .password-error {
-            color: #ff6b6b;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .content-container {
-            display: none;
-        }
-
-        /* Header styles */
-        .header {
-            padding: 60px 0;
-            text-align: center;
-            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.7));
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .header h1 {
-            font-size: var(--heading-font-size);
-            margin: 0 0 20px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        .header-subtitle {
-            font-size: var(--subheading-font-size);
-            margin: 0 0 40px;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Pitch deck styles */
-        .pitch-deck {
-            padding: 60px 0;
-        }
-
-        .slide {
-            margin-bottom: 80px;
+        .section {
+            margin-bottom: 60px;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: all 0.6s ease;
         }
 
-        .slide.visible {
+        .section.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .slide-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
+        .hero {
+            text-align: center;
+            padding: 40px 0;
         }
 
-        .slide-text {
-            padding-right: 40px;
-        }
-
-        .slide-image {
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            background: var(--card-bg);
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 300px;
-        }
-
-        .slide-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: var(--border-radius);
-        }
-
-        .slide-image.placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-        }
-
-        .slide-image.placeholder i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .slide h2 {
-            font-size: var(--heading-font-size);
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
             margin: 0 0 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             line-height: 1.2;
-            color: var(--primary-color);
         }
 
-        .slide p {
-            font-size: var(--base-font-size);
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0 0 20px;
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 40px;
         }
 
-        .slide-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0 0 20px;
-        }
-
-        .slide-list li {
-            margin-bottom: 10px;
-            padding-left: 30px;
-            position: relative;
-        }
-
-        .slide-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-
-        .metrics {
+        .stat-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 30px;
+            margin-bottom: 40px;
         }
 
-        .metric {
-            background: var(--card-bg);
-            padding: 20px;
+        .stat-card {
+            background: var(--card-background);
+            padding: 30px;
             border-radius: var(--border-radius);
             text-align: center;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
         }
 
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 800;
             color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-
-        .metric-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .team {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .team-member {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            text-align: center;
-        }
-
-        .team-member-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            background: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-
-        .team-member-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .team-member-title {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
             margin-bottom: 10px;
         }
 
-        .team-member-bio {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
         }
 
-        .roadmap {
+        .vision-section {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(to bottom, rgba(29, 185, 84, 0.1), transparent);
+            border-radius: 20px;
+        }
+
+        .vision-section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            margin: 60px 0;
             position: relative;
             padding-left: 30px;
         }
 
-        .roadmap:before {
-            content: "";
+        .timeline::before {
+            content: '';
             position: absolute;
             left: 0;
             top: 0;
@@ -353,13 +169,13 @@
             background: var(--primary-color);
         }
 
-        .roadmap-item {
+        .timeline-item {
+            margin-bottom: 40px;
             position: relative;
-            padding-bottom: 30px;
         }
 
-        .roadmap-item:before {
-            content: "";
+        .timeline-item::before {
+            content: '';
             position: absolute;
             left: -34px;
             top: 0;
@@ -367,618 +183,157 @@
             height: 10px;
             border-radius: 50%;
             background: var(--primary-color);
+            border: 4px solid var(--background-color);
         }
 
-        .roadmap-date {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-
-        .roadmap-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .roadmap-description {
-            color: var(--text-secondary);
+        .timeline-date {
             font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
         }
 
-        .cta {
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .cta-section {
             text-align: center;
             padding: 60px 0;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            margin-top: 60px;
+            background: linear-gradient(to bottom, transparent, rgba(29, 185, 84, 0.1));
+            border-radius: 20px;
         }
 
-        .cta h2 {
-            font-size: var(--heading-font-size);
-            margin: 0 0 20px;
-        }
-
-        .cta p {
-            font-size: var(--subheading-font-size);
-            color: var(--text-secondary);
-            margin: 0 0 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .button {
+        .cta-button {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             padding: 16px 32px;
-            border-radius: 30px;
+            background: var(--primary-color);
+            color: white;
             text-decoration: none;
+            border-radius: 30px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: var(--button-font-size);
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
         }
 
-        .button:hover {
+        .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
-        }
-
-        .button-icon {
-            font-size: 1.2rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: var(--card-bg);
-            margin-top: 4rem;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .slide-content {
-                grid-template-columns: 1fr;
-            }
-
-            .slide-text {
-                padding-right: 0;
-            }
-
-            .metrics {
-                grid-template-columns: 1fr;
-            }
-
-            .team {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        .investment-opportunity {
-            padding: 4rem 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            margin: 2rem 0;
-        }
-
-        .funding-details {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .funding-details h3 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .funding-allocation {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-        }
-
-        .funding-allocation ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .funding-allocation li {
-            padding: 0.5rem 0;
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .funding-allocation li:before {
-            content: "→";
-            color: var(--primary-color);
-            margin-right: 1rem;
-        }
-
-        .founders-section {
-            max-width: 1200px;
-            margin: 4rem auto 0;
-        }
-
-        .founder-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem 0;
-            transition: transform 0.3s ease;
-        }
-
-        .founder-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .founder-card h4 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .founder-details p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .founder-details ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .founder-details li {
-            padding: 0.5rem 0;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .founder-details li:before {
-            content: "•";
-            color: var(--primary-color);
-            margin-right: 1rem;
+            box-shadow: 0 5px 20px rgba(29, 185, 84, 0.3);
         }
 
         @media (max-width: 768px) {
-            .investment-opportunity {
-                padding: 2rem 1rem;
+            .pitch-container {
+                padding: 15px;
             }
 
-            .funding-details h3 {
-                font-size: 1.75rem;
+            .stat-grid {
+                grid-template-columns: 1fr;
             }
 
-            .founder-card {
-                padding: 1.5rem;
+            .feature-grid {
+                grid-template-columns: 1fr;
             }
-        }
-
-        .advisors-section {
-            max-width: 800px;
-            margin: 4rem auto 0;
-        }
-
-        .advisor-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem 0;
-            transition: transform 0.3s ease;
-        }
-
-        .advisor-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .advisor-card h4 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .advisor-details p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .advisor-details ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .advisor-details li {
-            padding: 0.5rem 0;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .advisor-details li:before {
-            content: "•";
-            color: var(--primary-color);
-            margin-right: 1rem;
-        }
-
-        .advisor-join {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .join-button {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .join-button:hover {
-            background: #00b894;
         }
     </style>
 </head>
 <body>
-    <!-- Password Protection Overlay -->
-    <div class="password-protection">
-        <div class="password-container">
-            <div class="password-logo">🚀</div>
-            <h1 class="password-title">Tour Command Center</h1>
-            <p class="password-subtitle">Your all-in-one platform for real-time tour analytics, revenue tracking, and global insights</p>
-            <form class="password-form" id="passwordForm">
-                <input type="password" class="password-input" id="passwordInput" placeholder="Enter access code" required>
-                <button type="submit" class="password-button">
-                    <span>Access Platform</span>
-                    <span>✨</span>
-                </button>
-                <p class="password-error" id="passwordError">Incorrect access code. Please try again.</p>
-            </form>
-        </div>
+    <div class="pitch-container">
+        <section class="hero section">
+            <h1>Tour Command Center</h1>
+            <p>Revolutionizing the music industry through data-driven community building and transparent tour analytics</p>
+        </section>
+
+        <section class="stat-grid section">
+            <div class="stat-card">
+                <div class="stat-number">$2.8B+</div>
+                <div class="stat-label">Tour Revenue Tracked (2024-2025)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">850K+</div>
+                <div class="stat-label">Community Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">94%</div>
+                <div class="stat-label">Artist Satisfaction Rate</div>
+            </div>
+        </section>
+
+        <section class="vision-section section">
+            <h2>Redefining Tour Management in 2025</h2>
+            <p>Tour Command Center brings together artists, fans, and industry professionals in a revolutionary ecosystem that celebrates music, culture, and community.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <div class="feature-title">Real-time Analytics</div>
+                    <div class="feature-description">Advanced AI-powered insights tracking revenue, attendance, and engagement metrics across global tours.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-title">Community Hub</div>
+                    <div class="feature-description">A vibrant platform where fans connect with artists, share experiences, and celebrate local culture.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Transparent Operations</div>
+                    <div class="feature-description">Blockchain-backed transparency in ticket sales, merchandise, and revenue distribution.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline section">
+            <div class="timeline-item">
+                <div class="timeline-date">Q2 2025</div>
+                <div class="timeline-title">Global Market Expansion</div>
+                <div class="timeline-description">Launching in 25+ new markets with localized cultural integration.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Q3 2025</div>
+                <div class="timeline-title">Enhanced Analytics Suite</div>
+                <div class="timeline-description">Rolling out predictive analytics for tour planning and revenue optimization.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Q4 2025</div>
+                <div class="timeline-title">Community Marketplace</div>
+                <div class="timeline-description">Introducing a decentralized marketplace for unique fan experiences.</div>
+            </div>
+        </section>
+
+        <section class="cta-section section">
+            <h2>Join the Revolution</h2>
+            <p>Transform your tour management experience with data-driven insights and community engagement.</p>
+            <a href="#contact" class="cta-button">
+                <span>Get Early Access</span>
+                <span>✨</span>
+            </a>
+        </section>
     </div>
 
-    <!-- Main Content Container -->
-    <div class="content-container" id="mainContent">
-        <div class="container">
-            <header class="header">
-                <div class="header-content">
-                    <h1>Tour Command Center</h1>
-                    <p class="header-subtitle">Investment Pitch Deck - Raising $500,000</p>
-                </div>
-            </header>
-
-            <section class="pitch-deck">
-                <!-- Problem Slide -->
-                <div class="slide" id="problem">
-                    <div class="slide-content">
-                        <div class="slide-text">
-                            <h2>The Problem</h2>
-                            <p>Touring artists and their teams lack real-time visibility into tour performance, making it difficult to optimize revenue and make data-driven decisions.</p>
-                            <ul class="slide-list">
-                                <li>No centralized platform for tour analytics and revenue tracking</li>
-                                <li>Manual data collection is time-consuming and error-prone</li>
-                                <li>Lack of real-time insights leads to missed opportunities</li>
-                                <li>Difficulty in forecasting and planning future tours</li>
-                            </ul>
-                        </div>
-                        <div class="slide-image placeholder">
-                            <i>📊</i>
-                            <span>Problem Visualization</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Solution Slide -->
-                <div class="slide" id="solution">
-                    <div class="slide-content">
-                        <div class="slide-image placeholder">
-                            <i>💡</i>
-                            <span>Solution Visualization</span>
-                        </div>
-                        <div class="slide-text">
-                            <h2>The Solution</h2>
-                            <p>Tour Command Center is an all-in-one platform that provides real-time analytics, revenue tracking, and global insights for touring artists.</p>
-                            <ul class="slide-list">
-                                <li>Interactive 3D globe visualization of tour routes and performance</li>
-                                <li>Real-time revenue tracking and analytics dashboard</li>
-                                <li>AI-powered recommendations for tour optimization</li>
-                                <li>Mobile-first design for on-the-go access</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Market Slide -->
-                <div class="slide" id="market">
-                    <div class="slide-content">
-                        <div class="slide-text">
-                            <h2>Market Opportunity</h2>
-                            <p>The global music touring market is valued at $25.5 billion and growing at a CAGR of 3.5%.</p>
-                            <ul class="slide-list">
-                                <li>Over 100,000 touring artists in the US alone</li>
-                                <li>Average tour revenue of $500,000 per artist annually</li>
-                                <li>Growing demand for data-driven decision making</li>
-                                <li>Limited competition in the tour analytics space</li>
-                            </ul>
-                            <div class="metrics">
-                                <div class="metric">
-                                    <div class="metric-value">$25.5B</div>
-                                    <div class="metric-label">Global Tour Market</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">100K+</div>
-                                    <div class="metric-label">Touring Artists</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">3.5%</div>
-                                    <div class="metric-label">Market Growth</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide-image placeholder">
-                            <i>📈</i>
-                            <span>Market Data</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Business Model Slide -->
-                <div class="slide" id="business-model">
-                    <div class="slide-content">
-                        <div class="slide-image placeholder">
-                            <i>💰</i>
-                            <span>Business Model</span>
-                        </div>
-                        <div class="slide-text">
-                            <h2>Business Model</h2>
-                            <p>Tour Command Center operates on a subscription-based model with tiered pricing based on tour size and features needed.</p>
-                            <ul class="slide-list">
-                                <li>Basic: $99/month - Essential analytics for small tours</li>
-                                <li>Professional: $299/month - Advanced features for mid-sized tours</li>
-                                <li>Enterprise: Custom pricing - Full suite for large tours and agencies</li>
-                                <li>Additional revenue from data insights and premium features</li>
-                            </ul>
-                            <div class="metrics">
-                                <div class="metric">
-                                    <div class="metric-value">$99</div>
-                                    <div class="metric-label">Basic Plan</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">$299</div>
-                                    <div class="metric-label">Pro Plan</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">Custom</div>
-                                    <div class="metric-label">Enterprise</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Traction Slide -->
-                <div class="slide" id="traction">
-                    <div class="slide-content">
-                        <div class="slide-text">
-                            <h2>Traction</h2>
-                            <p>Tour Command Center has already demonstrated strong market validation and early traction.</p>
-                            <ul class="slide-list">
-                                <li>10 beta users tracking over $50M in tour revenue</li>
-                                <li>Average user engagement of 45 minutes per session</li>
-                                <li>90% user retention rate after 3 months</li>
-                                <li>Partnerships with 3 major booking agencies</li>
-                            </ul>
-                            <div class="metrics">
-                                <div class="metric">
-                                    <div class="metric-value">10</div>
-                                    <div class="metric-label">Beta Users</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">$50M+</div>
-                                    <div class="metric-label">Revenue Tracked</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">90%</div>
-                                    <div class="metric-label">Retention Rate</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide-image placeholder">
-                            <i>🚀</i>
-                            <span>Traction Metrics</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Team Slide -->
-                <div class="slide" id="team">
-                    <div class="slide-content">
-                        <div class="slide-text">
-                            <h2>Our Team</h2>
-                            <p>We're a diverse team of music industry veterans and technology experts passionate about transforming the touring experience.</p>
-                            <div class="team">
-                                <div class="team-member">
-                                    <div class="team-member-image">MR</div>
-                                    <div class="team-member-name">Mario "Rio"</div>
-                                    <div class="team-member-title">Founder & CEO</div>
-                                    <div class="team-member-bio">With over 15 years in the music industry and software development, Rio brings a unique blend of technical expertise and industry experience.</div>
-                                </div>
-                                <div class="team-member">
-                                    <div class="team-member-image">JR</div>
-                                    <div class="team-member-name">Johnny Rapp</div>
-                                    <div class="team-member-title">Co-Founder & CTO</div>
-                                    <div class="team-member-bio">A pioneer in AI and innovative marketing strategies since 2016, Johnny brings cutting-edge technical expertise and proven marketing success.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide-image placeholder">
-                            <i>👥</i>
-                            <span>Team Photo</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Roadmap Slide -->
-                <div class="slide" id="roadmap">
-                    <div class="slide-content">
-                        <div class="slide-image placeholder">
-                            <i>🗺️</i>
-                            <span>Roadmap</span>
-                        </div>
-                        <div class="slide-text">
-                            <h2>Roadmap</h2>
-                            <p>Our development roadmap outlines the key milestones and features we plan to implement with the investment.</p>
-                            <div class="roadmap">
-                                <div class="roadmap-item">
-                                    <div class="roadmap-date">Q2 2025</div>
-                                    <div class="roadmap-title">Public Launch</div>
-                                    <div class="roadmap-description">Launch Tour Command Center to the public with core features.</div>
-                                </div>
-                                <div class="roadmap-item">
-                                    <div class="roadmap-date">Q3 2025</div>
-                                    <div class="roadmap-title">Mobile App Release</div>
-                                    <div class="roadmap-description">Launch native iOS and Android apps for on-the-go access.</div>
-                                </div>
-                                <div class="roadmap-item">
-                                    <div class="roadmap-date">Q4 2025</div>
-                                    <div class="roadmap-title">AI Recommendations</div>
-                                    <div class="roadmap-description">Implement AI-powered tour optimization recommendations.</div>
-                                </div>
-                                <div class="roadmap-item">
-                                    <div class="roadmap-date">Q1 2026</div>
-                                    <div class="roadmap-title">Enterprise Features</div>
-                                    <div class="roadmap-description">Launch enterprise features for large tours and agencies.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Investment Slide -->
-                <div class="slide" id="investment">
-                    <div class="slide-content">
-                        <div class="slide-text">
-                            <h2>Investment Opportunity</h2>
-                            <p>We're raising $500,000 to accelerate our growth and expand our team.</p>
-                            <ul class="slide-list">
-                                <li>$300,000 for product development and engineering</li>
-                                <li>$100,000 for marketing and user acquisition</li>
-                                <li>$50,000 for operations and administrative costs</li>
-                                <li>$50,000 for legal and compliance</li>
-                            </ul>
-                            <div class="metrics">
-                                <div class="metric">
-                                    <div class="metric-value">$500K</div>
-                                    <div class="metric-label">Raising</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">18mo</div>
-                                    <div class="metric-label">Runway</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">20%</div>
-                                    <div class="metric-label">Equity</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide-image placeholder">
-                            <i>💎</i>
-                            <span>Investment Details</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CTA Slide -->
-                <div class="cta">
-                    <h2>Join Us in Transforming the Touring Experience</h2>
-                    <p>We're looking for investors who share our vision of empowering artists with data-driven insights.</p>
-                    <a href="mailto:invest@tourcommandcenter.com" class="button">
-                        <span class="button-icon">📧</span>
-                        <span>Contact Us</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Investment Opportunity Section -->
-            <section class="investment-opportunity">
-                <h2>Investment Opportunity</h2>
-                <div class="funding-details">
-                    <h3>Seed Round: $500K</h3>
-                    <p>We're raising $500K for an 18-month runway at 5% equity. The seed round is already complete, and this is what we've built.</p>
-                    
-                    <div class="funding-allocation">
-                        <h4>Fund Allocation</h4>
-                        <ul>
-                            <li>Product Development & Engineering</li>
-                            <li>Marketing & User Acquisition</li>
-                            <li>Operations & Administrative Costs</li>
-                            <li>Artist Onboarding & Relations</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="advisors-section">
-                    <h3>Our Advisors</h3>
-                    <div class="advisor-card">
-                        <h4>Gary Sheng</h4>
-                        <div class="advisor-details">
-                            <p>Gary brings extensive experience in technology and business strategy, helping startups scale and innovate.</p>
-                            <ul>
-                                <li>Technology and business strategy expert</li>
-                                <li>Helps startups scale and innovate</li>
-                                <li>Valuable insights for growth</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="advisor-join">
-                        <button class="join-button">+ Join as Advisor</button>
-                        <p>Interested in joining our advisory board? Reach out to us!</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <footer>
-            <p>© 2025 Tour Command Center. All rights reserved.</p>
-        </footer>
-    </div>
-
-    <script src="password-protection.js"></script>
     <script>
-        // Initialize the intersection observer for slides
-        function initializePage() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
+        }, {
+            threshold: 0.1
+        });
 
-            // Observe all slides
-            document.querySelectorAll('.slide').forEach(slide => {
-                observer.observe(slide);
-            });
-        }
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
     </script>
 </body>
-</html> 
+</html>
