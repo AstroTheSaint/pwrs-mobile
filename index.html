@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tour Command Center - Login</title>
+    <title>Tour Command Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,8 +11,6 @@
             --secondary-color: #FFB900;
             --text-color: #FFFFFF;
             --background-color: #121212;
-            --card-background: rgba(255, 255, 255, 0.05);
-            --border-radius: 12px;
             --transition: all 0.3s ease;
         }
 
@@ -22,168 +20,174 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
-            line-height: 1.6;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             background: linear-gradient(45deg, rgba(29, 185, 84, 0.1), rgba(255, 185, 0, 0.1));
+            overflow: hidden;
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            padding: 40px;
-            background: var(--card-background);
-            border-radius: var(--border-radius);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .title {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            opacity: 0.8;
         }
 
-        .login-header {
-            text-align: center;
+        .buttons-container {
+            display: flex;
+            gap: 40px;
             margin-bottom: 40px;
         }
 
-        .login-header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 0 0 10px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .login-header p {
-            color: var(--text-color);
-            opacity: 0.8;
-            margin: 0;
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .form-group input {
-            padding: 12px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
+        .perspective-button {
+            width: 120px;
+            height: 120px;
+            border: none;
+            border-radius: 20px;
             background: rgba(255, 255, 255, 0.05);
             color: var(--text-color);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .login-button {
-            padding: 14px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 3.5rem;
+            font-weight: 800;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        .perspective-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1;
         }
 
-        .demo-accounts {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .perspective-button span {
+            position: relative;
+            z-index: 2;
         }
 
-        .demo-accounts h3 {
+        .perspective-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(29, 185, 84, 0.2);
+        }
+
+        .perspective-button:hover::before {
+            opacity: 0.1;
+        }
+
+        .button-label {
+            text-align: center;
             font-size: 0.9rem;
             color: var(--text-color);
-            opacity: 0.8;
-            margin-bottom: 15px;
-            text-align: center;
+            opacity: 0.6;
+            margin-top: 10px;
+            font-weight: 500;
         }
 
-        .demo-button {
-            display: block;
+        .perspective-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .prism-effect {
+            position: absolute;
             width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            color: var(--text-color);
-            text-align: center;
-            text-decoration: none;
-            transition: var(--transition);
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(29, 185, 84, 0.1), 
+                rgba(255, 185, 0, 0.1),
+                rgba(29, 185, 84, 0.1)
+            );
+            background-size: 200% 200%;
+            animation: prism 10s linear infinite;
+            pointer-events: none;
         }
 
-        .demo-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        @keyframes prism {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
 
         @media (max-width: 480px) {
-            .login-container {
-                padding: 20px;
-                margin: 20px;
+            .buttons-container {
+                gap: 20px;
+            }
+
+            .perspective-button {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <h1>Tour Command Center</h1>
-            <p>Your command center for tour management</p>
+    <div class="prism-effect"></div>
+    
+    <div class="title">Select Perspective</div>
+    
+    <div class="buttons-container">
+        <div class="perspective-group">
+            <button class="perspective-button" onclick="window.location.href='dashboard.html'">
+                <span>M</span>
+            </button>
+            <div class="button-label">METRO BOOMIN</div>
         </div>
-
-        <form class="login-form" action="dashboard.html" method="GET">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="login-button">Log In</button>
-        </form>
-
-        <div class="demo-accounts">
-            <h3>Demo Accounts</h3>
-            <a href="dashboard.html" class="demo-button">Metro Boomin (Artist)</a>
-            <a href="dashboard.html" class="demo-button">Robert Smith (Agent)</a>
+        
+        <div class="perspective-group">
+            <button class="perspective-button" onclick="window.location.href='agent-dashboard.html'">
+                <span>R</span>
+            </button>
+            <div class="button-label">ROBERT SMITH</div>
         </div>
     </div>
 
     <script>
-        // Simple demo login handling
-        document.querySelector('.login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            window.location.href = 'dashboard.html';
+        // Add ripple effect to buttons
+        document.querySelectorAll('.perspective-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                let ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                this.appendChild(ripple);
+                
+                let rect = this.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                let y = e.clientY - rect.top;
+                
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
         });
     </script>
 </body>
