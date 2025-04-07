@@ -39,477 +39,351 @@
             padding: 20px;
             background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(255, 185, 0, 0.1));
             border-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(29, 185, 84, 0.2), transparent 70%);
+            z-index: 0;
+        }
+
+        .welcome-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at bottom right, rgba(255, 185, 0, 0.2), transparent 70%);
+            z-index: 0;
+        }
+
+        .welcome-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .artist-profile {
             display: flex;
             align-items: center;
             gap: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         .artist-avatar {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
         }
 
-        .artist-info h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .artist-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .artist-name {
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .artist-status {
             font-size: 0.9rem;
-            color: var(--secondary-color);
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .quick-actions {
+        .action-buttons {
             display: flex;
-            gap: 15px;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .action-button {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--card-background);
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             border-radius: var(--border-radius);
             color: var(--text-color);
-            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .action-button:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
-        .dashboard-grid {
+        .action-button.primary {
+            background: var(--primary-color);
+        }
+
+        .action-button.primary:hover {
+            background: #1ed760;
+        }
+
+        .dashboard-content {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
+            grid-template-columns: 1fr;
             gap: 20px;
         }
 
-        .side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .dashboard-card {
+        .dashboard-section {
             background: var(--card-background);
             border-radius: var(--border-radius);
             padding: 20px;
-            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .card-action {
-            color: var(--primary-color);
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .upcoming-shows {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .show-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .show-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .show-info {
-            flex: 1;
-        }
-
-        .show-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .show-details {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .show-date {
-            font-weight: 600;
-            color: var(--secondary-color);
-        }
-
-        .show-status {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .status-confirmed {
-            background: rgba(29, 185, 84, 0.2);
-            color: var(--primary-color);
-        }
-
-        .status-pending {
-            background: rgba(255, 185, 0, 0.2);
-            color: var(--secondary-color);
-        }
-
-        .status-cancelled {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff4444;
-        }
-
-        .show-action {
-            color: var(--primary-color);
-            cursor: pointer;
-        }
-
-        .revenue-chart {
-            height: 200px;
-            margin-top: 15px;
-            position: relative;
-        }
-
-        .chart-bar {
-            position: absolute;
-            bottom: 0;
-            width: 30px;
-            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
-            border-radius: 5px 5px 0 0;
-            transition: var(--transition);
-        }
-
-        .chart-bar:hover {
-            filter: brightness(1.2);
-        }
-
-        .chart-label {
-            position: absolute;
-            bottom: -25px;
-            width: 100%;
-            text-align: center;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .chart-value {
-            position: absolute;
-            top: -25px;
-            width: 100%;
-            text-align: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .notification-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .notification-item {
-            display: flex;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .notification-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(5px);
-        }
-
-        .notification-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .icon-offer {
-            background: rgba(29, 185, 84, 0.2);
-            color: var(--primary-color);
-        }
-
-        .icon-alert {
-            background: rgba(255, 185, 0, 0.2);
-            color: var(--secondary-color);
-        }
-
-        .icon-success {
-            background: rgba(0, 150, 255, 0.2);
-            color: #0096ff;
-        }
-
-        .notification-content {
-            flex: 1;
-        }
-
-        .notification-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .notification-message {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .notification-time {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 5px;
-        }
-
-        .badge-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .badge {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 80px;
-            text-align: center;
-        }
-
-        .badge-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            position: relative;
-        }
-
-        .badge-earned {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            box-shadow: 0 0 15px rgba(29, 185, 84, 0.5);
-        }
-
-        .badge-locked {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .badge-name {
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-progress {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 2px;
-        }
-
-        .guide-section {
-            margin-top: 30px;
-        }
-
-        .guide-header {
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .guide-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--secondary-color);
         }
 
-        .guide-grid {
+        .section-action {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .section-action:hover {
+            text-decoration: underline;
+        }
+
+        .upcoming-shows {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .show-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .show-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(29, 185, 84, 0.3),
+                0 0 30px rgba(29, 185, 84, 0.1);
+            border-color: rgba(29, 185, 84, 0.3);
+        }
+
+        .show-date {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .show-venue {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .show-location {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+        }
+
+        .show-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .revenue-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .revenue-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .revenue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(29, 185, 84, 0.3),
+                0 0 30px rgba(29, 185, 84, 0.1);
+        }
+
+        .revenue-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .revenue-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .revenue-change {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        .revenue-change.negative {
+            color: #ff4d4d;
+        }
+
+        .guide-section {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 20px;
         }
 
         .guide-card {
-            background: var(--card-background);
+            background: rgba(0, 0, 0, 0.3);
             border-radius: var(--border-radius);
             padding: 20px;
+            display: flex;
+            gap: 20px;
             transition: var(--transition);
-            cursor: pointer;
         }
 
         .guide-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(29, 185, 84, 0.3),
+                0 0 30px rgba(29, 185, 84, 0.1);
         }
 
-        .guide-icon {
-            width: 50px;
-            height: 50px;
+        .guide-avatar {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             justify-content: center;
             align-items: center;
+            font-weight: 700;
             font-size: 1.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            flex-shrink: 0;
+        }
+
+        .guide-info {
+            flex-grow: 1;
         }
 
         .guide-name {
             font-weight: 600;
+            font-size: 1.2rem;
             margin-bottom: 5px;
         }
 
         .guide-role {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .guide-message {
+            font-size: 0.95rem;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
 
-        .guide-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-        }
-
-        .guide-stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .globe-container {
-            height: 300px;
-            margin-top: 30px;
-            position: relative;
+        .guide-action {
+            display: inline-block;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-
-        .globe {
-            width: 100%;
-            height: 100%;
-            background: url('https://i.imgur.com/placeholder.jpg') no-repeat center center;
-            background-size: cover;
-            position: relative;
-        }
-
-        .market-bubble {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(29, 185, 84, 0.8) 0%, rgba(29, 185, 84, 0.2) 70%);
-            box-shadow: 0 0 15px rgba(29, 185, 84, 0.5);
-            transform: translate(-50%, -50%);
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
         }
 
-        .market-bubble:hover {
-            transform: translate(-50%, -50%) scale(1.5);
-            z-index: 10;
+        .guide-action:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        .market-tooltip {
+        .notification-badge {
             position: absolute;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border-radius: var(--border-radius);
-            font-size: 0.9rem;
-            pointer-events: none;
-            opacity: 0;
-            transition: var(--transition);
-            z-index: 20;
+            top: -5px;
+            right: -5px;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .market-bubble:hover + .market-tooltip {
-            opacity: 1;
-        }
-
-        .market-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .market-stats {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
+        .achievement-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary-color);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .notification-modal {
@@ -564,62 +438,52 @@
             color: var(--text-color);
         }
 
-        .modal-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .modal-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-        }
-
         .modal-title {
             font-size: 1.5rem;
             font-weight: 600;
-        }
-
-        .modal-body {
             margin-bottom: 20px;
+            color: var(--secondary-color);
         }
 
-        .modal-footer {
+        .notification-list {
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .modal-button {
-            padding: 10px 20px;
-            border: none;
+        .notification-item {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
+            padding: 15px;
             transition: var(--transition);
         }
 
-        .modal-button.primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .modal-button.secondary {
+        .notification-item:hover {
             background: rgba(255, 255, 255, 0.1);
-            color: var(--text-color);
         }
 
-        .modal-button:hover {
-            transform: translateY(-2px);
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
         }
 
-        .achievement-unlocked {
+        .notification-type {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .notification-message {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .achievement-unlock {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -631,27 +495,27 @@
             gap: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transform: translateX(150%);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1000;
+            transition: transform 0.5s ease;
+            z-index: 100;
         }
 
-        .achievement-unlocked.active {
+        .achievement-unlock.show {
             transform: translateX(0);
         }
 
         .achievement-icon {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 1.2rem;
         }
 
-        .achievement-content {
-            flex: 1;
+        .achievement-info {
+            flex-grow: 1;
         }
 
         .achievement-title {
@@ -659,29 +523,309 @@
             margin-bottom: 5px;
         }
 
-        .achievement-message {
+        .achievement-description {
             font-size: 0.9rem;
             opacity: 0.9;
         }
 
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
+        .globe-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
 
+        .globe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at 30% 30%, #1a1a1a, #000);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.3);
+        }
+
+        .globe::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0,
+                transparent 2px,
+                rgba(255, 255, 255, 0.05) 2px,
+                rgba(255, 255, 255, 0.05) 4px
+            );
+            border-radius: 50%;
+        }
+
+        .globe::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0,
+                transparent 2px,
+                rgba(255, 255, 255, 0.05) 2px,
+                rgba(255, 255, 255, 0.05) 4px
+            );
+            border-radius: 50%;
+        }
+
+        .market-bubble {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle at 30% 30%, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .market-bubble:hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            box-shadow: 
+                0 0 15px rgba(29, 185, 84, 0.5),
+                0 0 30px rgba(29, 185, 84, 0.3),
+                0 0 45px rgba(29, 185, 84, 0.1);
+        }
+
+        .market-bubble::after {
+            content: attr(data-city);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .market-bubble:hover::after {
+            opacity: 1;
+            bottom: 120%;
+        }
+
+        .market-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .market-tooltip.show {
+            opacity: 1;
+        }
+
+        .market-tooltip-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .market-tooltip-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .market-tooltip-stat {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .market-tooltip-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .market-tooltip-value {
+            font-weight: 600;
+        }
+
+        /* Computer Key Element */
+        .key-element {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            z-index: 2;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .key-element:hover {
+            transform: scale(1.1);
+        }
+
+        .key {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .key-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .key-face::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(29, 185, 84, 0.2), rgba(255, 185, 0, 0.2));
+            border-radius: 8px;
+            z-index: -1;
+        }
+
+        .key-face::after {
+            content: 'M';
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(29, 185, 84, 0.5);
+        }
+
+        .key-side {
+            position: absolute;
+            width: 8px;
+            height: 100%;
+            background: #1a1a1a;
+            transform: rotateY(90deg);
+            transform-origin: left;
+            left: 0;
+        }
+
+        .key-top {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: #2a2a2a;
+            transform: rotateX(90deg);
+            transform-origin: top;
+            top: 0;
+        }
+
+        .key-bottom {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: #1a1a1a;
+            transform: rotateX(-90deg);
+            transform-origin: bottom;
+            bottom: 0;
+        }
+
+        .key-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            transform: translateZ(-8px);
+        }
+
+        .key-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            box-shadow: 
+                0 0 15px rgba(29, 185, 84, 0.5),
+                0 0 30px rgba(29, 185, 84, 0.3),
+                0 0 45px rgba(29, 185, 84, 0.1);
+            opacity: 0;
+            transition: var(--transition);
+            background: linear-gradient(135deg, 
+                rgba(29, 185, 84, 0.1) 0%, 
+                rgba(29, 185, 84, 0) 50%, 
+                rgba(255, 185, 0, 0.1) 100%);
+            filter: blur(2px);
+        }
+
+        .key-element:hover .key-glow {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @media (max-width: 768px) {
             .welcome-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
 
-            .quick-actions {
+            .action-buttons {
                 width: 100%;
                 justify-content: space-between;
             }
 
-            .guide-grid {
+            .upcoming-shows {
                 grid-template-columns: 1fr;
+            }
+
+            .revenue-overview {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .guide-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .guide-avatar {
+                margin-bottom: 10px;
+            }
+
+            .guide-action {
+                margin-top: 10px;
             }
         }
     </style>
@@ -689,349 +833,253 @@
 <body>
     <div class="dashboard-container">
         <div class="welcome-header">
+            <!-- Computer Key Element -->
+            <div class="key-element">
+                <div class="key">
+                    <div class="key-face"></div>
+                    <div class="key-side"></div>
+                    <div class="key-top"></div>
+                    <div class="key-bottom"></div>
+                    <div class="key-back"></div>
+                </div>
+                <div class="key-glow"></div>
+            </div>
+            
+            <div class="welcome-text">
+                <h1 class="welcome-title">Welcome Back, Metro</h1>
+                <p class="welcome-subtitle">Your tour command center is ready</p>
+            </div>
+            
             <div class="artist-profile">
-                <img src="https://i.imgur.com/placeholder.jpg" alt="Metro Boomin" class="artist-avatar">
+                <div class="artist-avatar">M</div>
                 <div class="artist-info">
-                    <h1>Metro Boomin</h1>
-                    <div class="artist-status">🌟 Global Artist • Festival Headliner</div>
+                    <div class="artist-name">Metro Boomin</div>
+                    <div class="artist-status">Producer • Global Icon</div>
                 </div>
             </div>
-            <div class="quick-actions">
+            
+            <div class="action-buttons">
                 <button class="action-button">
-                    <span>📊</span>
-                    View Analytics
+                    <span>📊</span> Analytics
                 </button>
-                <button class="action-button">
-                    <span>🌍</span>
-                    Global Reach
+                <button class="action-button primary">
+                    <span>➕</span> New Show
                 </button>
             </div>
         </div>
-
-        <div class="dashboard-grid">
-            <div class="main-content">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-title">Upcoming Shows</div>
-                        <div class="card-action">View All</div>
-                    </div>
-                    <div class="upcoming-shows">
-                        <div class="show-card">
-                            <div class="show-info">
-                                <div class="show-name">Coachella 2025</div>
-                                <div class="show-details">Indio, CA • Main Stage Headliner</div>
-                            </div>
-                            <div class="show-date">Apr 11-13</div>
-                            <div class="show-status status-confirmed">Confirmed</div>
-                            <div class="show-action">📋</div>
-                        </div>
-                        <div class="show-card">
-                            <div class="show-info">
-                                <div class="show-name">Rolling Loud Miami</div>
-                                <div class="show-details">Miami, FL • Festival Closer</div>
-                            </div>
-                            <div class="show-date">Jul 25-27</div>
-                            <div class="show-status status-confirmed">Confirmed</div>
-                            <div class="show-action">📋</div>
-                        </div>
-                        <div class="show-card">
-                            <div class="show-info">
-                                <div class="show-name">Lollapalooza</div>
-                                <div class="show-details">Chicago, IL • Main Stage</div>
-                            </div>
-                            <div class="show-date">Aug 1-4</div>
-                            <div class="show-status status-pending">Pending</div>
-                            <div class="show-action">📋</div>
-                        </div>
-                    </div>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Upcoming Shows</h2>
+                    <div class="section-action">View All</div>
                 </div>
-
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-title">Revenue Overview</div>
-                        <div class="card-action">Details</div>
-                    </div>
-                    <div class="revenue-chart">
-                        <div class="chart-bar" style="left: 10%; height: 60%;">
-                            <div class="chart-value">$350K</div>
-                            <div class="chart-label">Coachella</div>
-                        </div>
-                        <div class="chart-bar" style="left: 30%; height: 45%;">
-                            <div class="chart-value">$280K</div>
-                            <div class="chart-label">Rolling Loud</div>
-                        </div>
-                        <div class="chart-bar" style="left: 50%; height: 75%;">
-                            <div class="chart-value">$420K</div>
-                            <div class="chart-label">Lollapalooza</div>
-                        </div>
-                        <div class="chart-bar" style="left: 70%; height: 30%;">
-                            <div class="chart-value">$180K</div>
-                            <div class="chart-label">Austin City</div>
-                        </div>
-                        <div class="chart-bar" style="left: 90%; height: 50%;">
-                            <div class="chart-value">$310K</div>
-                            <div class="chart-label">Governors Ball</div>
+                
+                <div class="upcoming-shows">
+                    <div class="show-card">
+                        <div class="show-date">June 15, 2023</div>
+                        <div class="show-venue">Madison Square Garden</div>
+                        <div class="show-location">New York, NY</div>
+                        <div class="show-details">
+                            <div>Capacity: 20,000</div>
+                            <div>Revenue: $1.2M</div>
                         </div>
                     </div>
-                </div>
-
-                <div class="guide-section">
-                    <div class="guide-header">
-                        <div class="guide-title">Your Guides</div>
-                    </div>
-                    <div class="guide-grid">
-                        <div class="guide-card">
-                            <div class="guide-icon">🎵</div>
-                            <div class="guide-name">Alex Thompson</div>
-                            <div class="guide-role">Music Direction Guide</div>
-                            <div class="guide-stats">
-                                <div class="guide-stat">
-                                    <div class="stat-value">12</div>
-                                    <div class="stat-label">Sessions</div>
-                                </div>
-                                <div class="guide-stat">
-                                    <div class="stat-value">4.9</div>
-                                    <div class="stat-label">Rating</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="guide-card">
-                            <div class="guide-icon">🎭</div>
-                            <div class="guide-name">Sarah Chen</div>
-                            <div class="guide-role">Performance Guide</div>
-                            <div class="guide-stats">
-                                <div class="guide-stat">
-                                    <div class="stat-value">8</div>
-                                    <div class="stat-label">Sessions</div>
-                                </div>
-                                <div class="guide-stat">
-                                    <div class="stat-value">4.8</div>
-                                    <div class="stat-label">Rating</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="guide-card">
-                            <div class="guide-icon">💼</div>
-                            <div class="guide-name">Marcus Johnson</div>
-                            <div class="guide-role">Business Strategy Guide</div>
-                            <div class="guide-stats">
-                                <div class="guide-stat">
-                                    <div class="stat-value">5</div>
-                                    <div class="stat-label">Sessions</div>
-                                </div>
-                                <div class="guide-stat">
-                                    <div class="stat-value">4.7</div>
-                                    <div class="stat-label">Rating</div>
-                                </div>
-                            </div>
+                    
+                    <div class="show-card">
+                        <div class="show-date">June 22, 2023</div>
+                        <div class="show-venue">Staples Center</div>
+                        <div class="show-location">Los Angeles, CA</div>
+                        <div class="show-details">
+                            <div>Capacity: 19,000</div>
+                            <div>Revenue: $1.1M</div>
                         </div>
                     </div>
-                </div>
-
-                <div class="globe-container">
-                    <div class="globe">
-                        <div class="market-bubble" style="top: 30%; left: 20%;">
-                            <div class="market-tooltip">
-                                <div class="market-name">Los Angeles</div>
-                                <div class="market-stats">3 Shows • $1.2M Revenue</div>
-                            </div>
-                        </div>
-                        <div class="market-bubble" style="top: 40%; left: 30%;">
-                            <div class="market-tooltip">
-                                <div class="market-name">Miami</div>
-                                <div class="market-stats">2 Shows • $850K Revenue</div>
-                            </div>
-                        </div>
-                        <div class="market-bubble" style="top: 35%; left: 45%;">
-                            <div class="market-tooltip">
-                                <div class="market-name">Chicago</div>
-                                <div class="market-stats">1 Show • $420K Revenue</div>
-                            </div>
-                        </div>
-                        <div class="market-bubble" style="top: 25%; left: 60%;">
-                            <div class="market-tooltip">
-                                <div class="market-name">New York</div>
-                                <div class="market-stats">4 Shows • $1.5M Revenue</div>
-                            </div>
-                        </div>
-                        <div class="market-bubble" style="top: 50%; left: 70%;">
-                            <div class="market-tooltip">
-                                <div class="market-name">London</div>
-                                <div class="market-stats">2 Shows • $780K Revenue</div>
-                            </div>
-                        </div>
-                        <div class="market-bubble" style="top: 60%; left: 80%;">
-                            <div class="market-tooltip">
-                                <div class="market-name">Tokyo</div>
-                                <div class="market-stats">1 Show • $450K Revenue</div>
-                            </div>
+                    
+                    <div class="show-card">
+                        <div class="show-date">July 5, 2023</div>
+                        <div class="show-venue">O2 Arena</div>
+                        <div class="show-location">London, UK</div>
+                        <div class="show-details">
+                            <div>Capacity: 20,000</div>
+                            <div>Revenue: $950K</div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="side-panel">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-title">Notifications</div>
-                        <div class="card-action">Clear All</div>
+            
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Revenue Overview</h2>
+                    <div class="section-action">View Details</div>
+                </div>
+                
+                <div class="revenue-overview">
+                    <div class="revenue-card">
+                        <div class="revenue-label">Total Revenue</div>
+                        <div class="revenue-value">$12.5M</div>
+                        <div class="revenue-change">+15% from last year</div>
                     </div>
-                    <div class="notification-list">
-                        <div class="notification-item" data-notification="offer">
-                            <div class="notification-icon icon-offer">💰</div>
-                            <div class="notification-content">
-                                <div class="notification-title">New Offer: Coachella 2025</div>
-                                <div class="notification-message">You've received a new offer for Coachella 2025 as a headliner.</div>
-                                <div class="notification-time">2 hours ago</div>
+                    
+                    <div class="revenue-card">
+                        <div class="revenue-label">Average Ticket Price</div>
+                        <div class="revenue-value">$125</div>
+                        <div class="revenue-change">+8% from last year</div>
+                    </div>
+                    
+                    <div class="revenue-card">
+                        <div class="revenue-label">Merchandise Sales</div>
+                        <div class="revenue-value">$2.8M</div>
+                        <div class="revenue-change">+22% from last year</div>
+                    </div>
+                    
+                    <div class="revenue-card">
+                        <div class="revenue-label">Streaming Revenue</div>
+                        <div class="revenue-value">$5.2M</div>
+                        <div class="revenue-change negative">-3% from last year</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Your Guide</h2>
+                    <div class="section-action">Message</div>
+                </div>
+                
+                <div class="guide-section">
+                    <div class="guide-card">
+                        <div class="guide-avatar">R</div>
+                        <div class="guide-info">
+                            <div class="guide-name">Robert Smith</div>
+                            <div class="guide-role">Elite Agent • Tour Strategist</div>
+                            <div class="guide-message">
+                                "Metro, your European tour is shaping up nicely. I've secured premium venues in all major markets. Let's discuss the Asia leg next week. Also, I have some exciting festival offers for next summer."
                             </div>
-                        </div>
-                        <div class="notification-item" data-notification="achievement">
-                            <div class="notification-icon icon-success">🏆</div>
-                            <div class="notification-content">
-                                <div class="notification-title">Achievement Unlocked: Global Icon</div>
-                                <div class="notification-message">You've reached 1M followers across all platforms!</div>
-                                <div class="notification-time">1 day ago</div>
-                            </div>
-                        </div>
-                        <div class="notification-item" data-notification="alert">
-                            <div class="notification-icon icon-alert">⚠️</div>
-                            <div class="notification-content">
-                                <div class="notification-title">Schedule Conflict Alert</div>
-                                <div class="notification-message">Potential conflict between Rolling Loud and Lollapalooza dates.</div>
-                                <div class="notification-time">2 days ago</div>
-                            </div>
+                            <div class="guide-action">Reply</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <div class="card-title">Achievements</div>
-                        <div class="card-action">View All</div>
-                    </div>
-                    <div class="badge-container">
-                        <div class="badge">
-                            <div class="badge-icon badge-earned">🌍</div>
-                            <div class="badge-name">Global Icon</div>
-                        </div>
-                        <div class="badge">
-                            <div class="badge-icon badge-earned">🎵</div>
-                            <div class="badge-name">Hit Maker</div>
-                        </div>
-                        <div class="badge">
-                            <div class="badge-icon badge-earned">💰</div>
-                            <div class="badge-name">Top Earner</div>
-                        </div>
-                        <div class="badge">
-                            <div class="badge-icon badge-locked">🎭</div>
-                            <div class="badge-name">Stage Master</div>
-                            <div class="badge-progress">
-                                <div class="progress-bar" style="width: 75%;"></div>
-                            </div>
-                        </div>
-                        <div class="badge">
-                            <div class="badge-icon badge-locked">🤝</div>
-                            <div class="badge-name">Collaborator</div>
-                            <div class="badge-progress">
-                                <div class="progress-bar" style="width: 50%;"></div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Global Reach</h2>
+                    <div class="section-action">View Details</div>
+                </div>
+                
+                <div class="globe-container">
+                    <div class="globe"></div>
+                    <div class="market-bubble" style="top: 30%; left: 20%;" data-city="New York"></div>
+                    <div class="market-bubble" style="top: 35%; left: 25%;" data-city="Los Angeles"></div>
+                    <div class="market-bubble" style="top: 40%; left: 30%;" data-city="Chicago"></div>
+                    <div class="market-bubble" style="top: 45%; left: 35%;" data-city="Miami"></div>
+                    <div class="market-bubble" style="top: 30%; left: 60%;" data-city="London"></div>
+                    <div class="market-bubble" style="top: 35%; left: 65%;" data-city="Paris"></div>
+                    <div class="market-bubble" style="top: 40%; left: 70%;" data-city="Berlin"></div>
+                    <div class="market-bubble" style="top: 45%; left: 75%;" data-city="Tokyo"></div>
+                    <div class="market-bubble" style="top: 50%; left: 80%;" data-city="Sydney"></div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div class="notification-modal" id="notification-modal">
         <div class="modal-content">
             <div class="modal-close">&times;</div>
-            <div class="modal-header">
-                <div class="modal-icon icon-offer">💰</div>
-                <div class="modal-title">New Offer: Coachella 2025</div>
-            </div>
-            <div class="modal-body">
-                <p>You've received a new offer to headline Coachella 2025! This is a major opportunity to showcase your talent on one of the world's biggest stages.</p>
-                <p><strong>Details:</strong></p>
-                <ul>
-                    <li>Date: April 11-13, 2025</li>
-                    <li>Location: Indio, California</li>
-                    <li>Stage: Main Stage Headliner</li>
-                    <li>Offer: $350,000</li>
-                </ul>
-                <p>This offer expires in 7 days. Would you like to accept, negotiate, or decline?</p>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-button secondary">Decline</button>
-                <button class="modal-button secondary">Negotiate</button>
-                <button class="modal-button primary">Accept</button>
+            <h2 class="modal-title">Notifications</h2>
+            
+            <div class="notification-list">
+                <div class="notification-item">
+                    <div class="notification-header">
+                        <div class="notification-type">New Offer</div>
+                        <div class="notification-time">2 hours ago</div>
+                    </div>
+                    <div class="notification-message">
+                        Coachella has extended an offer for you to headline next year's festival.
+                    </div>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-header">
+                        <div class="notification-type">Achievement</div>
+                        <div class="notification-time">1 day ago</div>
+                    </div>
+                    <div class="notification-message">
+                        You've reached 1 billion streams across all platforms!
+                    </div>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-header">
+                        <div class="notification-type">Message</div>
+                        <div class="notification-time">2 days ago</div>
+                    </div>
+                    <div class="notification-message">
+                        Robert has sent you a new contract for review.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="achievement-unlocked" id="achievement-unlocked">
+    
+    <div class="achievement-unlock" id="achievement-unlock">
         <div class="achievement-icon">🏆</div>
-        <div class="achievement-content">
+        <div class="achievement-info">
             <div class="achievement-title">Achievement Unlocked!</div>
-            <div class="achievement-message">Global Icon - You've reached 1M followers across all platforms!</div>
+            <div class="achievement-description">Global Icon: Reached 1 billion streams</div>
         </div>
     </div>
-
+    
+    <div class="market-tooltip" id="market-tooltip">
+        <div class="market-tooltip-title">New York</div>
+        <div class="market-tooltip-stats">
+            <div class="market-tooltip-stat">
+                <div class="market-tooltip-label">Shows:</div>
+                <div class="market-tooltip-value">12</div>
+            </div>
+            <div class="market-tooltip-stat">
+                <div class="market-tooltip-label">Revenue:</div>
+                <div class="market-tooltip-value">$3.2M</div>
+            </div>
+            <div class="market-tooltip-stat">
+                <div class="market-tooltip-label">Attendance:</div>
+                <div class="market-tooltip-value">180,000</div>
+            </div>
+        </div>
+    </div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Notification click handler
-            const notificationItems = document.querySelectorAll('.notification-item');
-            const notificationModal = document.getElementById('notification-modal');
-            const modalClose = document.querySelector('.modal-close');
-            const achievementUnlocked = document.getElementById('achievement-unlocked');
-
-            notificationItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const notificationType = this.getAttribute('data-notification');
+            // Show achievement unlock
+            setTimeout(function() {
+                const achievementUnlock = document.getElementById('achievement-unlock');
+                achievementUnlock.classList.add('show');
+                
+                setTimeout(function() {
+                    achievementUnlock.classList.remove('show');
+                }, 5000);
+            }, 2000);
+            
+            // Market bubble tooltips
+            const marketBubbles = document.querySelectorAll('.market-bubble');
+            const marketTooltip = document.getElementById('market-tooltip');
+            
+            marketBubbles.forEach(function(bubble) {
+                bubble.addEventListener('mouseover', function(e) {
+                    const city = this.getAttribute('data-city');
+                    const rect = this.getBoundingClientRect();
                     
-                    if (notificationType === 'offer') {
-                        notificationModal.classList.add('active');
-                    } else if (notificationType === 'achievement') {
-                        achievementUnlocked.classList.add('active');
-                        setTimeout(() => {
-                            achievementUnlocked.classList.remove('active');
-                        }, 5000);
-                    }
+                    marketTooltip.querySelector('.market-tooltip-title').textContent = city;
+                    marketTooltip.style.left = rect.left + 'px';
+                    marketTooltip.style.top = (rect.top - marketTooltip.offsetHeight - 10) + 'px';
+                    marketTooltip.classList.add('show');
+                });
+                
+                bubble.addEventListener('mouseout', function() {
+                    marketTooltip.classList.remove('show');
                 });
             });
-
-            modalClose.addEventListener('click', function() {
-                notificationModal.classList.remove('active');
-            });
-
-            // Close modal when clicking outside
-            notificationModal.addEventListener('click', function(e) {
-                if (e.target === notificationModal) {
-                    notificationModal.classList.remove('active');
-                }
-            });
-
-            // Simulate new notification after 5 seconds
-            setTimeout(() => {
-                const newNotification = document.createElement('div');
-                newNotification.className = 'notification-item';
-                newNotification.setAttribute('data-notification', 'offer');
-                newNotification.innerHTML = `
-                    <div class="notification-icon icon-offer">🎵</div>
-                    <div class="notification-content">
-                        <div class="notification-title">New Collaboration Opportunity</div>
-                        <div class="notification-message">Kali Uchis wants to collaborate on your next project!</div>
-                        <div class="notification-time">Just now</div>
-                    </div>
-                `;
-                
-                const notificationList = document.querySelector('.notification-list');
-                notificationList.insertBefore(newNotification, notificationList.firstChild);
-                
-                // Add click event to new notification
-                newNotification.addEventListener('click', function() {
-                    notificationModal.classList.add('active');
-                });
-            }, 5000);
         });
     </script>
 </body>
