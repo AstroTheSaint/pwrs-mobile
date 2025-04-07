@@ -23,124 +23,176 @@
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+            overflow-x: hidden;
         }
 
         .portal-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%;
-            perspective: 1000px;
+            align-items: center;
         }
 
         .portal-title {
             font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 2rem;
+            margin-bottom: 10px;
             text-align: center;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
         }
 
         .portal-subtitle {
             font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 3rem;
+            margin-bottom: 50px;
             text-align: center;
         }
 
         .media-selector {
             display: flex;
-            gap: 3rem;
-            margin-bottom: 2rem;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
         }
 
         .media-item {
             position: relative;
-            width: 200px;
-            height: 200px;
             cursor: pointer;
             transition: var(--transition);
         }
 
         .media-item:hover {
-            transform: scale(1.05);
+            transform: translateY(-10px);
         }
 
-        .cd-container {
+        .media-item.selected {
+            transform: scale(1.1);
+        }
+
+        /* Metro Boomin - Computer Key */
+        .key-container {
+            width: 200px;
+            height: 200px;
             position: relative;
+            perspective: 1000px;
+        }
+
+        .key {
             width: 100%;
             height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .key-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .key-face::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(29, 185, 84, 0.2), rgba(255, 185, 0, 0.2));
+            border-radius: 15px;
+            z-index: -1;
+        }
+
+        .key-face::after {
+            content: 'M';
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+        }
+
+        .key-side {
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background: #1a1a1a;
+            transform: rotateY(90deg);
+            transform-origin: left;
+            left: 0;
+        }
+
+        .key-top {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: #2a2a2a;
+            transform: rotateX(90deg);
+            transform-origin: top;
+            top: 0;
+        }
+
+        .key-bottom {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: #1a1a1a;
+            transform: rotateX(-90deg);
+            transform-origin: bottom;
+            bottom: 0;
+        }
+
+        .key-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            transform: translateZ(-20px);
+        }
+
+        .key-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(29, 185, 84, 0.5);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .key-container:hover .key-glow {
+            opacity: 1;
+        }
+
+        /* Robert Smith - Vinyl Record */
+        .vinyl-container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .vinyl {
+            width: 100%;
+            height: 100%;
+            position: relative;
             transform-style: preserve-3d;
             animation: spin 10s linear infinite;
-        }
-
-        .cd-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 30px rgba(29, 185, 84, 0.3);
-        }
-
-        .cd-front {
-            background: linear-gradient(135deg, rgba(29, 185, 84, 0.2), rgba(255, 185, 0, 0.2));
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .cd-back {
-            background: linear-gradient(135deg, rgba(255, 185, 0, 0.2), rgba(29, 185, 84, 0.2));
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transform: rotateY(180deg);
-        }
-
-        .cd-center {
-            position: absolute;
-            width: 30%;
-            height: 30%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 70%);
-            border-radius: 50%;
-            top: 35%;
-            left: 35%;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-        }
-
-        .cd-label {
-            position: absolute;
-            width: 60%;
-            height: 60%;
-            border-radius: 50%;
-            top: 20%;
-            left: 20%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .vinyl-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            animation: spin 5s linear infinite;
         }
 
         .vinyl-face {
@@ -149,123 +201,429 @@
             height: 100%;
             border-radius: 50%;
             backface-visibility: hidden;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 30px rgba(255, 185, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .vinyl-front {
-            background: linear-gradient(135deg, #000000, #333333);
+        .vinyl-face::before {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #111, #000);
             border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        .vinyl-back {
-            background: linear-gradient(135deg, #333333, #000000);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transform: rotateY(180deg);
+        .vinyl-face::after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #333, #222);
+            border: 2px solid rgba(255, 255, 255, 0.05);
         }
 
         .vinyl-grooves {
             position: absolute;
-            width: 90%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             background: repeating-radial-gradient(
                 circle at center,
                 transparent 0,
                 transparent 2px,
-                rgba(255, 255, 255, 0.05) 2px,
-                rgba(255, 255, 255, 0.05) 4px
+                rgba(255, 255, 255, 0.03) 2px,
+                rgba(255, 255, 255, 0.03) 4px
             );
-            top: 5%;
-            left: 5%;
         }
 
         .vinyl-label {
             position: absolute;
             width: 30%;
             height: 30%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 70%);
             border-radius: 50%;
-            top: 35%;
-            left: 35%;
+            background: linear-gradient(45deg, #333, #222);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: rgba(0, 0, 0, 0.9);
-        }
-
-        .media-label {
-            position: absolute;
-            bottom: -40px;
-            width: 100%;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.2rem;
-            color: var(--text-color);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .holographic-effect {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                rgba(255, 255, 255, 0) 50%, 
-                rgba(255, 255, 255, 0.1) 100%);
-            animation: holographic 3s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .prism-effect {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, 
-                rgba(29, 185, 84, 0.2) 0%, 
-                rgba(255, 185, 0, 0.2) 50%, 
-                rgba(29, 185, 84, 0.2) 100%);
-            filter: blur(10px);
-            animation: prism 5s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .glow-effect {
-            position: absolute;
-            width: 120%;
-            height: 120%;
-            top: -10%;
-            left: -10%;
-            border-radius: 50%;
-            background: radial-gradient(circle, 
-                rgba(29, 185, 84, 0.3) 0%, 
-                rgba(255, 185, 0, 0.3) 50%, 
-                transparent 70%);
-            filter: blur(20px);
-            animation: glow 4s ease-in-out infinite;
-            pointer-events: none;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(255, 185, 0, 0.5);
         }
 
         .vinyl-glow {
             position: absolute;
-            width: 120%;
-            height: 120%;
-            top: -10%;
-            left: -10%;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle, 
-                rgba(255, 185, 0, 0.3) 0%, 
-                rgba(29, 185, 84, 0.3) 50%, 
-                transparent 70%);
-            filter: blur(20px);
-            animation: glow 4s ease-in-out infinite reverse;
+            box-shadow: 0 0 30px rgba(255, 185, 0, 0.5);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .vinyl-container:hover .vinyl-glow {
+            opacity: 1;
+        }
+
+        .vinyl-container:hover .vinyl {
+            animation-play-state: paused;
+        }
+
+        /* Tree of Life */
+        .tree-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .tree-container.visible {
+            opacity: 0.3;
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+        }
+
+        .tree-trunk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 60%;
+            background: linear-gradient(to top, #3a2a1a, #5a3a2a);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tree-roots {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 20%;
+            background: radial-gradient(ellipse at center, #3a2a1a 0%, transparent 70%);
+        }
+
+        .tree-branches {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+        }
+
+        .branch {
+            position: absolute;
+            background: linear-gradient(to right, #3a2a1a, #5a3a2a);
+            border-radius: 10px;
+        }
+
+        .branch-1 {
+            width: 100px;
+            height: 10px;
+            top: 20%;
+            left: 30%;
+            transform: rotate(-30deg);
+        }
+
+        .branch-2 {
+            width: 80px;
+            height: 10px;
+            top: 30%;
+            right: 25%;
+            transform: rotate(30deg);
+        }
+
+        .branch-3 {
+            width: 120px;
+            height: 10px;
+            top: 40%;
+            left: 20%;
+            transform: rotate(-20deg);
+        }
+
+        .branch-4 {
+            width: 90px;
+            height: 10px;
+            top: 50%;
+            right: 30%;
+            transform: rotate(25deg);
+        }
+
+        .branch-5 {
+            width: 70px;
+            height: 10px;
+            top: 60%;
+            left: 35%;
+            transform: rotate(-15deg);
+        }
+
+        .branch-6 {
+            width: 100px;
+            height: 10px;
+            top: 70%;
+            right: 20%;
+            transform: rotate(20deg);
+        }
+
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        .leaf-1 { top: 15%; left: 25%; }
+        .leaf-2 { top: 25%; right: 20%; }
+        .leaf-3 { top: 35%; left: 15%; }
+        .leaf-4 { top: 45%; right: 30%; }
+        .leaf-5 { top: 55%; left: 30%; }
+        .leaf-6 { top: 65%; right: 15%; }
+        .leaf-7 { top: 75%; left: 20%; }
+        .leaf-8 { top: 85%; right: 25%; }
+
+        .root-node {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+        }
+
+        .root-node-1 { bottom: 10%; left: 30%; }
+        .root-node-2 { bottom: 15%; left: 50%; }
+        .root-node-3 { bottom: 10%; right: 30%; }
+
+        .root-label {
+            position: absolute;
+            bottom: 5%;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .root-label-1 { left: 30%; transform: translateX(-50%); }
+        .root-label-2 { left: 50%; transform: translateX(-50%); }
+        .root-label-3 { right: 30%; transform: translateX(50%); }
+
+        .enter-button {
+            margin-top: 50px;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
             pointer-events: none;
+        }
+
+        .enter-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .enter-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .artist-info-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .artist-info-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .artist-info-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--text-color);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .modal-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+        }
+
+        .timeline-year {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .timeline-event {
+            font-size: 0.9rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-button.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .modal-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .modal-button:hover {
+            transform: translateY(-2px);
         }
 
         @keyframes spin {
@@ -273,60 +631,17 @@
             100% { transform: rotateY(360deg); }
         }
 
-        @keyframes holographic {
-            0% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-            100% { opacity: 0.3; }
-        }
-
-        @keyframes prism {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes glow {
-            0% { opacity: 0.3; transform: scale(0.9); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-            100% { opacity: 0.3; transform: scale(0.9); }
-        }
-
-        .portal-button {
-            margin-top: 2rem;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            border-radius: var(--border-radius);
-            color: white;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
-        }
-
-        .portal-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(29, 185, 84, 0.4);
-        }
-
-        .portal-button:active {
-            transform: translateY(1px);
-        }
-
-        .selected-media {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(29, 185, 84, 0.5);
-        }
-
-        .media-item.selected .cd-container,
-        .media-item.selected .vinyl-container {
-            animation-play-state: paused;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
         @media (max-width: 768px) {
             .media-selector {
                 flex-direction: column;
-                gap: 2rem;
+                align-items: center;
+                gap: 30px;
             }
 
             .portal-title {
@@ -342,87 +657,245 @@
 <body>
     <div class="portal-container">
         <h1 class="portal-title">Tour Command Center</h1>
-        <p class="portal-subtitle">Select your experience to enter the music space</p>
+        <p class="portal-subtitle">Select your experience to enter the command center</p>
         
         <div class="media-selector">
-            <div class="media-item" id="artist-option">
-                <div class="prism-effect"></div>
-                <div class="glow-effect"></div>
-                <div class="cd-container">
-                    <div class="cd-face cd-front">
-                        <div class="holographic-effect"></div>
-                        <div class="cd-label">M</div>
+            <div class="media-item" id="metro-key">
+                <div class="key-container">
+                    <div class="key">
+                        <div class="key-face"></div>
+                        <div class="key-side"></div>
+                        <div class="key-top"></div>
+                        <div class="key-bottom"></div>
+                        <div class="key-back"></div>
                     </div>
-                    <div class="cd-face cd-back">
-                        <div class="holographic-effect"></div>
-                        <div class="cd-label">B</div>
-                    </div>
-                    <div class="cd-center"></div>
+                    <div class="key-glow"></div>
                 </div>
-                <div class="media-label">Metro Boomin</div>
+                <p style="text-align: center; margin-top: 15px; font-weight: 600;">Metro Boomin</p>
             </div>
             
-            <div class="media-item" id="agent-option">
-                <div class="prism-effect"></div>
-                <div class="vinyl-glow"></div>
+            <div class="media-item" id="robert-vinyl">
                 <div class="vinyl-container">
-                    <div class="vinyl-face vinyl-front">
-                        <div class="vinyl-grooves"></div>
-                        <div class="vinyl-label">R</div>
+                    <div class="vinyl">
+                        <div class="vinyl-face">
+                            <div class="vinyl-grooves"></div>
+                            <div class="vinyl-label">R</div>
+                        </div>
                     </div>
-                    <div class="vinyl-face vinyl-back">
-                        <div class="vinyl-grooves"></div>
-                        <div class="vinyl-label">S</div>
-                    </div>
+                    <div class="vinyl-glow"></div>
                 </div>
-                <div class="media-label">Robert Smith</div>
+                <p style="text-align: center; margin-top: 15px; font-weight: 600;">Robert Smith</p>
             </div>
         </div>
         
-        <button class="portal-button" id="enter-button">Enter Experience</button>
+        <button class="enter-button" id="enter-button">Enter Experience</button>
+    </div>
+
+    <div class="tree-container" id="tree-container">
+        <div class="tree">
+            <div class="tree-trunk"></div>
+            <div class="tree-roots"></div>
+            <div class="tree-branches">
+                <div class="branch branch-1"></div>
+                <div class="branch branch-2"></div>
+                <div class="branch branch-3"></div>
+                <div class="branch branch-4"></div>
+                <div class="branch branch-5"></div>
+                <div class="branch branch-6"></div>
+                <div class="leaf leaf-1"></div>
+                <div class="leaf leaf-2"></div>
+                <div class="leaf leaf-3"></div>
+                <div class="leaf leaf-4"></div>
+                <div class="leaf leaf-5"></div>
+                <div class="leaf leaf-6"></div>
+                <div class="leaf leaf-7"></div>
+                <div class="leaf leaf-8"></div>
+            </div>
+            <div class="root-node root-node-1">2010</div>
+            <div class="root-node root-node-2">2015</div>
+            <div class="root-node root-node-3">2020</div>
+            <div class="root-label root-label-1">First Beat</div>
+            <div class="root-label root-label-2">First Hit</div>
+            <div class="root-label root-label-3">Global Success</div>
+        </div>
+    </div>
+
+    <div class="artist-info-modal" id="metro-modal">
+        <div class="modal-content">
+            <div class="modal-close">&times;</div>
+            <div class="modal-header">
+                <div class="modal-icon">🎵</div>
+                <div>
+                    <div class="modal-title">Metro Boomin</div>
+                    <div class="modal-subtitle">Producer • Artist • Global Icon</div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <div class="section-title">Musical Journey</div>
+                    <p>Metro Boomin began his journey in music production at a young age, crafting beats on his computer. His digital roots have grown into a global empire of sound, influencing the entire music industry.</p>
+                </div>
+                <div class="modal-section">
+                    <div class="section-title">Timeline</div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2010</div>
+                            <div class="timeline-event">Started producing beats on his computer at age 17</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2013</div>
+                            <div class="timeline-event">First major placement with Future</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2015</div>
+                            <div class="timeline-event">Breakthrough with "Jumpman" featuring Drake and Future</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2018</div>
+                            <div class="timeline-event">Released "Not All Heroes Wear Capes" debut album</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2020</div>
+                            <div class="timeline-event">Global success with multiple #1 albums</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2023</div>
+                            <div class="timeline-event">Headlined major festivals worldwide</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <div class="section-title">Digital Roots</div>
+                    <p>Metro's journey began with a single key press on a computer, which has evolved into a command center for global music production. His digital approach to music has revolutionized the industry.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button secondary" id="metro-modal-close">Close</button>
+                <button class="modal-button primary" id="metro-enter">Enter Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="artist-info-modal" id="robert-modal">
+        <div class="modal-content">
+            <div class="modal-close">&times;</div>
+            <div class="modal-header">
+                <div class="modal-icon">🎵</div>
+                <div>
+                    <div class="modal-title">Robert Smith</div>
+                    <div class="modal-subtitle">Elite Agent • Venue Specialist</div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <div class="section-title">Musical Journey</div>
+                    <p>Robert Smith's career spans decades in the music industry, starting with vinyl records and evolving through every era of music technology. His experience has made him one of the most respected agents in the industry.</p>
+                </div>
+                <div class="modal-section">
+                    <div class="section-title">Timeline</div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1985</div>
+                            <div class="timeline-event">Started collecting vinyl records</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1990</div>
+                            <div class="timeline-event">First job as a music promoter</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1995</div>
+                            <div class="timeline-event">Transitioned to CD era as a booking agent</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2005</div>
+                            <div class="timeline-event">Founded his own agency</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2015</div>
+                            <div class="timeline-event">Expanded to digital streaming era</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2020</div>
+                            <div class="timeline-event">Became a venue specialist</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <div class="section-title">Vinyl Roots</div>
+                    <p>Robert's journey began with vinyl records, which has evolved into a comprehensive understanding of the entire music industry. His experience spans from analog to digital, giving him unique insights into artist development.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button secondary" id="robert-modal-close">Close</button>
+                <button class="modal-button primary" id="robert-enter">Enter Dashboard</button>
+            </div>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const artistOption = document.getElementById('artist-option');
-            const agentOption = document.getElementById('agent-option');
+            const metroKey = document.getElementById('metro-key');
+            const robertVinyl = document.getElementById('robert-vinyl');
             const enterButton = document.getElementById('enter-button');
-            let selectedOption = null;
-
-            // Function to handle media selection
-            function selectMedia(option) {
-                // Remove selected class from all options
-                artistOption.classList.remove('selected');
-                agentOption.classList.remove('selected');
-                
-                // Add selected class to clicked option
-                option.classList.add('selected');
-                selectedOption = option;
-                
-                // Enable enter button
-                enterButton.style.opacity = '1';
-                enterButton.style.cursor = 'pointer';
-            }
-
-            // Add click event listeners
-            artistOption.addEventListener('click', function() {
-                selectMedia(artistOption);
+            const treeContainer = document.getElementById('tree-container');
+            const metroModal = document.getElementById('metro-modal');
+            const robertModal = document.getElementById('robert-modal');
+            const metroModalClose = document.querySelector('#metro-modal .modal-close');
+            const robertModalClose = document.querySelector('#robert-modal .modal-close');
+            const metroEnter = document.getElementById('metro-enter');
+            const robertEnter = document.getElementById('robert-enter');
+            
+            let selectedArtist = null;
+            
+            metroKey.addEventListener('click', function() {
+                selectedArtist = 'metro';
+                metroKey.classList.add('selected');
+                robertVinyl.classList.remove('selected');
+                enterButton.classList.add('visible');
+                treeContainer.classList.add('visible');
+                metroModal.classList.add('active');
             });
-
-            agentOption.addEventListener('click', function() {
-                selectMedia(agentOption);
+            
+            robertVinyl.addEventListener('click', function() {
+                selectedArtist = 'robert';
+                robertVinyl.classList.add('selected');
+                metroKey.classList.remove('selected');
+                enterButton.classList.add('visible');
+                treeContainer.classList.add('visible');
+                robertModal.classList.add('active');
             });
-
-            // Initially disable enter button
-            enterButton.style.opacity = '0.5';
-            enterButton.style.cursor = 'not-allowed';
-
-            // Handle enter button click
+            
             enterButton.addEventListener('click', function() {
-                if (selectedOption === artistOption) {
+                if (selectedArtist === 'metro') {
                     window.location.href = 'dashboard.html';
-                } else if (selectedOption === agentOption) {
+                } else if (selectedArtist === 'robert') {
                     window.location.href = 'agent-dashboard.html';
+                }
+            });
+            
+            metroModalClose.addEventListener('click', function() {
+                metroModal.classList.remove('active');
+            });
+            
+            robertModalClose.addEventListener('click', function() {
+                robertModal.classList.remove('active');
+            });
+            
+            metroEnter.addEventListener('click', function() {
+                window.location.href = 'dashboard.html';
+            });
+            
+            robertEnter.addEventListener('click', function() {
+                window.location.href = 'agent-dashboard.html';
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === metroModal) {
+                    metroModal.classList.remove('active');
+                }
+                if (e.target === robertModal) {
+                    robertModal.classList.remove('active');
                 }
             });
         });
