@@ -193,6 +193,61 @@
                 max-width: 280px;
             }
         }
+
+        .experience-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .experience-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .experience-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .experience-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .experience-description {
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .experience-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .experience-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 185, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -223,19 +278,29 @@
         </div>
     </section>
 
-    <section class="cta-section">
-        <h2>Choose Your Experience</h2>
-        <div class="role-selection">
-            <a href="dashboard.html" class="role-card">
-                <i class="role-icon ri-mic-line"></i>
-                <h3 class="role-title">Artist</h3>
-                <p class="role-description">Manage your tours, track performance, and connect with your team.</p>
-            </a>
-            <a href="agent-dashboard.html" class="role-card">
-                <i class="role-icon ri-user-star-line"></i>
-                <h3 class="role-title">Agent</h3>
-                <p class="role-description">Oversee multiple artists, handle bookings, and maximize opportunities.</p>
-            </a>
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Choose Your Experience</h2>
+            <div class="experience-options">
+                <div class="experience-card">
+                    <i class="ri-user-star-line experience-icon"></i>
+                    <h3 class="experience-title">Artist Experience</h3>
+                    <p class="experience-description">Access your personalized dashboard to manage tours, track revenue, and discover opportunities.</p>
+                    <a href="dashboard.html" class="experience-button">Enter Dashboard</a>
+                </div>
+                <div class="experience-card">
+                    <i class="ri-team-line experience-icon"></i>
+                    <h3 class="experience-title">Agent Experience</h3>
+                    <p class="experience-description">Manage multiple artists, track negotiations, and streamline your operations.</p>
+                    <a href="agent-dashboard.html" class="experience-button">Enter Dashboard</a>
+                </div>
+                <div class="experience-card">
+                    <i class="ri-presentation-line experience-icon"></i>
+                    <h3 class="experience-title">Investor Experience</h3>
+                    <p class="experience-description">Explore our vision, technology, and growth strategy in the live music industry.</p>
+                    <a href="investor-pitch.html" class="experience-button">View Pitch</a>
+                </div>
+            </div>
         </div>
     </section>
 </body>
