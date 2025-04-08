@@ -312,6 +312,39 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        .artist-match {
+            margin-top: 4px;
+            font-size: 13px;
+            color: var(--primary-color);
+        }
+
+        .negotiation-status {
+            margin-top: 4px;
+            font-size: 13px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .status-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 25%;
+            background: var(--primary-color);
+            color: #000;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -324,6 +357,11 @@
         <a href="#map" class="nav-item" data-section="map-section">
             <i class="nav-icon ri-compass-3-line"></i>
             <span class="nav-label">Map</span>
+        </a>
+        <a href="#messages" class="nav-item" data-section="messages-section">
+            <i class="nav-icon ri-message-3-line"></i>
+            <div class="notification-badge">5</div>
+            <span class="nav-label">Messages</span>
         </a>
         <a href="#notifications" class="nav-item" data-section="notifications-section">
             <i class="nav-icon ri-notification-4-line"></i>
@@ -508,6 +546,141 @@
                     <div class="artist-stats">38 shows • $725,000 revenue</div>
                 </div>
                 <i class="ri-arrow-right-s-line"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Messages Section -->
+    <section id="messages-section" class="content-section">
+        <h2>Communications Hub</h2>
+        <div class="messages-container">
+            <div class="message-category">
+                <div class="category-header">
+                    <h3><i class="ri-star-line"></i> Priority Opportunities</h3>
+                    <span class="event-status status-new">3 New</span>
+                </div>
+                <div class="event-opportunity unread">
+                    <div class="event-icon">
+                        <i class="ri-building-4-line"></i>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">MSG - New Year's Eve Headliner</div>
+                        <div class="event-meta">
+                            <span><i class="ri-calendar-line"></i> Dec 31, 2024</span>
+                            <span><i class="ri-money-dollar-circle-line"></i> $150,000</span>
+                        </div>
+                        <div class="artist-match">
+                            <span>Best match: The Midnight (95% compatibility)</span>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-button primary">Send Offer</button>
+                            <button class="action-button">Contact Venue</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-opportunity unread">
+                    <div class="event-icon">
+                        <i class="ri-building-2-line"></i>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">Coachella 2025 - Main Stage Slot</div>
+                        <div class="event-meta">
+                            <span><i class="ri-calendar-line"></i> Apr 15, 2025</span>
+                            <span><i class="ri-money-dollar-circle-line"></i> $200,000</span>
+                        </div>
+                        <div class="artist-match">
+                            <span>Best match: FM-84 (92% compatibility)</span>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-button primary">Send Offer</button>
+                            <button class="action-button">Contact Venue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-category">
+                <div class="category-header">
+                    <h3><i class="ri-send-plane-line"></i> Active Negotiations</h3>
+                    <span class="event-status status-pending">4 Pending</span>
+                </div>
+                <div class="event-opportunity">
+                    <div class="event-icon">
+                        <i class="ri-building-line"></i>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">The Forum - Summer Series</div>
+                        <div class="event-meta">
+                            <span><i class="ri-user-line"></i> The Midnight</span>
+                            <span><i class="ri-calendar-line"></i> Jul 15, 2024</span>
+                        </div>
+                        <div class="negotiation-status">
+                            <span class="status-tag">Counter-offer received</span>
+                            <span>$92,000 (↑8%)</span>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-button primary">Review Counter</button>
+                            <button class="action-button">Message Venue</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-opportunity">
+                    <div class="event-icon">
+                        <i class="ri-building-3-line"></i>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">Red Rocks - Summer Show</div>
+                        <div class="event-meta">
+                            <span><i class="ri-user-line"></i> Gunship</span>
+                            <span><i class="ri-calendar-line"></i> Aug 20, 2024</span>
+                        </div>
+                        <div class="negotiation-status">
+                            <span class="status-tag">Awaiting response</span>
+                            <span>$95,000 (Initial offer)</span>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-button">Check Status</button>
+                            <button class="action-button">Follow Up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-category">
+                <div class="category-header">
+                    <h3><i class="ri-message-3-line"></i> Artist Communications</h3>
+                    <span class="event-status status-new">2 New</span>
+                </div>
+                <div class="event-opportunity unread">
+                    <div class="event-icon">
+                        <i class="ri-user-star-line"></i>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">The Midnight</div>
+                        <div class="event-meta">
+                            <span>Technical requirements for MSG show...</span>
+                            <span>30m ago</span>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-button">View & Respond</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-opportunity unread">
+                    <div class="event-icon">
+                        <i class="ri-user-star-line"></i>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">FM-84</div>
+                        <div class="event-meta">
+                            <span>Coachella opportunity discussion...</span>
+                            <span>1h ago</span>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-button">View & Respond</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
