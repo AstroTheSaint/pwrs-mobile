@@ -345,6 +345,184 @@
             border-radius: 10px;
             font-weight: bold;
         }
+
+        .action-button {
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .action-button.primary {
+            background: var(--primary-color);
+            color: #000;
+        }
+
+        .action-button.primary:hover {
+            background: #ffc933;
+        }
+
+        .action-button i {
+            font-size: 16px;
+        }
+
+        .message-category {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-header {
+            padding: 20px;
+            background: rgba(255, 185, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-header h3 {
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .event-opportunity {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .event-opportunity:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .event-opportunity.unread {
+            background: rgba(255, 185, 0, 0.05);
+        }
+
+        .event-opportunity.unread:hover {
+            background: rgba(255, 185, 0, 0.1);
+        }
+
+        .event-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 185, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .event-details {
+            flex: 1;
+        }
+
+        .event-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+
+        .event-meta i {
+            font-size: 16px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .artist-match {
+            font-size: 13px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .artist-match i {
+            font-size: 16px;
+        }
+
+        .negotiation-status {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .status-tag {
+            background: rgba(255, 185, 0, 0.2);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .payment-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .payment-status i {
+            color: #1DB954;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .conversation-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .conversation-preview i {
+            margin-right: 6px;
+            color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -550,7 +728,7 @@
         </div>
     </section>
 
-    <!-- Add Messages Section -->
+    <!-- Messages Section -->
     <section id="messages-section" class="content-section">
         <h2>Communications Hub</h2>
         <div class="messages-container">
@@ -570,11 +748,23 @@
                             <span><i class="ri-money-dollar-circle-line"></i> $150,000</span>
                         </div>
                         <div class="artist-match">
+                            <i class="ri-user-star-line"></i>
                             <span>Best match: The Midnight (95% compatibility)</span>
                         </div>
+                        <div class="payment-status">
+                            <i class="ri-checkbox-circle-line"></i>
+                            <span>Deposit ready: $45,000 (30%)</span>
+                        </div>
                         <div class="quick-actions">
-                            <button class="action-button primary">Send Offer</button>
-                            <button class="action-button">Contact Venue</button>
+                            <button class="action-button primary">
+                                <i class="ri-send-plane-line"></i> Send Offer
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-message-3-line"></i> Message Venue
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-file-list-3-line"></i> View Details
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -589,11 +779,23 @@
                             <span><i class="ri-money-dollar-circle-line"></i> $200,000</span>
                         </div>
                         <div class="artist-match">
+                            <i class="ri-user-star-line"></i>
                             <span>Best match: FM-84 (92% compatibility)</span>
                         </div>
+                        <div class="payment-status">
+                            <i class="ri-checkbox-circle-line"></i>
+                            <span>Deposit terms: 50% upfront</span>
+                        </div>
                         <div class="quick-actions">
-                            <button class="action-button primary">Send Offer</button>
-                            <button class="action-button">Contact Venue</button>
+                            <button class="action-button primary">
+                                <i class="ri-send-plane-line"></i> Send Offer
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-message-3-line"></i> Message Venue
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-file-list-3-line"></i> View Details
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -601,7 +803,7 @@
 
             <div class="message-category">
                 <div class="category-header">
-                    <h3><i class="ri-send-plane-line"></i> Active Negotiations</h3>
+                    <h3><i class="ri-exchange-line"></i> Active Negotiations</h3>
                     <span class="event-status status-pending">4 Pending</span>
                 </div>
                 <div class="event-opportunity">
@@ -616,11 +818,18 @@
                         </div>
                         <div class="negotiation-status">
                             <span class="status-tag">Counter-offer received</span>
-                            <span>$92,000 (↑8%)</span>
+                            <span><i class="ri-arrow-up-line"></i> $92,000 (+8%)</span>
+                        </div>
+                        <div class="conversation-preview">
+                            <i class="ri-message-2-line"></i> "We can offer additional production support..."
                         </div>
                         <div class="quick-actions">
-                            <button class="action-button primary">Review Counter</button>
-                            <button class="action-button">Message Venue</button>
+                            <button class="action-button primary">
+                                <i class="ri-draft-line"></i> Review Counter
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-message-3-line"></i> Continue Chat
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -638,9 +847,16 @@
                             <span class="status-tag">Awaiting response</span>
                             <span>$95,000 (Initial offer)</span>
                         </div>
+                        <div class="conversation-preview">
+                            <i class="ri-time-line"></i> Sent 2 days ago - No response yet
+                        </div>
                         <div class="quick-actions">
-                            <button class="action-button">Check Status</button>
-                            <button class="action-button">Follow Up</button>
+                            <button class="action-button">
+                                <i class="ri-refresh-line"></i> Check Status
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-send-plane-line"></i> Send Follow-up
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -648,7 +864,7 @@
 
             <div class="message-category">
                 <div class="category-header">
-                    <h3><i class="ri-message-3-line"></i> Artist Communications</h3>
+                    <h3><i class="ri-team-line"></i> Artist Communications</h3>
                     <span class="event-status status-new">2 New</span>
                 </div>
                 <div class="event-opportunity unread">
@@ -658,11 +874,18 @@
                     <div class="event-details">
                         <div class="event-title">The Midnight</div>
                         <div class="event-meta">
-                            <span>Technical requirements for MSG show...</span>
-                            <span>30m ago</span>
+                            <span><i class="ri-time-line"></i> 30m ago</span>
+                        </div>
+                        <div class="conversation-preview">
+                            <i class="ri-message-2-line"></i> "Regarding the technical requirements for MSG..."
                         </div>
                         <div class="quick-actions">
-                            <button class="action-button">View & Respond</button>
+                            <button class="action-button primary">
+                                <i class="ri-chat-3-line"></i> Open Chat
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-file-list-3-line"></i> View Requirements
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -673,11 +896,18 @@
                     <div class="event-details">
                         <div class="event-title">FM-84</div>
                         <div class="event-meta">
-                            <span>Coachella opportunity discussion...</span>
-                            <span>1h ago</span>
+                            <span><i class="ri-time-line"></i> 1h ago</span>
+                        </div>
+                        <div class="conversation-preview">
+                            <i class="ri-message-2-line"></i> "Let's discuss the Coachella opportunity..."
                         </div>
                         <div class="quick-actions">
-                            <button class="action-button">View & Respond</button>
+                            <button class="action-button primary">
+                                <i class="ri-chat-3-line"></i> Open Chat
+                            </button>
+                            <button class="action-button">
+                                <i class="ri-file-list-3-line"></i> View Details
+                            </button>
                         </div>
                     </div>
                 </div>
