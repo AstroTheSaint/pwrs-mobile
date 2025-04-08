@@ -29,6 +29,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            padding-bottom: 80px; /* Add space for the tab bar */
         }
 
         .welcome-header {
@@ -828,160 +829,246 @@
                 margin-top: 10px;
             }
         }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Messages Section */
+        .messages-container {
+            margin-top: 20px;
+        }
+
+        .message-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .message-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(29, 185, 84, 0.3),
+                0 0 30px rgba(29, 185, 84, 0.1);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .message-content {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <div class="welcome-header">
-            <!-- Computer Key Element -->
-            <div class="key-element">
-                <div class="key">
-                    <div class="key-face"></div>
-                    <div class="key-side"></div>
-                    <div class="key-top"></div>
-                    <div class="key-bottom"></div>
-                    <div class="key-back"></div>
-                </div>
-                <div class="key-glow"></div>
-            </div>
-            
             <div class="welcome-text">
-                <h1 class="welcome-title">Welcome Back, Metro</h1>
-                <p class="welcome-subtitle">Your tour command center is ready</p>
+                <h1>Welcome back, Metro</h1>
+                <p>Your tour command center is ready</p>
             </div>
-            
-            <div class="artist-profile">
-                <div class="artist-avatar">M</div>
-                <div class="artist-info">
-                    <div class="artist-name">Metro Boomin</div>
-                    <div class="artist-status">Producer • Global Icon</div>
-                </div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="action-button">
-                    <span>📊</span> Analytics
-                </button>
-                <button class="action-button primary">
-                    <span>➕</span> New Show
-                </button>
+            <div class="profile-section">
+                <div class="notification-badge">3</div>
+                <img src="https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9" alt="Metro Boomin" class="profile-image">
             </div>
         </div>
-        
-        <div class="dashboard-content">
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2 class="section-title">Upcoming Shows</h2>
-                    <div class="section-action">View All</div>
-                </div>
-                
-                <div class="upcoming-shows">
-                    <div class="show-card">
-                        <div class="show-date">June 15, 2023</div>
-                        <div class="show-venue">Madison Square Garden</div>
-                        <div class="show-location">New York, NY</div>
-                        <div class="show-details">
-                            <div>Capacity: 20,000</div>
-                            <div>Revenue: $1.2M</div>
+
+        <div id="dashboard" class="content-section active">
+            <div class="key-metrics">
+                <div class="dashboard-content">
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Upcoming Shows</h2>
+                            <div class="section-action">View All</div>
                         </div>
-                    </div>
-                    
-                    <div class="show-card">
-                        <div class="show-date">June 22, 2023</div>
-                        <div class="show-venue">Staples Center</div>
-                        <div class="show-location">Los Angeles, CA</div>
-                        <div class="show-details">
-                            <div>Capacity: 19,000</div>
-                            <div>Revenue: $1.1M</div>
-                        </div>
-                    </div>
-                    
-                    <div class="show-card">
-                        <div class="show-date">July 5, 2023</div>
-                        <div class="show-venue">O2 Arena</div>
-                        <div class="show-location">London, UK</div>
-                        <div class="show-details">
-                            <div>Capacity: 20,000</div>
-                            <div>Revenue: $950K</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2 class="section-title">Revenue Overview</h2>
-                    <div class="section-action">View Details</div>
-                </div>
-                
-                <div class="revenue-overview">
-                    <div class="revenue-card">
-                        <div class="revenue-label">Total Revenue</div>
-                        <div class="revenue-value">$12.5M</div>
-                        <div class="revenue-change">+15% from last year</div>
-                    </div>
-                    
-                    <div class="revenue-card">
-                        <div class="revenue-label">Average Ticket Price</div>
-                        <div class="revenue-value">$125</div>
-                        <div class="revenue-change">+8% from last year</div>
-                    </div>
-                    
-                    <div class="revenue-card">
-                        <div class="revenue-label">Merchandise Sales</div>
-                        <div class="revenue-value">$2.8M</div>
-                        <div class="revenue-change">+22% from last year</div>
-                    </div>
-                    
-                    <div class="revenue-card">
-                        <div class="revenue-label">Streaming Revenue</div>
-                        <div class="revenue-value">$5.2M</div>
-                        <div class="revenue-change negative">-3% from last year</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2 class="section-title">Your Guide</h2>
-                    <div class="section-action">Message</div>
-                </div>
-                
-                <div class="guide-section">
-                    <div class="guide-card">
-                        <div class="guide-avatar">R</div>
-                        <div class="guide-info">
-                            <div class="guide-name">Robert Smith</div>
-                            <div class="guide-role">Elite Agent • Tour Strategist</div>
-                            <div class="guide-message">
-                                "Metro, your European tour is shaping up nicely. I've secured premium venues in all major markets. Let's discuss the Asia leg next week. Also, I have some exciting festival offers for next summer."
+                        
+                        <div class="upcoming-shows">
+                            <div class="show-card">
+                                <div class="show-date">June 15, 2023</div>
+                                <div class="show-venue">Madison Square Garden</div>
+                                <div class="show-location">New York, NY</div>
+                                <div class="show-details">
+                                    <div>Capacity: 20,000</div>
+                                    <div>Revenue: $1.2M</div>
+                                </div>
                             </div>
-                            <div class="guide-action">Reply</div>
+                            
+                            <div class="show-card">
+                                <div class="show-date">June 22, 2023</div>
+                                <div class="show-venue">Staples Center</div>
+                                <div class="show-location">Los Angeles, CA</div>
+                                <div class="show-details">
+                                    <div>Capacity: 19,000</div>
+                                    <div>Revenue: $1.1M</div>
+                                </div>
+                            </div>
+                            
+                            <div class="show-card">
+                                <div class="show-date">July 5, 2023</div>
+                                <div class="show-venue">O2 Arena</div>
+                                <div class="show-location">London, UK</div>
+                                <div class="show-details">
+                                    <div>Capacity: 20,000</div>
+                                    <div>Revenue: $950K</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Revenue Overview</h2>
+                            <div class="section-action">View Details</div>
+                        </div>
+                        
+                        <div class="revenue-overview">
+                            <div class="revenue-card">
+                                <div class="revenue-label">Total Revenue</div>
+                                <div class="revenue-value">$12.5M</div>
+                                <div class="revenue-change">+15% from last year</div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-label">Average Ticket Price</div>
+                                <div class="revenue-value">$125</div>
+                                <div class="revenue-change">+8% from last year</div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-label">Merchandise Sales</div>
+                                <div class="revenue-value">$2.8M</div>
+                                <div class="revenue-change">+22% from last year</div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-label">Streaming Revenue</div>
+                                <div class="revenue-value">$5.2M</div>
+                                <div class="revenue-change negative">-3% from last year</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Your Guide</h2>
+                            <div class="section-action">Message</div>
+                        </div>
+                        
+                        <div class="guide-section">
+                            <div class="guide-card">
+                                <div class="guide-avatar">R</div>
+                                <div class="guide-info">
+                                    <div class="guide-name">Robert Smith</div>
+                                    <div class="guide-role">Elite Agent • Tour Strategist</div>
+                                    <div class="guide-message">
+                                        "Metro, your European tour is shaping up nicely. I've secured premium venues in all major markets. Let's discuss the Asia leg next week. Also, I have some exciting festival offers for next summer."
+                                    </div>
+                                    <div class="guide-action">Reply</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Global Reach</h2>
+                            <div class="section-action">View Details</div>
+                        </div>
+                        
+                        <div class="globe-container">
+                            <div class="globe"></div>
+                            <div class="market-bubble" style="top: 30%; left: 20%;" data-city="New York"></div>
+                            <div class="market-bubble" style="top: 35%; left: 25%;" data-city="Los Angeles"></div>
+                            <div class="market-bubble" style="top: 40%; left: 30%;" data-city="Chicago"></div>
+                            <div class="market-bubble" style="top: 45%; left: 35%;" data-city="Miami"></div>
+                            <div class="market-bubble" style="top: 30%; left: 60%;" data-city="London"></div>
+                            <div class="market-bubble" style="top: 35%; left: 65%;" data-city="Paris"></div>
+                            <div class="market-bubble" style="top: 40%; left: 70%;" data-city="Berlin"></div>
+                            <div class="market-bubble" style="top: 45%; left: 75%;" data-city="Tokyo"></div>
+                            <div class="market-bubble" style="top: 50%; left: 80%;" data-city="Sydney"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2 class="section-title">Global Reach</h2>
-                    <div class="section-action">View Details</div>
-                </div>
-                
-                <div class="globe-container">
-                    <div class="globe"></div>
-                    <div class="market-bubble" style="top: 30%; left: 20%;" data-city="New York"></div>
-                    <div class="market-bubble" style="top: 35%; left: 25%;" data-city="Los Angeles"></div>
-                    <div class="market-bubble" style="top: 40%; left: 30%;" data-city="Chicago"></div>
-                    <div class="market-bubble" style="top: 45%; left: 35%;" data-city="Miami"></div>
-                    <div class="market-bubble" style="top: 30%; left: 60%;" data-city="London"></div>
-                    <div class="market-bubble" style="top: 35%; left: 65%;" data-city="Paris"></div>
-                    <div class="market-bubble" style="top: 40%; left: 70%;" data-city="Berlin"></div>
-                    <div class="market-bubble" style="top: 45%; left: 75%;" data-city="Tokyo"></div>
-                    <div class="market-bubble" style="top: 50%; left: 80%;" data-city="Sydney"></div>
-                </div>
-            </div>
         </div>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-navigation">
+            <a href="#dashboard" class="tab-item active">
+                <span class="tab-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#revenue" class="tab-item">
+                <span class="tab-icon">💰</span>
+                <span>Revenue</span>
+            </a>
+            <a href="#market" class="tab-item">
+                <span class="tab-icon">🌍</span>
+                <span>Market</span>
+            </a>
+            <a href="#messages" class="tab-item">
+                <span class="tab-icon">💬</span>
+                <span>Messages</span>
+            </a>
+        </nav>
     </div>
     
     <div class="notification-modal" id="notification-modal">
@@ -1081,6 +1168,29 @@
                 });
             });
         });
+
+        // Tab Navigation
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const targetId = tab.getAttribute('href').substring(1);
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // Initialize first tab
+        document.getElementById('dashboard').classList.add('active');
     </script>
 </body>
 </html>
