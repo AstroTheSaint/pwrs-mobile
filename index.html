@@ -35,6 +35,10 @@
             background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(255, 185, 0, 0.1));
             position: relative;
             overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero-section::before {
@@ -44,7 +48,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at top left, rgba(29, 185, 84, 0.2), transparent 70%);
+            background: radial-gradient(circle at center, rgba(29, 185, 84, 0.2), transparent 70%);
             z-index: 0;
         }
 
@@ -55,19 +59,19 @@
             right: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at bottom right, rgba(255, 185, 0, 0.2), transparent 70%);
+            background: radial-gradient(circle at center, rgba(255, 185, 0, 0.2), transparent 70%);
             z-index: 0;
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
         .hero-title {
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: 800;
             margin-bottom: 20px;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
@@ -76,9 +80,180 @@
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 40px;
+        }
+
+        .globe-container {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 2rem auto;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .globe {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 20s linear infinite;
+        }
+
+        .globe-circle {
+            position: absolute;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .globe-circle:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            border-color: var(--primary-color);
+        }
+
+        .globe-circle:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border-color: var(--secondary-color);
+            transform: rotateX(60deg);
+        }
+
+        .globe-circle:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border-color: var(--primary-color);
+            transform: rotateX(-60deg);
+        }
+
+        .globe-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .globe-point:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+        .globe-point:nth-child(2) { top: 40%; left: 70%; animation-delay: 0.5s; }
+        .globe-point:nth-child(3) { top: 60%; left: 20%; animation-delay: 1s; }
+        .globe-point:nth-child(4) { top: 80%; left: 50%; animation-delay: 1.5s; }
+        .globe-point:nth-child(5) { top: 30%; left: 50%; animation-delay: 0.2s; }
+        .globe-point:nth-child(6) { top: 70%; left: 30%; animation-delay: 0.7s; }
+
+        @keyframes rotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0.3; }
+        }
+
+        .experience-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+
+        .experience-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(29, 185, 84, 0.2);
+        }
+
+        .experience-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .experience-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .experience-description {
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .experience-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .experience-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        .cta-section {
+            padding: 60px 20px;
+            text-align: center;
+            background: var(--card-background);
+            margin-top: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary-color);
+            color: #000;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .globe-container {
+                height: 300px;
+            }
         }
 
         .features-section {
@@ -125,13 +300,6 @@
             font-size: 0.95rem;
         }
 
-        .cta-section {
-            padding: 60px 20px;
-            text-align: center;
-            background: var(--card-background);
-            margin-top: auto;
-        }
-
         .role-selection {
             display: flex;
             justify-content: center;
@@ -174,133 +342,45 @@
             font-size: 0.9rem;
         }
 
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .role-selection {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .role-card {
-                width: 100%;
-                max-width: 280px;
-            }
+        .platform-showcase {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
         }
 
-        .experience-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+        .showcase-content {
+            flex: 1;
+            padding: 0 20px;
         }
 
-        .experience-card {
-            background: var(--card-background);
-            border-radius: var(--border-radius);
-            padding: 40px;
+        .showcase-image {
+            flex: 1;
             text-align: center;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
         }
 
-        .experience-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-        }
-
-        .experience-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .experience-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-        }
-
-        .experience-description {
-            margin-bottom: 25px;
-            opacity: 0.8;
-        }
-
-        .experience-button {
-            display: inline-block;
-            padding: 12px 30px;
-            background: var(--primary-color);
-            color: #000;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: var(--transition);
-        }
-
-        .experience-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 185, 0, 0.3);
-        }
-
-        .hero-image {
-            width: 100%;
-            max-width: 600px;
+        .showcase-image img {
+            max-width: 100%;
             height: auto;
-            margin: 2rem auto;
-            display: block;
-            opacity: 0.9;
-        }
-
-        .hero-image svg {
-            width: 100%;
-            height: auto;
-        }
-
-        .hero-image path {
-            fill: var(--primary-color);
-            opacity: 0.8;
-        }
-
-        .hero-image circle {
-            fill: var(--primary-color);
-            opacity: 0.6;
-        }
-
-        .hero-image line {
-            stroke: var(--primary-color);
-            stroke-width: 2;
-            opacity: 0.4;
         }
     </style>
 </head>
 <body>
-    <div class="hero">
+    <div class="hero-section">
         <div class="hero-content">
-            <h1>PWRS</h1>
+            <h1 class="hero-title">PWRS</h1>
             <p class="hero-subtitle">Powering the Future of Live Music</p>
-            <div class="hero-image">
-                <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Venue Stage -->
-                    <path d="M100,300 L700,300 L700,250 L100,250 Z" />
-                    <!-- Connection Lines -->
-                    <line x1="400" y1="250" x2="400" y2="150" />
-                    <line x1="200" y1="250" x2="200" y2="100" />
-                    <line x1="600" y1="250" x2="600" y2="100" />
-                    <!-- Artist Node -->
-                    <circle cx="400" cy="150" r="30" />
-                    <!-- Venue Nodes -->
-                    <circle cx="200" cy="100" r="20" />
-                    <circle cx="600" cy="100" r="20" />
-                    <!-- Audience Representation -->
-                    <path d="M150,350 Q400,320 650,350" />
-                </svg>
+            <div class="globe-container">
+                <div class="globe">
+                    <div class="globe-circle"></div>
+                    <div class="globe-circle"></div>
+                    <div class="globe-circle"></div>
+                    <div class="globe-point"></div>
+                    <div class="globe-point"></div>
+                    <div class="globe-point"></div>
+                    <div class="globe-point"></div>
+                    <div class="globe-point"></div>
+                    <div class="globe-point"></div>
+                </div>
             </div>
         </div>
     </div>
