@@ -346,6 +346,134 @@
             opacity: 0.9;
         }
 
+        .future-vision {
+            background: linear-gradient(135deg, rgba(255, 185, 0, 0.1), rgba(29, 185, 84, 0.1));
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 185, 0, 0.2);
+        }
+
+        .future-vision h4 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .future-vision h4 i {
+            font-size: 1.4rem;
+        }
+
+        .future-vision p {
+            margin-bottom: 10px;
+        }
+
+        .future-vision ul {
+            margin-left: 25px;
+        }
+
+        .future-vision li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .future-vision li::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            color: var(--primary-color);
+        }
+
+        .highlight-box {
+            background: rgba(255, 185, 0, 0.15);
+            border-left: 3px solid var(--primary-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+
+        .timeline-content p {
+            margin: 0;
+        }
+
         .slide-navigation {
             display: flex;
             justify-content: space-between;
@@ -521,6 +649,10 @@
                             <li>Our platform serves both artists and agents, streamlining the entire tour management process</li>
                             <li>Backed by industry veterans and technology experts</li>
                         </ul>
+                        <div class="future-vision">
+                            <h4><i class="ri-rocket-line"></i> Our Vision</h4>
+                            <p>We envision a future where artists can focus entirely on their craft while our technology handles the complexities of tour management, creating unprecedented opportunities for creative expression and financial success.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="slide">
@@ -533,6 +665,20 @@
                             <li>Target market: Mid-tier artists ($50k-$500k per show)</li>
                             <li>Current market gap: Lack of sophisticated tour management tools</li>
                         </ul>
+                        <div class="stats-container">
+                            <div class="stat-item">
+                                <div class="stat-value">78%</div>
+                                <div class="stat-label">Increase in live music revenue (2021-2023)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">42%</div>
+                                <div class="stat-label">Of artists struggle with tour logistics</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">3.2x</div>
+                                <div class="stat-label">Higher revenue for optimized tours</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="slide">
@@ -545,6 +691,44 @@
                             <li>Automated negotiation tools</li>
                             <li>Integrated payment processing</li>
                         </ul>
+                        <div class="future-vision">
+                            <h4><i class="ri-cpu-line"></i> Future Technology Roadmap</h4>
+                            <ul>
+                                <li>Blockchain-based smart contracts for automated payments and royalty distribution</li>
+                                <li>Augmented reality tour planning and visualization</li>
+                                <li>Predictive analytics for optimal tour routing and scheduling</li>
+                                <li>Virtual venue experiences for remote tour planning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                    <h3 class="slide-title">The Future of Live Performance</h3>
+                    <div class="slide-content">
+                        <p>We're shaping the future of how artists connect with audiences:</p>
+                        <div class="highlight-box">
+                            <p>The traditional touring model is evolving. PWRS is at the forefront of this transformation, creating new opportunities for artists to reach global audiences while maximizing revenue and creative freedom.</p>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">2024</div>
+                                <div class="timeline-content">
+                                    <p>Launch of hybrid tour models combining physical and virtual experiences</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2025</div>
+                                <div class="timeline-content">
+                                    <p>Integration of immersive technologies for enhanced fan experiences</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2026</div>
+                                <div class="timeline-content">
+                                    <p>Global expansion with localized tour optimization for international markets</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="slide">
@@ -557,6 +741,14 @@
                             <li>Strategic partnerships with venues and promoters</li>
                             <li>Integration with existing industry tools</li>
                         </ul>
+                        <div class="future-vision">
+                            <h4><i class="ri-global-line"></i> Market Penetration Strategy</h4>
+                            <ul>
+                                <li>Phase 1: Establish presence in major US markets (2024)</li>
+                                <li>Phase 2: Expand to European and Asian markets (2025)</li>
+                                <li>Phase 3: Global rollout with localized features (2026)</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="slide">
@@ -569,6 +761,18 @@
                             <li>Build strategic partnerships</li>
                             <li>Scale operations</li>
                         </ul>
+                        <div class="future-vision">
+                            <h4><i class="ri-line-chart-line"></i> Projected Returns</h4>
+                            <p>Our financial projections show:</p>
+                            <ul>
+                                <li>300% revenue growth in the first 24 months</li>
+                                <li>Break-even point within 18 months</li>
+                                <li>5x return on investment within 3 years</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <p>Join us in transforming the future of live music and creating unprecedented opportunities for artists worldwide.</p>
+                        </div>
                     </div>
                 </div>
             </div>
