@@ -248,13 +248,60 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 185, 0, 0.3);
         }
+
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .hero-image svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .hero-image path {
+            fill: var(--primary-color);
+            opacity: 0.8;
+        }
+
+        .hero-image circle {
+            fill: var(--primary-color);
+            opacity: 0.6;
+        }
+
+        .hero-image line {
+            stroke: var(--primary-color);
+            stroke-width: 2;
+            opacity: 0.4;
+        }
     </style>
 </head>
 <body>
     <div class="hero">
         <div class="hero-content">
             <h1>PWRS</h1>
-            <p>Revolutionizing the Live Music Industry with AI-Powered Tour Management</p>
+            <p class="hero-subtitle">Powering the Future of Live Music</p>
+            <div class="hero-image">
+                <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Venue Stage -->
+                    <path d="M100,300 L700,300 L700,250 L100,250 Z" />
+                    <!-- Connection Lines -->
+                    <line x1="400" y1="250" x2="400" y2="150" />
+                    <line x1="200" y1="250" x2="200" y2="100" />
+                    <line x1="600" y1="250" x2="600" y2="100" />
+                    <!-- Artist Node -->
+                    <circle cx="400" cy="150" r="30" />
+                    <!-- Venue Nodes -->
+                    <circle cx="200" cy="100" r="20" />
+                    <circle cx="600" cy="100" r="20" />
+                    <!-- Audience Representation -->
+                    <path d="M150,350 Q400,320 650,350" />
+                </svg>
+            </div>
         </div>
     </div>
 
