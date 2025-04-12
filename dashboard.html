@@ -200,7 +200,7 @@
             height: 600px;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         #map {
@@ -212,15 +212,56 @@
 
         .map-controls {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(18, 18, 18, 0.95);
+            top: 30px;
+            left: 30px;
+            z-index: 1;
+            background: rgba(22, 22, 22, 0.9);
             padding: 15px;
-            border-radius: var(--border-radius);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 250px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-legend {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.high { background: #ff4b4b; }
+        .dot.medium { background: #ffd700; }
+        .dot.low { background: #4169e1; }
+
+        .mapboxgl-popup {
+            max-width: 300px;
+        }
+
+        .mapboxgl-popup-content {
+            background: rgba(22, 22, 22, 0.95);
+            color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: var(--font-family);
+        }
+
+        .venue-stats {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .map-filter select {
@@ -735,55 +776,20 @@
     <section id="map-section" class="content-section">
         <h2>Global Tour Intelligence</h2>
         <div class="map-container">
-            <div id="map"></div>
             <div class="map-controls">
-                <div class="map-filter">
-                    <select id="timeRange">
-                        <option value="3m">Last 3 Months</option>
-                        <option value="6m">Last 6 Months</option>
-                        <option value="1y">Last Year</option>
-                        <option value="all">All Time</option>
-                    </select>
-                    <select id="dataType">
-                        <option value="combined">Combined Performance</option>
-                        <option value="streams">Streaming Data</option>
-                        <option value="tickets">Ticket Sales</option>
-                        <option value="engagement">Fan Engagement</option>
-                    </select>
+                <select id="timeRange" class="map-control">
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="180">Last 180 Days</option>
+                    <option value="365">Last Year</option>
+                </select>
+                <div class="map-legend">
+                    <span class="legend-item"><span class="dot high"></span>High Performance</span>
+                    <span class="legend-item"><span class="dot medium"></span>Medium Performance</span>
+                    <span class="legend-item"><span class="dot low"></span>Low Performance</span>
                 </div>
             </div>
-            <div class="map-stats">
-                <div class="stat-item">
-                    <div class="stat-label">Total Cities</div>
-                    <div class="stat-value" id="totalCities">127</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Hot Markets</div>
-                    <div class="stat-value" id="hotMarkets">23</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Growth Potential</div>
-                    <div class="stat-value" id="growthPotential">45</div>
-                </div>
-            </div>
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #ff4d4d"></div>
-                    <div class="legend-label">Hot</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #ffaa33"></div>
-                    <div class="legend-label">Warm</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #33cc33"></div>
-                    <div class="legend-label">Neutral</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: #3399ff"></div>
-                    <div class="legend-label">Cold</div>
-                </div>
-            </div>
+            <div id="map"></div>
         </div>
     </section>
 
@@ -1004,306 +1010,140 @@
                 });
             });
 
-            // Initialize Mapbox with dark style
             mapboxgl.accessToken = 'pk.eyJ1IjoicHdycy1kZXYiLCJhIjoiY2xxcnB2Z2lzMGF3dDJrcGR5ZDh6M2ZrbiJ9.lTGy5kW4YaGZYCwqGk-yZg';
+            
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/dark-v11',
-                center: [-95.7129, 37.0902], // Center of US
-                zoom: 3.5,
-                interactive: true // Enable map interaction
+                center: [-95.7129, 37.0902],
+                zoom: 3.5
             });
 
-            map.addControl(new mapboxgl.NavigationControl(), 'top-right');
-            map.addControl(new mapboxgl.FullscreenControl());
-
-            // Add initial loading state
-            map.on('load', () => {
-                // Ensure the map is visible
-                document.getElementById('map').style.visibility = 'visible';
-                updateMap();
-            });
-
-            // Add touch interaction for mobile
-            map.dragPan.enable();
-            map.touchZoomRotate.enable();
-
-            // Comprehensive sample data for Metro Boomin
-            const metroBoominData = {
-                // Major US Markets
-                'New York': { 
-                    coordinates: [-74.006, 40.7128],
-                    streams: { '3m': 3500000, '6m': 6200000, '1y': 12000000, 'all': 15000000 },
-                    tickets: { '3m': 25000, '6m': 45000, '1y': 85000, 'all': 120000 },
-                    engagement: { '3m': 95, '6m': 92, '1y': 90, 'all': 88 },
-                    recentShows: ['Madison Square Garden - Dec 15, 2024', 'Barclays Center - Mar 20, 2025']
+            // Sample venue data for Metro Boomin
+            const venues = [
+                {
+                    name: "Madison Square Garden",
+                    city: "New York",
+                    coordinates: [-73.9934, 40.7505],
+                    performance: "high",
+                    capacity: 20789,
+                    avgTicketPrice: 150,
+                    lastShow: "2023-12-15",
+                    attendance: 19500
                 },
-                'Los Angeles': {
-                    coordinates: [-118.2437, 34.0522],
-                    streams: { '3m': 3200000, '6m': 5800000, '1y': 11000000, 'all': 14000000 },
-                    tickets: { '3m': 22000, '6m': 40000, '1y': 78000, 'all': 110000 },
-                    engagement: { '3m': 92, '6m': 90, '1y': 88, 'all': 85 },
-                    recentShows: ['The Forum - Jan 22, 2025', 'Crypto.com Arena - Apr 5, 2025']
+                {
+                    name: "Crypto.com Arena",
+                    city: "Los Angeles",
+                    coordinates: [-118.2673, 34.0430],
+                    performance: "high",
+                    capacity: 20000,
+                    avgTicketPrice: 165,
+                    lastShow: "2023-11-30",
+                    attendance: 18900
                 },
-                'Atlanta': {
-                    coordinates: [-84.3880, 33.7490],
-                    streams: { '3m': 4000000, '6m': 7000000, '1y': 13500000, 'all': 17000000 },
-                    tickets: { '3m': 28000, '6m': 48000, '1y': 90000, 'all': 130000 },
-                    engagement: { '3m': 98, '6m': 95, '1y': 93, 'all': 90 },
-                    recentShows: ['State Farm Arena - Feb 14, 2025', 'Mercedes-Benz Stadium - Mar 30, 2025']
+                {
+                    name: "State Farm Arena",
+                    city: "Atlanta",
+                    coordinates: [-84.3963, 33.7573],
+                    performance: "high",
+                    capacity: 21000,
+                    avgTicketPrice: 125,
+                    lastShow: "2024-01-05",
+                    attendance: 20100
                 },
-                'Miami': {
-                    coordinates: [-80.1918, 25.7617],
-                    streams: { '3m': 2800000, '6m': 5000000, '1y': 9500000, 'all': 12000000 },
-                    tickets: { '3m': 20000, '6m': 35000, '1y': 70000, 'all': 95000 },
-                    engagement: { '3m': 88, '6m': 85, '1y': 83, 'all': 80 },
-                    recentShows: ['FTX Arena - Jan 5, 2025']
+                {
+                    name: "United Center",
+                    city: "Chicago",
+                    coordinates: [-87.6742, 41.8807],
+                    performance: "medium",
+                    capacity: 23500,
+                    avgTicketPrice: 130,
+                    lastShow: "2023-10-20",
+                    attendance: 20500
                 },
-                'Chicago': {
-                    coordinates: [-87.6298, 41.8781],
-                    streams: { '3m': 2500000, '6m': 4500000, '1y': 8500000, 'all': 11000000 },
-                    tickets: { '3m': 18000, '6m': 32000, '1y': 65000, 'all': 90000 },
-                    engagement: { '3m': 85, '6m': 83, '1y': 80, 'all': 78 },
-                    recentShows: ['United Center - Feb 28, 2025']
+                {
+                    name: "Toyota Center",
+                    city: "Houston",
+                    coordinates: [-95.3621, 29.7508],
+                    performance: "medium",
+                    capacity: 18300,
+                    avgTicketPrice: 110,
+                    lastShow: "2023-09-15",
+                    attendance: 16800
                 },
-                // International Markets
-                'Toronto': {
-                    coordinates: [-79.3832, 43.6532],
-                    streams: { '3m': 2200000, '6m': 4000000, '1y': 7500000, 'all': 9500000 },
-                    tickets: { '3m': 15000, '6m': 28000, '1y': 55000, 'all': 75000 },
-                    engagement: { '3m': 82, '6m': 80, '1y': 78, 'all': 75 },
-                    recentShows: ['Scotiabank Arena - Mar 15, 2025']
-                },
-                'London': {
-                    coordinates: [-0.1278, 51.5074],
-                    streams: { '3m': 2000000, '6m': 3500000, '1y': 6500000, 'all': 8500000 },
-                    tickets: { '3m': 12000, '6m': 25000, '1y': 48000, 'all': 65000 },
-                    engagement: { '3m': 80, '6m': 78, '1y': 75, 'all': 73 },
-                    recentShows: ['O2 Arena - Apr 10, 2025']
-                },
-                // Emerging Markets
-                'Houston': {
-                    coordinates: [-95.3698, 29.7604],
-                    streams: { '3m': 2300000, '6m': 4200000, '1y': 8000000, 'all': 10000000 },
-                    tickets: { '3m': 16000, '6m': 30000, '1y': 58000, 'all': 80000 },
-                    engagement: { '3m': 86, '6m': 84, '1y': 82, 'all': 80 }
-                },
-                'Las Vegas': {
-                    coordinates: [-115.1398, 36.1699],
-                    streams: { '3m': 1800000, '6m': 3200000, '1y': 6000000, 'all': 7500000 },
-                    tickets: { '3m': 14000, '6m': 26000, '1y': 50000, 'all': 68000 },
-                    engagement: { '3m': 84, '6m': 82, '1y': 80, 'all': 78 }
-                },
-                'Phoenix': {
-                    coordinates: [-112.0740, 33.4484],
-                    streams: { '3m': 1500000, '6m': 2800000, '1y': 5200000, 'all': 6500000 },
-                    tickets: { '3m': 10000, '6m': 22000, '1y': 42000, 'all': 58000 },
-                    engagement: { '3m': 78, '6m': 75, '1y': 73, 'all': 70 }
+                {
+                    name: "FTX Arena",
+                    city: "Miami",
+                    coordinates: [-80.1870, 25.7814],
+                    performance: "low",
+                    capacity: 19600,
+                    avgTicketPrice: 120,
+                    lastShow: "2023-08-30",
+                    attendance: 15200
                 }
-            };
+            ];
 
-            // Function to fetch and update data
-            async function fetchPerformanceData(timeRange, dataType) {
-                // Convert the sample data into GeoJSON format
-                const features = Object.entries(metroBoominData).map(([city, data]) => {
-                    let intensity = 0;
+            map.on('load', () => {
+                // Add markers for each venue
+                venues.forEach(venue => {
+                    // Create a custom marker element
+                    const markerEl = document.createElement('div');
+                    markerEl.className = `custom-marker ${venue.performance}`;
+                    markerEl.style.width = '20px';
+                    markerEl.style.height = '20px';
+                    markerEl.style.borderRadius = '50%';
+                    markerEl.style.cursor = 'pointer';
                     
-                    switch (dataType) {
-                        case 'streams':
-                            intensity = data.streams[timeRange] / 4000000; // Normalize based on max streams
-                            break;
-                        case 'tickets':
-                            intensity = data.tickets[timeRange] / 28000; // Normalize based on max tickets
-                            break;
-                        case 'engagement':
-                            intensity = data.engagement[timeRange] / 100; // Already normalized
-                            break;
-                        case 'combined':
-                            // Weighted average of all metrics
-                            intensity = (
-                                (data.streams[timeRange] / 4000000) * 0.4 +
-                                (data.tickets[timeRange] / 28000) * 0.3 +
-                                (data.engagement[timeRange] / 100) * 0.3
-                            );
-                            break;
-                    }
-
-                    return {
-                        type: 'Feature',
-                        geometry: {
-                            type: 'Point',
-                            coordinates: data.coordinates
-                        },
-                        properties: {
-                            city: city,
-                            streams: data.streams[timeRange].toLocaleString(),
-                            tickets: data.tickets[timeRange].toLocaleString(),
-                            engagement: data.engagement[timeRange],
-                            intensity: Math.min(Math.max(intensity, 0), 1),
-                            recentShows: data.recentShows || []
-                        }
+                    // Set color based on performance
+                    const colors = {
+                        high: '#ff4b4b',
+                        medium: '#ffd700',
+                        low: '#4169e1'
                     };
+                    markerEl.style.backgroundColor = colors[venue.performance];
+                    markerEl.style.border = '2px solid rgba(255, 255, 255, 0.8)';
+                    markerEl.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+
+                    // Create popup content
+                    const popupContent = `
+                        <h3 style="margin: 0 0 10px 0; color: #fff;">${venue.name}</h3>
+                        <p style="margin: 0; color: #ccc;">${venue.city}</p>
+                        <div class="venue-stats">
+                            <p style="margin: 5px 0; color: #ccc;">Capacity: ${venue.capacity.toLocaleString()}</p>
+                            <p style="margin: 5px 0; color: #ccc;">Avg. Ticket: $${venue.avgTicketPrice}</p>
+                            <p style="margin: 5px 0; color: #ccc;">Last Show: ${venue.lastShow}</p>
+                            <p style="margin: 5px 0; color: #ccc;">Attendance: ${venue.attendance.toLocaleString()}</p>
+                        </div>
+                    `;
+
+                    // Create popup
+                    const popup = new mapboxgl.Popup({
+                        offset: 25,
+                        closeButton: false,
+                        closeOnClick: true
+                    }).setHTML(popupContent);
+
+                    // Add marker to map
+                    new mapboxgl.Marker(markerEl)
+                        .setLngLat(venue.coordinates)
+                        .setPopup(popup)
+                        .addTo(map);
                 });
 
-                return {
-                    type: 'FeatureCollection',
-                    features: features
-                };
-            }
+                // Add navigation controls
+                map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+                map.addControl(new mapboxgl.FullscreenControl());
 
-            // Function to update the map visualization
-            async function updateMap() {
-                const timeRange = document.getElementById('timeRange').value;
-                const dataType = document.getElementById('dataType').value;
-
-                try {
-                    const data = await fetchPerformanceData(timeRange, dataType);
-                    
-                    // Remove existing layers
-                    if (map.getLayer('heat')) map.removeLayer('heat');
-                    if (map.getLayer('points')) map.removeLayer('points');
-                    if (map.getSource('performance')) map.removeSource('performance');
-
-                    // Add new data source
-                    map.addSource('performance', {
-                        type: 'geojson',
-                        data: data
-                    });
-
-                    // Add heat map layer
-                    map.addLayer({
-                        id: 'heat',
-                        type: 'heatmap',
-                        source: 'performance',
-                        maxzoom: 15,
-                        paint: {
-                            'heatmap-intensity': [
-                                'interpolate',
-                                ['linear'],
-                                ['zoom'],
-                                0, 1,
-                                9, 3
-                            ],
-                            'heatmap-color': [
-                                'interpolate',
-                                ['linear'],
-                                ['heatmap-density'],
-                                0, 'rgba(51, 153, 255, 0)',
-                                0.2, 'rgb(51, 153, 255)',
-                                0.4, 'rgb(51, 204, 51)',
-                                0.6, 'rgb(255, 170, 51)',
-                                0.8, 'rgb(255, 77, 77)'
-                            ],
-                            'heatmap-radius': [
-                                'interpolate',
-                                ['linear'],
-                                ['zoom'],
-                                0, 20,
-                                9, 40
-                            ],
-                            'heatmap-opacity': 0.8
-                        }
-                    });
-
-                    // Add point layer
-                    map.addLayer({
-                        id: 'points',
-                        type: 'circle',
-                        source: 'performance',
-                        minzoom: 5,
-                        paint: {
-                            'circle-radius': 8,
-                            'circle-color': [
-                                'interpolate',
-                                ['linear'],
-                                ['get', 'intensity'],
-                                0, '#3399ff',
-                                0.4, '#33cc33',
-                                0.6, '#ffaa33',
-                                0.8, '#ff4d4d'
-                            ],
-                            'circle-stroke-width': 2,
-                            'circle-stroke-color': '#ffffff'
-                        }
-                    });
-
-                    // Add click event for points
-                    map.on('click', 'points', (e) => {
-                        const props = e.features[0].properties;
-                        const coordinates = e.features[0].geometry.coordinates.slice();
-                        
-                        // Format popup content
-                        let content = `
-                            <div class="map-tooltip">
-                                <div class="tooltip-title">${props.city}</div>
-                                <div class="tooltip-stats">
-                                    <div class="tooltip-stat">
-                                        <span>Streams:</span>
-                                        <span class="tooltip-value">${props.streams}</span>
-                                    </div>
-                                    <div class="tooltip-stat">
-                                        <span>Tickets:</span>
-                                        <span class="tooltip-value">${props.tickets}</span>
-                                    </div>
-                                    <div class="tooltip-stat">
-                                        <span>Engagement:</span>
-                                        <span class="tooltip-value">${props.engagement}%</span>
-                                    </div>
-                                </div>
-                        `;
-
-                        if (props.recentShows && props.recentShows.length > 0) {
-                            content += `
-                                <div class="tooltip-shows">
-                                    <div class="tooltip-subtitle">Recent/Upcoming Shows:</div>
-                                    ${props.recentShows.map(show => `<div class="tooltip-show">${show}</div>`).join('')}
-                                </div>
-                            `;
-                        }
-
-                        content += '</div>';
-
-                        new mapboxgl.Popup()
-                            .setLngLat(coordinates)
-                            .setHTML(content)
-                            .addTo(map);
-                    });
-
-                    // Change cursor on hover
-                    map.on('mouseenter', 'points', () => {
-                        map.getCanvas().style.cursor = 'pointer';
-                    });
-                    map.on('mouseleave', 'points', () => {
-                        map.getCanvas().style.cursor = '';
-                    });
-
-                    // Update stats
-                    updateStats(data);
-                } catch (error) {
-                    console.error('Error updating map:', error);
+                // Enable touch interaction
+                if (map.touchZoomRotate) {
+                    map.touchZoomRotate.enable();
                 }
-            }
+                if (map.dragPan) {
+                    map.dragPan.enable();
+                }
+            });
 
-            // Function to update statistics
-            function updateStats(data) {
-                const stats = {
-                    totalCities: data.features.length,
-                    hotMarkets: data.features.filter(f => f.properties.intensity > 0.7).length,
-                    growthPotential: Math.round(data.features.filter(f => 
-                        f.properties.intensity > 0.4 && f.properties.intensity < 0.7
-                    ).length)
-                };
-
-                document.getElementById('totalCities').textContent = stats.totalCities;
-                document.getElementById('hotMarkets').textContent = stats.hotMarkets;
-                document.getElementById('growthPotential').textContent = stats.growthPotential;
-            }
-
-            // Event listeners
-            document.getElementById('timeRange').addEventListener('change', updateMap);
-            document.getElementById('dataType').addEventListener('change', updateMap);
-
-            // Handle responsive layout
+            // Handle window resize
             window.addEventListener('resize', () => {
                 map.resize();
             });
