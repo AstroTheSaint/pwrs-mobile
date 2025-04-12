@@ -12,7 +12,7 @@
             --secondary-color: #FFB900;
             --text-color: #FFFFFF;
             --background-color: #121212;
-            --card-background: rgba(255, 255, 255, 0.05);
+            --card-background: rgba(18, 18, 18, 0.95);
             --border-radius: 12px;
             --transition: all 0.3s ease;
         }
@@ -30,12 +30,11 @@
         }
 
         .hero-section {
-            padding: 80px 20px;
+            padding: 120px 20px 60px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(255, 185, 0, 0.1));
+            background: linear-gradient(180deg, rgba(29, 185, 84, 0.1) 0%, var(--background-color) 100%);
             position: relative;
-            overflow: hidden;
-            min-height: 80vh;
+            min-height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -84,10 +83,9 @@
         }
 
         .hero-content {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
-            z-index: 2;
         }
 
         .hero-title {
@@ -102,97 +100,40 @@
         .hero-subtitle {
             font-size: 1.5rem;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
-        .globe-container {
-            width: 100%;
-            max-width: 800px;
-            height: 400px;
-            margin: 2rem auto;
-            position: relative;
-            perspective: 1000px;
-            filter: drop-shadow(0 0 20px rgba(29, 185, 84, 0.3));
-        }
-
-        .globe {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotate 20s linear infinite;
-        }
-
-        .globe-circle {
+        .scroll-indicator {
             position: absolute;
-            border: 2px solid var(--primary-color);
-            border-radius: 50%;
-            opacity: 0.3;
-            box-shadow: 0 0 15px rgba(29, 185, 84, 0.2);
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 2rem;
         }
 
-        .globe-circle:nth-child(1) {
-            width: 100%;
-            height: 100%;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 30px rgba(29, 185, 84, 0.3);
-        }
-
-        .globe-circle:nth-child(2) {
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            border-color: var(--secondary-color);
-            transform: rotateX(60deg);
-            box-shadow: 0 0 20px rgba(255, 185, 0, 0.2);
-        }
-
-        .globe-circle:nth-child(3) {
-            width: 60%;
-            height: 60%;
-            top: 20%;
-            left: 20%;
-            border-color: var(--primary-color);
-            transform: rotateX(-60deg);
-            box-shadow: 0 0 25px rgba(29, 185, 84, 0.25);
-        }
-
-        .globe-point {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 10px var(--primary-color);
-        }
-
-        .globe-point:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
-        .globe-point:nth-child(2) { top: 40%; left: 70%; animation-delay: 0.5s; }
-        .globe-point:nth-child(3) { top: 60%; left: 20%; animation-delay: 1s; }
-        .globe-point:nth-child(4) { top: 80%; left: 50%; animation-delay: 1.5s; }
-        .globe-point:nth-child(5) { top: 30%; left: 50%; animation-delay: 0.2s; }
-        .globe-point:nth-child(6) { top: 70%; left: 30%; animation-delay: 0.7s; }
-
-        @keyframes rotate {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.5); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 0.3; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         .experience-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            padding: 40px 20px;
+            padding: 60px 20px;
             max-width: 1200px;
             margin: 0 auto;
+            background: var(--background-color);
         }
 
         .experience-card {
@@ -203,12 +144,11 @@
             transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            margin-bottom: 20px;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .experience-card:hover {
@@ -245,6 +185,8 @@
             font-weight: bold;
             transition: var(--transition);
             margin-top: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .experience-button:hover {
@@ -257,6 +199,7 @@
             text-align: center;
             background: var(--card-background);
             margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .cta-button {
@@ -283,11 +226,11 @@
 
             .hero-subtitle {
                 font-size: 1.2rem;
-                margin-bottom: 40px;
+                margin-bottom: 30px;
             }
 
             .experience-options {
-                padding: 20px;
+                padding: 40px 20px;
             }
 
             .experience-card {
@@ -409,49 +352,35 @@
         <div class="hero-content">
             <h1 class="hero-title">Tour Command Center</h1>
             <p class="hero-subtitle">Powering the Future of Live Music</p>
-            <div class="globe-container">
-                <div class="globe">
-                    <div class="globe-circle"></div>
-                    <div class="globe-circle"></div>
-                    <div class="globe-circle"></div>
-                    <div class="globe-point"></div>
-                    <div class="globe-point"></div>
-                    <div class="globe-point"></div>
-                    <div class="globe-point"></div>
-                    <div class="globe-point"></div>
-                    <div class="globe-point"></div>
-                </div>
-            </div>
         </div>
+        <i class="ri-arrow-down-line scroll-indicator" onclick="document.querySelector('.experience-options').scrollIntoView({ behavior: 'smooth' })"></i>
     </div>
 
     <section class="section">
-        <div class="container">
-            <div class="experience-options">
-                <div class="experience-card">
-                    <div>
-                        <i class="ri-user-star-line experience-icon"></i>
-                        <h3 class="experience-title">Artist Experience</h3>
-                        <p class="experience-description">Access your personalized dashboard to manage tours, track revenue, and discover opportunities.</p>
-                    </div>
-                    <a href="dashboard.html" class="experience-button">Enter Dashboard</a>
+        <div class="experience-options">
+            <div class="experience-card">
+                <div>
+                    <i class="ri-user-star-line experience-icon"></i>
+                    <h3 class="experience-title">Artist Experience</h3>
+                    <p class="experience-description">Access your personalized dashboard to manage tours, track revenue, and discover opportunities.</p>
                 </div>
-                <div class="experience-card">
-                    <div>
-                        <i class="ri-team-line experience-icon"></i>
-                        <h3 class="experience-title">Agent Experience</h3>
-                        <p class="experience-description">Manage multiple artists, track negotiations, and streamline your operations.</p>
-                    </div>
-                    <a href="agent-dashboard.html" class="experience-button">Enter Dashboard</a>
+                <a href="dashboard.html" class="experience-button">Enter Dashboard</a>
+            </div>
+            <div class="experience-card">
+                <div>
+                    <i class="ri-team-line experience-icon"></i>
+                    <h3 class="experience-title">Agent Experience</h3>
+                    <p class="experience-description">Manage multiple artists, track negotiations, and streamline your operations.</p>
                 </div>
-                <div class="experience-card">
-                    <div>
-                        <i class="ri-funds-line experience-icon"></i>
-                        <h3 class="experience-title">Investor Experience</h3>
-                        <p class="experience-description">Discover the future of live music and explore investment opportunities in the next generation of tour management.</p>
-                    </div>
-                    <a href="investor-pitch.html" class="experience-button">View Opportunity</a>
+                <a href="agent-dashboard.html" class="experience-button">Enter Dashboard</a>
+            </div>
+            <div class="experience-card">
+                <div>
+                    <i class="ri-funds-line experience-icon"></i>
+                    <h3 class="experience-title">Investor Experience</h3>
+                    <p class="experience-description">Discover the future of live music and explore investment opportunities in the next generation of tour management.</p>
                 </div>
+                <a href="investor-pitch.html" class="experience-button">View Opportunity</a>
             </div>
         </div>
     </section>
@@ -463,5 +392,12 @@
             <a href="mailto:contact@pwrs.com" class="cta-button">Contact Us</a>
         </div>
     </section>
+
+    <script>
+        // Smooth scroll functionality
+        document.querySelector('.scroll-indicator').addEventListener('click', function() {
+            document.querySelector('.experience-options').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html> 
