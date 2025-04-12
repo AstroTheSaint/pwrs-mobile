@@ -521,6 +521,93 @@
                 padding: 20px;
             }
         }
+
+        .team-section {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 100%);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover .member-image img {
+            transform: scale(1.05);
+        }
+
+        .member-info {
+            padding: 30px;
+        }
+
+        .member-info h3 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            color: #fff;
+        }
+
+        .role {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .member-info p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .member-image {
+                height: 250px;
+            }
+
+            .member-info {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -549,6 +636,45 @@
                     <i class="ri-team-line feature-icon"></i>
                     <h3>Target Market</h3>
                     <p>Focusing on mid-tier artists ($50k-$500k per show) who lack sophisticated tour management tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="pitch-section team-section">
+        <h2>Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Mario Onoh">
+                </div>
+                <div class="member-info">
+                    <h3>Mario Onoh</h3>
+                    <span class="role">Co-Founder & CEO</span>
+                    <p>Originally from Dallas, Mario Onoh is a Boston University graduate with a focus in finance and a deep-rooted career in the music industry. Over the past decade, he's managed tours, artists, and label operations for names like Future and Metro Boomin. As a self-taught coder with over 15 years of experience, Mario bridges culture and technology with rare fluency. He leads the company's vision with a strong pulse on artist needs, operational strategy, and deep industry connections.</p>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Johnny Rapp">
+                </div>
+                <div class="member-info">
+                    <h3>Johnny Rapp</h3>
+                    <span class="role">Co-Founder & CTO</span>
+                    <p>Johnny is a digital strategist turned conscious technologist. After building a network of viral meme pages reaching millions, he transformed his experience into a framework for helping creators navigate the digital world with clarity and purpose. Johnny leads product and platform development, using his expertise in social media, systems design, and behavioral tech to create tools that empower creators and elevate culture.</p>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <div class="member-image">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Paul D. Schindler">
+                </div>
+                <div class="member-info">
+                    <h3>Paul D. Schindler</h3>
+                    <span class="role">Board Advisor</span>
+                    <p>Paul is the Senior Chair of the New York Entertainment and Media Practice and co-founder of one of the most influential entertainment law firms in the world. He's played a key role in major industry deals, including the Woodstock Festival Agreement, the sale of MVO Agency to ICM, and the sale of Fantasma Promotions to Live Nation. Paul offers unmatched legal and strategic insight as a guiding force on our advisory board.</p>
                 </div>
             </div>
         </div>
