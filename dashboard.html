@@ -191,15 +191,136 @@
 
         /* Map Section */
         .map-container {
-            position: relative;
-            height: 300px;
-            background: #2a2a2a;
+            background: var(--card-background);
             border-radius: var(--border-radius);
-            margin-bottom: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+        }
+
+        .map-filter {
+            margin-bottom: 10px;
+        }
+
+        .map-filter select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .map-legend {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: #666;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .hot-spot {
+            background: linear-gradient(45deg, #ff4d4d, #ff8533);
+        }
+
+        .warm-spot {
+            background: linear-gradient(45deg, #ff8533, #ffcc00);
+        }
+
+        .neutral-spot {
+            background: linear-gradient(45deg, #ffcc00, #33cc33);
+        }
+
+        .cold-spot {
+            background: linear-gradient(45deg, #33cc33, #3399ff);
+        }
+
+        .map-stats {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .stat-item {
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .map-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            pointer-events: none;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tooltip-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .tooltip-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            font-size: 0.8rem;
+        }
+
+        .tooltip-stat {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .tooltip-value {
+            color: var(--primary-color);
         }
 
         .location-list {
@@ -273,17 +394,6 @@
             gap: 20px;
             margin-bottom: 30px;
             text-align: center;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.7;
         }
 
         .upcoming-shows {
@@ -544,30 +654,55 @@
 
     <!-- Map Section -->
     <section id="map-section" class="content-section">
-        <h2>Tour Map</h2>
+        <h2>Global Tour Intelligence</h2>
         <div class="map-container">
-            Interactive Map Coming Soon
-        </div>
-        <div class="location-list">
-            <div class="location-card">
-                <i class="location-icon ri-map-pin-line"></i>
-                <div>
-                    <h4>Madison Square Garden</h4>
-                    <p>New York, NY • Dec 15, 2024</p>
+            <div id="map"></div>
+            <div class="map-controls">
+                <div class="map-filter">
+                    <select id="timeRange">
+                        <option value="3m">Last 3 Months</option>
+                        <option value="6m">Last 6 Months</option>
+                        <option value="1y">Last Year</option>
+                        <option value="all">All Time</option>
+                    </select>
+                    <select id="metricType">
+                        <option value="streams">Streaming Performance</option>
+                        <option value="tickets">Ticket Sales</option>
+                        <option value="engagement">Fan Engagement</option>
+                        <option value="revenue">Revenue</option>
+                    </select>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color hot-spot"></div>
+                        <span>Hot</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color warm-spot"></div>
+                        <span>Warm</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color neutral-spot"></div>
+                        <span>Neutral</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color cold-spot"></div>
+                        <span>Cold</span>
+                    </div>
                 </div>
             </div>
-            <div class="location-card">
-                <i class="location-icon ri-map-pin-line"></i>
-                <div>
-                    <h4>The Forum</h4>
-                    <p>Los Angeles, CA • Jan 22, 2025</p>
+            <div class="map-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Total Cities</div>
+                    <div class="stat-value">127</div>
                 </div>
-            </div>
-            <div class="location-card">
-                <i class="location-icon ri-map-pin-line"></i>
-                <div>
-                    <h4>Red Rocks Amphitheatre</h4>
-                    <p>Morrison, CO • Jul 4, 2025</p>
+                <div class="stat-item">
+                    <div class="stat-label">Hot Markets</div>
+                    <div class="stat-value">23</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Growth Potential</div>
+                    <div class="stat-value">45</div>
                 </div>
             </div>
         </div>
@@ -769,6 +904,7 @@
         </div>
     </section>
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navItems = document.querySelectorAll('.nav-item');
@@ -790,6 +926,97 @@
                 });
             });
         });
+
+        // Initialize map
+        const map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '©OpenStreetMap, ©CartoDB'
+        }).addTo(map);
+
+        // Sample data for Metro Boomin's performance
+        const cityData = {
+            'New York': { lat: 40.7128, lng: -74.0060, value: 95, streams: '2.5M', tickets: '15K', revenue: '$450K' },
+            'Los Angeles': { lat: 34.0522, lng: -118.2437, value: 90, streams: '2.1M', tickets: '12K', revenue: '$380K' },
+            'Atlanta': { lat: 33.7490, lng: -84.3880, value: 85, streams: '1.8M', tickets: '10K', revenue: '$320K' },
+            'Chicago': { lat: 41.8781, lng: -87.6298, value: 80, streams: '1.5M', tickets: '8K', revenue: '$280K' },
+            'Miami': { lat: 25.7617, lng: -80.1918, value: 75, streams: '1.2M', tickets: '6K', revenue: '$220K' },
+            'London': { lat: 51.5074, lng: -0.1278, value: 70, streams: '900K', tickets: '5K', revenue: '$180K' },
+            'Paris': { lat: 48.8566, lng: 2.3522, value: 65, streams: '800K', tickets: '4K', revenue: '$160K' },
+            'Tokyo': { lat: 35.6762, lng: 139.6503, value: 60, streams: '700K', tickets: '3K', revenue: '$140K' }
+        };
+
+        // Create heat map layer
+        const heatData = Object.entries(cityData).map(([city, data]) => {
+            return [data.lat, data.lng, data.value];
+        });
+
+        const heatLayer = L.heatLayer(heatData, {
+            radius: 25,
+            blur: 15,
+            maxZoom: 10,
+            gradient: {
+                0.4: '#3399ff',
+                0.6: '#33cc33',
+                0.8: '#ffcc00',
+                1.0: '#ff4d4d'
+            }
+        }).addTo(map);
+
+        // Add city markers with tooltips
+        Object.entries(cityData).forEach(([city, data]) => {
+            const marker = L.circleMarker([data.lat, data.lng], {
+                radius: 8,
+                fillColor: getColor(data.value),
+                color: '#fff',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            });
+
+            marker.bindTooltip(`
+                <div class="map-tooltip">
+                    <div class="tooltip-title">${city}</div>
+                    <div class="tooltip-stats">
+                        <div class="tooltip-stat">
+                            <span>Streams:</span>
+                            <span class="tooltip-value">${data.streams}</span>
+                        </div>
+                        <div class="tooltip-stat">
+                            <span>Tickets:</span>
+                            <span class="tooltip-value">${data.tickets}</span>
+                        </div>
+                        <div class="tooltip-stat">
+                            <span>Revenue:</span>
+                            <span class="tooltip-value">${data.revenue}</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            marker.addTo(map);
+        });
+
+        function getColor(value) {
+            if (value >= 90) return '#ff4d4d';
+            if (value >= 75) return '#ff8533';
+            if (value >= 60) return '#ffcc00';
+            return '#3399ff';
+        }
+
+        // Update map based on filters
+        document.getElementById('timeRange').addEventListener('change', updateMap);
+        document.getElementById('metricType').addEventListener('change', updateMap);
+
+        function updateMap() {
+            // Here you would typically fetch new data based on the selected filters
+            // For now, we'll just update the heat layer opacity
+            const timeRange = document.getElementById('timeRange').value;
+            const metricType = document.getElementById('metricType').value;
+            
+            heatLayer.setOptions({
+                opacity: timeRange === 'all' ? 0.8 : 0.6
+            });
+        }
     </script>
 </body>
 </html>
