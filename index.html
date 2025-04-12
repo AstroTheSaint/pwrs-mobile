@@ -48,26 +48,46 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(29, 185, 84, 0.2), transparent 70%);
-            z-index: 0;
+            background: 
+                radial-gradient(1px 1px at 50px 200px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 150px 150px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 300px 250px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 400px 150px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 500px 100px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(1.5px 1.5px at 50px 50px, #ffffff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 550px 200px, #ffffff, rgba(0, 0, 0, 0));
+            opacity: 0.3;
+            z-index: 1;
         }
 
         .hero-section::after {
             content: '';
             position: absolute;
             top: 0;
-            right: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 185, 0, 0.2), transparent 70%);
-            z-index: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50L0 0h100L50 50zm0 0L0 100h100L50 50' stroke='%23FFFFFF' stroke-width='0.1' fill='none' fill-rule='evenodd' opacity='0.1'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .brand-logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            z-index: 2;
+            text-decoration: none;
         }
 
         .hero-content {
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         .hero-title {
@@ -82,7 +102,7 @@
         .hero-subtitle {
             font-size: 1.5rem;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .globe-container {
@@ -170,11 +190,9 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-top: 40px;
-            padding: 0 20px;
+            padding: 40px 20px;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
         }
 
         .experience-card {
@@ -186,6 +204,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .experience-card:hover {
@@ -209,6 +232,7 @@
         .experience-description {
             margin-bottom: 25px;
             opacity: 0.8;
+            flex-grow: 1;
         }
 
         .experience-button {
@@ -220,6 +244,7 @@
             border-radius: 25px;
             font-weight: bold;
             transition: var(--transition);
+            margin-top: 20px;
         }
 
         .experience-button:hover {
@@ -258,10 +283,15 @@
 
             .hero-subtitle {
                 font-size: 1.2rem;
+                margin-bottom: 40px;
             }
 
-            .globe-container {
-                height: 300px;
+            .experience-options {
+                padding: 20px;
+            }
+
+            .experience-card {
+                margin-bottom: 0;
             }
         }
 
@@ -374,9 +404,10 @@
     </style>
 </head>
 <body>
+    <a href="/" class="brand-logo">PWRS</a>
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">PWRS</h1>
+            <h1 class="hero-title">Tour Command Center</h1>
             <p class="hero-subtitle">Powering the Future of Live Music</p>
             <div class="globe-container">
                 <div class="globe">
@@ -398,21 +429,27 @@
         <div class="container">
             <div class="experience-options">
                 <div class="experience-card">
-                    <i class="ri-user-star-line experience-icon"></i>
-                    <h3 class="experience-title">Artist Experience</h3>
-                    <p class="experience-description">Access your personalized dashboard to manage tours, track revenue, and discover opportunities.</p>
+                    <div>
+                        <i class="ri-user-star-line experience-icon"></i>
+                        <h3 class="experience-title">Artist Experience</h3>
+                        <p class="experience-description">Access your personalized dashboard to manage tours, track revenue, and discover opportunities.</p>
+                    </div>
                     <a href="dashboard.html" class="experience-button">Enter Dashboard</a>
                 </div>
                 <div class="experience-card">
-                    <i class="ri-team-line experience-icon"></i>
-                    <h3 class="experience-title">Agent Experience</h3>
-                    <p class="experience-description">Manage multiple artists, track negotiations, and streamline your operations.</p>
+                    <div>
+                        <i class="ri-team-line experience-icon"></i>
+                        <h3 class="experience-title">Agent Experience</h3>
+                        <p class="experience-description">Manage multiple artists, track negotiations, and streamline your operations.</p>
+                    </div>
                     <a href="agent-dashboard.html" class="experience-button">Enter Dashboard</a>
                 </div>
                 <div class="experience-card">
-                    <i class="ri-funds-line experience-icon"></i>
-                    <h3 class="experience-title">Investor Experience</h3>
-                    <p class="experience-description">Discover the future of live music and explore investment opportunities in the next generation of tour management.</p>
+                    <div>
+                        <i class="ri-funds-line experience-icon"></i>
+                        <h3 class="experience-title">Investor Experience</h3>
+                        <p class="experience-description">Discover the future of live music and explore investment opportunities in the next generation of tour management.</p>
+                    </div>
                     <a href="investor-pitch.html" class="experience-button">View Opportunity</a>
                 </div>
             </div>
@@ -421,7 +458,7 @@
 
     <section class="cta-section">
         <div class="container">
-            <h2 class="section-title">Ready to Transform Your Tour Management?</h2>
+            <h2>Tour Command Center</h2>
             <p>Join the future of live music management with PWRS.</p>
             <a href="mailto:contact@pwrs.com" class="cta-button">Contact Us</a>
         </div>
