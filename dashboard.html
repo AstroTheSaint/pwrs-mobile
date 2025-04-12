@@ -6,6 +6,8 @@
     <title>Metro Boomin - Tour Command Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet.heat.js"></script>
     <style>
         :root {
             --primary-color: #1DB954;
@@ -195,10 +197,18 @@
             border-radius: var(--border-radius);
             padding: 20px;
             margin: 20px 0;
-            height: 500px;
+            height: calc(100vh - 200px);
+            min-height: 500px;
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: var(--border-radius);
+            background: #1a1a1a;
         }
 
         .map-controls {
@@ -206,24 +216,30 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(18, 18, 18, 0.95);
             padding: 15px;
             border-radius: var(--border-radius);
             backdrop-filter: blur(10px);
-        }
-
-        .map-filter {
-            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 250px;
         }
 
         .map-filter select {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 8px 12px;
+            padding: 12px;
             border-radius: var(--border-radius);
             width: 100%;
             margin-bottom: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
         }
 
         .map-legend {
@@ -266,10 +282,11 @@
             position: absolute;
             bottom: 20px;
             left: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(18, 18, 18, 0.95);
             padding: 15px;
             border-radius: var(--border-radius);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
         }
 
@@ -561,6 +578,46 @@
 
         .action-button.primary:hover {
             background: #1ed760;
+        }
+
+        .leaflet-container {
+            background: #1a1a1a !important;
+        }
+
+        .leaflet-popup-content-wrapper,
+        .leaflet-popup-tip {
+            background: rgba(18, 18, 18, 0.95);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .map-container {
+                height: calc(100vh - 160px);
+                padding: 10px;
+                margin: 10px 0;
+            }
+
+            .map-controls {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                width: auto;
+            }
+
+            .map-stats {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .stat-item {
+                margin-bottom: 0;
+            }
         }
     </style>
 </head>
@@ -927,10 +984,24 @@
             });
         });
 
-        // Initialize map
-        const map = L.map('map').setView([20, 0], 2);
+        // Initialize map with dark style
+        const map = L.map('map', {
+            center: [20, 0],
+            zoom: 2,
+            zoomControl: false,
+            attributionControl: false
+        });
+
+        // Add dark style map tiles
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '©OpenStreetMap, ©CartoDB'
+            attribution: '©OpenStreetMap, ©CartoDB',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Move zoom control to right
+        L.control.zoom({
+            position: 'topright'
         }).addTo(map);
 
         // Sample data for Metro Boomin's performance
@@ -945,35 +1016,38 @@
             'Tokyo': { lat: 35.6762, lng: 139.6503, value: 60, streams: '700K', tickets: '3K', revenue: '$140K' }
         };
 
-        // Create heat map layer
+        // Create heat map data
         const heatData = Object.entries(cityData).map(([city, data]) => {
-            return [data.lat, data.lng, data.value];
+            return [data.lat, data.lng, data.value / 100];
         });
 
-        const heatLayer = L.heatLayer(heatData, {
-            radius: 25,
-            blur: 15,
+        // Add heat map layer with custom gradient
+        const heat = L.heatLayer(heatData, {
+            radius: 35,
+            blur: 25,
             maxZoom: 10,
+            max: 1.0,
             gradient: {
-                0.4: '#3399ff',
-                0.6: '#33cc33',
-                0.8: '#ffcc00',
+                0.2: '#3399ff',
+                0.4: '#33cc33',
+                0.6: '#ffcc00',
+                0.8: '#ff8533',
                 1.0: '#ff4d4d'
             }
         }).addTo(map);
 
-        // Add city markers with tooltips
+        // Add markers for each city
         Object.entries(cityData).forEach(([city, data]) => {
             const marker = L.circleMarker([data.lat, data.lng], {
                 radius: 8,
                 fillColor: getColor(data.value),
                 color: '#fff',
-                weight: 1,
+                weight: 2,
                 opacity: 1,
                 fillOpacity: 0.8
             });
 
-            marker.bindTooltip(`
+            const tooltipContent = `
                 <div class="map-tooltip">
                     <div class="tooltip-title">${city}</div>
                     <div class="tooltip-stats">
@@ -991,7 +1065,13 @@
                         </div>
                     </div>
                 </div>
-            `);
+            `;
+
+            marker.bindTooltip(tooltipContent, {
+                direction: 'top',
+                offset: [0, -10],
+                opacity: 1
+            });
 
             marker.addTo(map);
         });
@@ -1003,20 +1083,25 @@
             return '#3399ff';
         }
 
-        // Update map based on filters
+        // Handle filter changes
         document.getElementById('timeRange').addEventListener('change', updateMap);
         document.getElementById('metricType').addEventListener('change', updateMap);
 
         function updateMap() {
-            // Here you would typically fetch new data based on the selected filters
-            // For now, we'll just update the heat layer opacity
             const timeRange = document.getElementById('timeRange').value;
             const metricType = document.getElementById('metricType').value;
             
-            heatLayer.setOptions({
-                opacity: timeRange === 'all' ? 0.8 : 0.6
+            // Adjust heat map intensity based on filters
+            heat.setOptions({
+                max: timeRange === 'all' ? 1.0 : 0.8,
+                radius: metricType === 'streams' ? 35 : 30
             });
         }
+
+        // Handle mobile responsiveness
+        window.addEventListener('resize', () => {
+            map.invalidateSize();
+        });
     </script>
 </body>
 </html>
