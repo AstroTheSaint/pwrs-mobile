@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1DB954;
+            --secondary-color: #00B4D8;
+            --accent-color: #48CAE4;
+            --text-color: #FFFFFF;
+            --background-color: #121212;
+            --card-background: rgba(18, 18, 18, 0.95);
+            --glass-bg: rgba(0,180,216,0.08);
+            --border-radius: 18px;
+            --transition: all 0.3s cubic-bezier(.4,2,.6,1);
+            --bottom-nav-height: 64px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1DB954 0%, #00B4D8 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding-bottom: var(--bottom-nav-height);
+        }
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            height: var(--bottom-nav-height);
+            background: rgba(20,20,20,0.95);
+            display: flex; justify-content: space-around; align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            z-index: 1000;
+            box-shadow: 0 -2px 16px 0 rgba(0,0,0,0.18);
+            backdrop-filter: blur(12px);
+        }
+        .nav-item {
+            color: var(--text-color); text-decoration: none;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            opacity: 0.7; transition: var(--transition);
+            font-weight: 500;
+        }
+        .nav-item.active { opacity: 1; color: var(--primary-color); }
+        .nav-icon { font-size: 28px; }
+        .nav-label { font-size: 13px; }
+        .content-section { display: none; padding: 28px 16px 0; min-height: calc(100vh - var(--bottom-nav-height)); animation: fadeIn 0.3s; }
+        .content-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .dashboard-section {
+            background: var(--glass-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+            margin-bottom: 32px;
+            padding: 32px 24px;
+            backdrop-filter: blur(8px);
+        }
+        .dashboard-section h2 { color: var(--primary-color); margin-bottom: 18px; font-size: 1.5rem; }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+        .overview-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            text-align: center;
+            color: var(--text-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        .overview-card:hover {
+            background: linear-gradient(135deg, rgba(29,185,84,0.18) 0%, rgba(0,180,216,0.18) 100%);
+            box-shadow: 0 12px 32px 0 rgba(0,180,216,0.18);
+        }
+        .overview-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+        .overview-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        .messages-list, .activity-list {
+            display: flex; flex-direction: column; gap: 18px;
+        }
+        .message-card, .activity-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .message-title, .activity-title { font-weight: 600; color: var(--primary-color); }
+        .message-meta, .activity-meta { font-size: 0.95rem; opacity: 0.7; }
+        .profile-header {
+            text-align: center; margin-bottom: 24px;
+        }
+        .profile-title { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .profile-role { font-size: 1.1rem; opacity: 0.8; margin-bottom: 12px; }
+        .profile-info {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+        @media (max-width: 768px) {
+            .dashboard-section { padding: 18px 8px; }
+            .overview-grid { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#home" class="nav-item active" data-section="home-section">
+            <i class="nav-icon ri-home-5-line"></i>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="#messages" class="nav-item" data-section="messages-section">
+            <i class="nav-icon ri-message-3-line"></i>
+            <span class="nav-label">Messages</span>
+        </a>
+        <a href="#activity" class="nav-item" data-section="activity-section">
+            <i class="nav-icon ri-bar-chart-2-line"></i>
+            <span class="nav-label">Activity</span>
+        </a>
+        <a href="#profile" class="nav-item" data-section="profile-section">
+            <i class="nav-icon ri-user-line"></i>
+            <span class="nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home-section" class="content-section active">
+        <div class="dashboard-section">
+            <h2>Company Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="overview-value">OVG</div>
+                    <div class="overview-label">Company</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-value">12</div>
+                    <div class="overview-label">Venues Managed</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-value">38</div>
+                    <div class="overview-label">Artists</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-value">$1.2B</div>
+                    <div class="overview-label">Total Revenue</div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-section">
+            <h2>Venues</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="overview-value">MSG</div>
+                    <div class="overview-label">Madison Square Garden</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-value">Crypto</div>
+                    <div class="overview-label">Crypto.com Arena</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-value">State Farm</div>
+                    <div class="overview-label">State Farm Arena</div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-section">
+            <h2>Artists</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="overview-value">Irving Azoff</div>
+                    <div class="overview-label">Manager</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-value">John Mayer</div>
+                    <div class="overview-label">Artist</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-value">Eagles</div>
+                    <div class="overview-label">Artist</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Messages Section -->
+    <section id="messages-section" class="content-section">
+        <div class="dashboard-section">
+            <h2>Deal Offers</h2>
+            <div class="messages-list">
+                <div class="message-card">
+                    <div class="message-title">Coachella 2025 - Main Stage</div>
+                    <div class="message-meta">Apr 15, 2025 • $2,000,000 • Pending</div>
+                </div>
+                <div class="message-card">
+                    <div class="message-title">MSG - NYE Special</div>
+                    <div class="message-meta">Dec 31, 2024 • $1,500,000 • Accepted</div>
+                </div>
+                <div class="message-card">
+                    <div class="message-title">Crypto.com Arena - Summer Show</div>
+                    <div class="message-meta">Aug 20, 2024 • $950,000 • Negotiating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activity Section -->
+    <section id="activity-section" class="content-section">
+        <div class="dashboard-section">
+            <h2>Recent Activity</h2>
+            <div class="activity-list">
+                <div class="activity-card">
+                    <div class="activity-title">Offer Accepted</div>
+                    <div class="activity-meta">MSG - NYE Special • Dec 31, 2024</div>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-title">New Deal Received</div>
+                    <div class="activity-meta">Coachella 2025 - Main Stage • Apr 15, 2025</div>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-title">Negotiation Started</div>
+                    <div class="activity-meta">Crypto.com Arena - Summer Show • Aug 20, 2024</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile-section" class="content-section">
+        <div class="profile-header">
+            <div class="profile-title">OVG Management</div>
+            <div class="profile-role">Company</div>
+        </div>
+        <div class="dashboard-section">
+            <h2>Company Info</h2>
+            <div class="profile-info">
+                <div><strong>Headquarters:</strong> Los Angeles, CA</div>
+                <div><strong>Founded:</strong> 2015</div>
+                <div><strong>Core Divisions:</strong> Venues, Artists, Events</div>
+                <div><strong>Website:</strong> <a href="#" style="color:var(--accent-color);text-decoration:underline;">www.oakviewgroup.com</a></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    const sectionId = this.getAttribute('data-section');
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
