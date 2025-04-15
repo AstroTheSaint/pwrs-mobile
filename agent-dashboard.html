@@ -523,6 +523,56 @@
             margin-right: 6px;
             color: var(--primary-color);
         }
+
+        .ovg-overview {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .ovg-details ul {
+            margin-bottom: 16px;
+        }
+        .venue-summary {
+            margin-top: 16px;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        .artist-card h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 16px 0;
+        }
+        .venue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .venue-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            text-align: center;
+            color: var(--text-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .artist-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 12px;
+            text-align: center;
+            color: var(--text-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
     </style>
 </head>
 <body>
@@ -725,6 +775,65 @@
                 </div>
                 <i class="ri-arrow-right-s-line"></i>
             </div>
+        </div>
+    </section>
+
+    <!-- OVG Company Overview Section -->
+    <section class="content-section">
+        <h2>Oak View Group (OVG) Overview</h2>
+        <div class="ovg-overview">
+            <div class="ovg-details">
+                <ul>
+                    <li><strong>Founded:</strong> 2015</li>
+                    <li><strong>Founders:</strong> Tim Leiweke (CEO), Irving Azoff (President)</li>
+                    <li><strong>Headquarters:</strong> Denver, CO (offices in LA, NY, Philadelphia, London)</li>
+                </ul>
+                <h3>Core Divisions</h3>
+                <ul>
+                    <li><strong>OVG360:</strong> Venue management & hospitality services</li>
+                    <li><strong>Global Partnerships:</strong> Sponsorship sales & brand consulting</li>
+                    <li><strong>Venue Development:</strong> Design & construction of new venues</li>
+                    <li><strong>Arena Alliance:</strong> Network of premier arenas for booking & content sharing</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- OVG Venues Section -->
+    <section class="content-section">
+        <h2>Venues Managed by OVG</h2>
+        <div class="venue-grid">
+            <div class="venue-card"><h3>Climate Pledge Arena</h3><p>Seattle, WA</p></div>
+            <div class="venue-card"><h3>UBS Arena</h3><p>Belmont Park, NY</p></div>
+            <div class="venue-card"><h3>Moody Center</h3><p>Austin, TX</p></div>
+            <div class="venue-card"><h3>Acrisure Arena</h3><p>Palm Springs, CA</p></div>
+            <div class="venue-card"><h3>Co-op Live</h3><p>Manchester, UK</p></div>
+            <div class="venue-card"><h3>CFG Bank Arena</h3><p>Baltimore, MD</p></div>
+            <div class="venue-card"><h3>XL Center</h3><p>Hartford, CT</p></div>
+            <div class="venue-card"><h3>Angel of the Winds Arena</h3><p>Everett, WA</p></div>
+            <div class="venue-card"><h3>Arie Crown Theater</h3><p>Chicago, IL</p></div>
+            <div class="venue-card"><h3>Stormont Vail Events Center</h3><p>Topeka, KS</p></div>
+            <div class="venue-card"><h3>Stride Bank Center</h3><p>Enid, OK</p></div>
+            <div class="venue-card"><h3>Amphitheater at Las Colonias Park</h3><p>Grand Junction, CO</p></div>
+        </div>
+        <p class="venue-summary">OVG360 manages over 200 venues globally, including arenas, stadiums, convention centers, and performing arts centers.</p>
+    </section>
+
+    <!-- Irving Azoff Artist Roster Section -->
+    <section class="content-section">
+        <h2>Artists Associated with Irving Azoff</h2>
+        <div class="artist-grid">
+            <div class="artist-card"><h3>The Eagles</h3></div>
+            <div class="artist-card"><h3>Fleetwood Mac</h3></div>
+            <div class="artist-card"><h3>Steely Dan</h3></div>
+            <div class="artist-card"><h3>Journey</h3></div>
+            <div class="artist-card"><h3>Bon Jovi</h3></div>
+            <div class="artist-card"><h3>Van Halen</h3></div>
+            <div class="artist-card"><h3>Lizzo</h3></div>
+            <div class="artist-card"><h3>Travis Scott</h3></div>
+            <div class="artist-card"><h3>Harry Styles</h3></div>
+            <div class="artist-card"><h3>Christina Aguilera</h3></div>
+            <div class="artist-card"><h3>Meghan Trainor</h3></div>
         </div>
     </section>
 
