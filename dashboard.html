@@ -8,8 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #1DB954;
-            --secondary-color: #00B4D8;
+            --primary-color: #1DB954; /* Artist (Earnings) */
+            --manager-color: #0096C7; /* Manager */
+            --agent-color: #7C3AED;   /* Agent */
+            --expense-color: #FFB300; /* Expenses */
+            --loss-color: #FF4D4F;    /* Losses */
             --accent-color: #48CAE4;
             --text-color: #F4F7FA;
             --background-color: #10151A;
@@ -261,13 +264,19 @@
             color: var(--primary-color);
         }
         .brex-breakdown-value.artist {
-            color: #48CAE4;
+            color: var(--primary-color);
         }
         .brex-breakdown-value.manager {
-            color: #1DB954;
+            color: var(--manager-color);
         }
         .brex-breakdown-value.agent {
-            color: #00B4D8;
+            color: var(--agent-color);
+        }
+        .brex-breakdown-value.expense {
+            color: var(--expense-color);
+        }
+        .brex-breakdown-value.loss {
+            color: var(--loss-color);
         }
         @media (max-width: 768px) {
             .dashboard-section { padding: 18px 8px; }
@@ -438,15 +447,15 @@
                 </div>
                 <div class="brex-breakdown-row">
                     <span class="brex-breakdown-label">Production Costs</span>
-                    <span class="brex-breakdown-value">$12,500,000</span>
+                    <span class="brex-breakdown-value expense">$12,500,000</span>
                 </div>
                 <div class="brex-breakdown-row">
                     <span class="brex-breakdown-label">Travel & Logistics</span>
-                    <span class="brex-breakdown-value">$6,200,000</span>
+                    <span class="brex-breakdown-value expense">$6,200,000</span>
                 </div>
                 <div class="brex-breakdown-row">
                     <span class="brex-breakdown-label">Other Expenses</span>
-                    <span class="brex-breakdown-value">$2,100,000</span>
+                    <span class="brex-breakdown-value expense">$2,100,000</span>
                 </div>
             </div>
         </div>
