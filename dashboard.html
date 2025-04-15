@@ -9,11 +9,12 @@
     <style>
         :root {
             --primary-color: #1DB954;
-            --secondary-color: #FFB900;
+            --secondary-color: #00B4D8;
+            --accent-color: #48CAE4;
             --text-color: #FFFFFF;
             --background-color: #121212;
             --card-background: rgba(18, 18, 18, 0.95);
-            --glass-bg: rgba(255,255,255,0.08);
+            --glass-bg: rgba(0,180,216,0.08);
             --border-radius: 18px;
             --transition: all 0.3s cubic-bezier(.4,2,.6,1);
             --bottom-nav-height: 64px;
@@ -21,7 +22,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #232526 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #1DB954 0%, #00B4D8 100%);
             color: var(--text-color);
             min-height: 100vh;
             padding-bottom: var(--bottom-nav-height);
@@ -71,9 +72,24 @@
             color: var(--text-color);
             box-shadow: 0 2px 8px rgba(0,0,0,0.10);
             transition: var(--transition);
+            cursor: pointer;
+            position: relative;
         }
-        .metric-value { font-size: 2rem; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; }
-        .metric-label { font-size: 1rem; opacity: 0.8; }
+        .metric-card:hover {
+            background: linear-gradient(135deg, rgba(29,185,84,0.18) 0%, rgba(0,180,216,0.18) 100%);
+            box-shadow: 0 12px 32px 0 rgba(0,180,216,0.18);
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
         .demographics-list {
             display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 24px;
         }
@@ -141,10 +157,119 @@
             border-radius: var(--border-radius);
             padding: 20px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #181f2a;
+            border-radius: var(--border-radius);
+            padding: 32px 24px;
+            min-width: 320px;
+            max-width: 90vw;
+            color: var(--text-color);
+            box-shadow: 0 8px 32px 0 rgba(0,180,216,0.18);
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .profile-brex-grid {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .profile-brex-card {
+            background: linear-gradient(135deg, rgba(0,180,216,0.12) 0%, rgba(29,185,84,0.12) 100%);
+            border-radius: var(--border-radius);
+            padding: 24px 32px;
+            min-width: 220px;
+            flex: 1 1 220px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .profile-brex-label {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+        .profile-brex-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .brex-breakdown {
+            background: linear-gradient(135deg, rgba(0,180,216,0.10) 0%, rgba(29,185,84,0.10) 100%);
+            border-radius: var(--border-radius);
+            padding: 24px 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .brex-breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .brex-breakdown-row:last-child {
+            border-bottom: none;
+        }
+        .brex-breakdown-label {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        .brex-breakdown-value {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .brex-breakdown-value.artist {
+            color: #48CAE4;
+        }
+        .brex-breakdown-value.manager {
+            color: #1DB954;
+        }
+        .brex-breakdown-value.agent {
+            color: #00B4D8;
+        }
         @media (max-width: 768px) {
             .dashboard-section { padding: 18px 8px; }
             .metrics-grid, .demographics-list { flex-direction: column; gap: 12px; }
             .profile-stats { flex-direction: column; gap: 12px; }
+            .modal-content { padding: 18px 8px; min-width: 0; }
+            .profile-brex-grid, .brex-breakdown {
+                padding: 16px 8px;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .profile-brex-card {
+                min-width: 0;
+                width: 100%;
+                padding: 18px 12px;
+            }
         }
     </style>
 </head>
@@ -170,20 +295,20 @@
         <div class="dashboard-section">
             <h2>Revenue Overview</h2>
             <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-value">$133,562,937.08</div>
+                <div class="metric-card" onclick="showRevenueModal('revenue')">
+                    <div class="metric-value">133M</div>
                     <div class="metric-label">Total Revenue</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value">1,248,836</div>
+                <div class="metric-card" onclick="showRevenueModal('attendance')">
+                    <div class="metric-value">1.25M</div>
                     <div class="metric-label">Total Attendance</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value">$106.95</div>
+                <div class="metric-card" onclick="showRevenueModal('avgTicket')">
+                    <div class="metric-value">$107</div>
                     <div class="metric-label">Avg Ticket Price</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value">$73,459,615.41</div>
+                <div class="metric-card" onclick="showRevenueModal('netEarnings')">
+                    <div class="metric-value">73.5M</div>
                     <div class="metric-label">Net Earnings</div>
                 </div>
             </div>
@@ -262,25 +387,64 @@
             <div class="profile-role">Artist</div>
         </div>
         <div class="dashboard-section">
-            <h2>Bank Info</h2>
-            <div class="bank-info">
-                <div><strong>Bank Account:</strong> **** **** **** 4567</div>
-                <div><strong>Routing Number:</strong> **** ****</div>
-                <div><strong>Payment Schedule:</strong> Monthly</div>
+            <h2>Banking & Payment Info</h2>
+            <div class="profile-brex-grid">
+                <div class="profile-brex-card">
+                    <div class="profile-brex-label">Bank Account</div>
+                    <div class="profile-brex-value">**** **** **** 4567</div>
+                </div>
+                <div class="profile-brex-card">
+                    <div class="profile-brex-label">Routing Number</div>
+                    <div class="profile-brex-value">**** ****</div>
+                </div>
+                <div class="profile-brex-card">
+                    <div class="profile-brex-label">Payment Schedule</div>
+                    <div class="profile-brex-value">Monthly</div>
+                </div>
             </div>
         </div>
         <div class="dashboard-section">
             <h2>Money Breakdown</h2>
-            <div class="money-breakdown">
-                <div><strong>Gross Revenue:</strong> $133,562,937.08</div>
-                <div><strong>Net Earnings:</strong> $73,459,615.41</div>
-                <div><strong>Management Fees:</strong> $8,000,000</div>
-                <div><strong>Production Costs:</strong> $12,500,000</div>
-                <div><strong>Travel & Logistics:</strong> $6,200,000</div>
-                <div><strong>Other Expenses:</strong> $2,100,000</div>
+            <div class="brex-breakdown">
+                <div class="brex-breakdown-row">
+                    <span class="brex-breakdown-label">Gross Revenue</span>
+                    <span class="brex-breakdown-value">$133,562,937.08</span>
+                </div>
+                <div class="brex-breakdown-row">
+                    <span class="brex-breakdown-label">Net Earnings (Artist)</span>
+                    <span class="brex-breakdown-value artist">$73,459,615.41</span>
+                </div>
+                <div class="brex-breakdown-row">
+                    <span class="brex-breakdown-label">Management Fees (Manager)</span>
+                    <span class="brex-breakdown-value manager">$8,000,000</span>
+                </div>
+                <div class="brex-breakdown-row">
+                    <span class="brex-breakdown-label">Agent Fees</span>
+                    <span class="brex-breakdown-value agent">$4,000,000</span>
+                </div>
+                <div class="brex-breakdown-row">
+                    <span class="brex-breakdown-label">Production Costs</span>
+                    <span class="brex-breakdown-value">$12,500,000</span>
+                </div>
+                <div class="brex-breakdown-row">
+                    <span class="brex-breakdown-label">Travel & Logistics</span>
+                    <span class="brex-breakdown-value">$6,200,000</span>
+                </div>
+                <div class="brex-breakdown-row">
+                    <span class="brex-breakdown-label">Other Expenses</span>
+                    <span class="brex-breakdown-value">$2,100,000</span>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Revenue Modal -->
+    <div class="modal" id="revenueModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeRevenueModal()">&times;</button>
+            <div id="revenueModalContent"></div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -298,6 +462,28 @@
                 });
             });
         });
+
+        function showRevenueModal(type) {
+            let content = '';
+            if (type === 'revenue') {
+                content = `<h3>Total Revenue</h3><div style='font-size:2rem;color:var(--primary-color);margin-bottom:12px;'>$133,562,937.08</div><div><strong>Breakdown:</strong><ul><li>Gross Revenue: $133,562,937.08</li><li>Net Earnings: $73,459,615.41</li><li>Management Fees: $8,000,000</li><li>Production Costs: $12,500,000</li><li>Travel & Logistics: $6,200,000</li><li>Other Expenses: $2,100,000</li></ul></div>`;
+            } else if (type === 'attendance') {
+                content = `<h3>Total Attendance</h3><div style='font-size:2rem;color:var(--primary-color);margin-bottom:12px;'>1,248,836</div>`;
+            } else if (type === 'avgTicket') {
+                content = `<h3>Average Ticket Price</h3><div style='font-size:2rem;color:var(--primary-color);margin-bottom:12px;'>$106.95</div>`;
+            } else if (type === 'netEarnings') {
+                content = `<h3>Net Earnings</h3><div style='font-size:2rem;color:var(--primary-color);margin-bottom:12px;'>$73,459,615.41</div>`;
+            }
+            document.getElementById('revenueModalContent').innerHTML = content;
+            document.getElementById('revenueModal').classList.add('active');
+        }
+        function closeRevenueModal() {
+            document.getElementById('revenueModal').classList.remove('active');
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById('revenueModal');
+            if (event.target === modal) closeRevenueModal();
+        }
     </script>
 </body>
 </html>
