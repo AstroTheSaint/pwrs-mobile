@@ -11,13 +11,14 @@
             --primary-color: #1DB954;
             --secondary-color: #00B4D8;
             --accent-color: #48CAE4;
-            --text-color: #FFFFFF;
-            --background-color: #121212;
-            --card-background: rgba(18, 18, 18, 0.95);
-            --glass-bg: rgba(0,180,216,0.08);
+            --text-color: #F4F7FA;
+            --background-color: #10151A;
+            --card-background: rgba(18, 24, 28, 0.97);
+            --glass-bg: rgba(0,180,216,0.10);
             --border-radius: 18px;
             --transition: all 0.3s cubic-bezier(.4,2,.6,1);
             --bottom-nav-height: 64px;
+            --focus-outline: 2px solid #48CAE4;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -30,7 +31,7 @@
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
             height: var(--bottom-nav-height);
-            background: rgba(20,20,20,0.95);
+            background: rgba(16,21,26,0.98);
             display: flex; justify-content: space-around; align-items: center;
             border-top: 1px solid rgba(255,255,255,0.08);
             z-index: 1000;
@@ -38,21 +39,25 @@
             backdrop-filter: blur(12px);
         }
         .nav-item {
-            color: var(--text-color); text-decoration: none;
+            color: var(--accent-color);
+            text-decoration: none;
             display: flex; flex-direction: column; align-items: center; gap: 4px;
             opacity: 0.7; transition: var(--transition);
             font-weight: 500;
         }
-        .nav-item.active { opacity: 1; color: var(--primary-color); }
+        .nav-item.active {
+            color: var(--primary-color);
+            opacity: 1;
+        }
         .nav-icon { font-size: 28px; }
         .nav-label { font-size: 13px; }
         .content-section { display: none; padding: 28px 16px 0; min-height: calc(100vh - var(--bottom-nav-height)); animation: fadeIn 0.3s; }
         .content-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .dashboard-section {
-            background: var(--glass-bg);
+            background: linear-gradient(135deg, rgba(0,180,216,0.13) 0%, rgba(29,185,84,0.13) 100%);
             border-radius: var(--border-radius);
-            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+            box-shadow: 0 8px 32px 0 rgba(0,180,216,0.10);
             margin-bottom: 32px;
             padding: 32px 24px;
             backdrop-filter: blur(8px);
@@ -79,16 +84,21 @@
             background: linear-gradient(135deg, rgba(29,185,84,0.18) 0%, rgba(0,180,216,0.18) 100%);
             box-shadow: 0 12px 32px 0 rgba(0,180,216,0.18);
         }
+        .metric-card:focus {
+            outline: var(--focus-outline);
+            outline-offset: 2px;
+        }
         .metric-value {
             font-size: 2rem;
             font-weight: bold;
             color: var(--primary-color);
             margin-bottom: 8px;
             letter-spacing: -1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.10);
         }
         .metric-label {
             font-size: 1rem;
-            opacity: 0.8;
+            opacity: 0.85;
         }
         .demographics-list {
             display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 24px;
@@ -205,6 +215,10 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+        }
+        .profile-brex-card:focus {
+            outline: var(--focus-outline);
+            outline-offset: 2px;
         }
         .profile-brex-label {
             font-size: 1rem;
